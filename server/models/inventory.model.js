@@ -18,6 +18,6 @@ const inventorySchema = new Schema(
   }
 );
 
-const Tools = mongoose.model("Inventory", inventorySchema);
+const Inventory = mongoose.model("Inventory", inventorySchema);
 
 module.exports = Inventory;
