@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const toolsSchema = new Schema(
+const inventorySchema = new Schema(
   {
     username: {
       username: { type: String, required: true },
@@ -18,6 +18,6 @@ const toolsSchema = new Schema(
   }
 );
 
-const Tools = mongoose.model("Tools", toolsSchema);
+const Tools = mongoose.model("Inventory", inventorySchema);
 
-module.exports = Tools;
+module.exports = Inventory;
