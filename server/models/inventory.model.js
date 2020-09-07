@@ -4,9 +4,17 @@ const Schema = mongoose.Schema;
 
 const inventorySchema = new Schema(
   {
-    username: {
-      username: { type: String, required: true },
-      description: { type: String, required: false },
+    tool_number: { type: String, required: true },
+    description: { type: String, required: false },
+    location: {
+      shelf: { type: Number, required: true },
+      bin: { type: String, required: true },
+    },
+    status: {
+      checked_out: { type: Boolean, required: true },
+      username: { type: String, required: false },
+      date: { type: Date, required: false },
+      missing: { type: Boolean, required: true },
     },
   },
   {
@@ -17,3 +25,12 @@ const inventorySchema = new Schema(
 const Inventory = mongoose.model("Inventory", inventorySchema);
 
 module.exports = Inventory;
+
+// {
+//   "tool_number": "test-123",
+//   "description": "location test",
+//   "location": {
+//     "shelf": "12",
+//     "bin": "A"
+//   }
+// }
