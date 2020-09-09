@@ -14,11 +14,11 @@ const Navigation = () => {
         size="2x"
       />
       <h1>Tool Tracker</h1>
-      <Link className="Nav-link Dash-link" to="/dashboard">
-        Dashboard
-      </Link>
-      <Link className="Nav-link" to="/inventory">
+      <Link className="Nav-link Dash-link" to="/inventory">
         Inventory
+      </Link>
+      <Link className="Nav-link" to="/dashboard">
+        Dashboard
       </Link>
       <Link className="Nav-link" to="/account">
         Account
@@ -29,3 +29,5 @@ const Navigation = () => {
 };
 
 export default Navigation;
+
+//TODO fix router

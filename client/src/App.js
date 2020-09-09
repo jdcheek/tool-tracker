@@ -1,23 +1,33 @@
 import React from "react";
 import "./App.css";
 
-import { HashRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import Account from "./pages/account";
-import Dashboard from "./pages/dashboard";
+import Account from "./components/Account";
+import Dashboard from "./components/Dashboard";
 import Navigation from "./components/Navigation";
-import Inventory from "./pages/inventory";
+import Inventory from "./components/Inventory";
+import EditInventory from "./components/EditInventory";
+import CreateInventory from "./components/CreateInventory";
+import CreateUser from "./components/CreateUser";
 
 function App() {
   return (
     <div className="App">
-      <Navigation />
       <Router>
+        <Navigation />
         <main>
-          <Route exact path="/" component={Dashboard} />
-          <Route path="/dashboard" component={Dashboard} />
+          <Route exact path="/" component={Inventory} />
+          <Route exact path="/inventory" component={Inventory} />
+          <Route exact path="/edit/:id" component={EditInventory} />
+          <Route exact path="/create" component={CreateInventory} />
+          <Route exact path="/user" component={CreateUser} />
+          <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/account" component={Account} />
+
+          {/* <Route path="/dashboard" component={Dashboard} />
           <Route path="/account" component={Account} />
-          <Route path="/inventory" component={Inventory} />
+          <Route path="/inventory" component={Inventory} /> */}
         </main>
       </Router>
     </div>
