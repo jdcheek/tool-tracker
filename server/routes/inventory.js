@@ -23,7 +23,7 @@ router.post("/add", (req, res) => {
 
   newInventory
     .save()
-    .then(() => res.json("Inventory added!"))
+    .then(() => res.json("Inventory added."))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 

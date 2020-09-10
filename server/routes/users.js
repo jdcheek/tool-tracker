@@ -15,8 +15,27 @@ router.post("/add", (req, res) => {
 
   newUser
     .save()
-    .then(() => res.json("User added!"))
+    .then(() => res.json("User added."))
     .catch((err) => res.status(400).json("Error: " + err));
+});
+
+router.delete("/:id", (req, res) => {
+  User.findByIdAndDelete(req.params.id)
+    .then(() => res.json("User deleted."))
+    .catch((err) => res.status(400).json("Error " + err));
+});
+
+router.post("/update/:id", (req, res) => {
+  User.findById(req.params.id)
+    .then((user) => {
+      user.username = req.body.username;
+
+      user
+        .save()
+        .then(() => res.json("User updated."))
+        .catch((err) => res.status(400).json("Error " + err));
+    })
+    .catch((err) => res.status(400).json("Error " + err));
 });
 
 module.exports = router;
