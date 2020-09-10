@@ -20,7 +20,7 @@ function App() {
           <Route exact path="/" component={Inventory} />
           <Route exact path="/inventory" component={Inventory} />
           <Route exact path="/edit/:id" component={EditInventory} />
-          <Route exact path="/create" component={CreateInventory} />
+          <Route exact path="/inventory/add" component={CreateInventory} />
           <Route exact path="/user" component={CreateUser} />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/account" component={Account} />
