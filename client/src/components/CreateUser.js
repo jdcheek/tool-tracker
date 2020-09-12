@@ -4,6 +4,7 @@ export default function CreateInventory() {
   const [user, setUser] = useState({
     username: "",
     password: "",
+    retypedPassword: "",
   });
 
   const handleUsernameChange = (e) => {
@@ -14,21 +15,28 @@ export default function CreateInventory() {
     setUser({ ...user, password: e.target.value });
   };
 
+  const handleRetypedPasswordChange = (e) => {
+    setUser({ ...user, retypedPassword: e.target.value });
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
-    let newUser;
+    let newUser = {
+      username: "",
+      password: "",
+    };
 
-    if (user.username.length < 3) {
-      alert("Username must be greater than 3 characters");
-    } else if (user.password.length < 8) {
-      alert("Password must be greater than 8 characters");
-    } else {
-      newUser = user;
-      console.log(newUser);
-    }
+    user.username.length < 3
+      ? alert("Username must be greater than 3 characters")
+      : (newUser.username = user.username);
+    user.password.length < 8
+      ? alert("Password must be greater than 8 characters")
+      : user.password !== user.retypedPassword
+      ? alert("Passwords do not match")
+      : (newUser.password = user.password);
 
-    //TODO uncomment after testing
-    //  window.location = "/";
+    console.log({ newUser });
+    //TODO send user to database;
   };
 
   console.log(user);
@@ -55,6 +63,16 @@ export default function CreateInventory() {
             className="form-control"
             value={user.password}
             onChange={handlePasswordChange}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="description">Retype Password</label>
+          <input
+            type="text"
+            required
+            className="form-control"
+            value={user.retypedPassword}
+            onChange={handleRetypedPasswordChange}
           />
         </div>
         <button onClick={onSubmit}>Submit</button>
