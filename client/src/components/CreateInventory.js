@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export default function Inventory() {
+export default function CreateInventory() {
   const [item, setItem] = useState({
     tool_number: "",
     description: "",
@@ -38,24 +38,13 @@ export default function Inventory() {
     });
   };
 
-  const handleCheckoutChange = (e) => {
-    setItem({ ...item, status: { checked_out: e.target.value } });
-  };
-
-  const handleUsernameChange = (e) => {
-    setItem({ ...item, status: { username: e.target.value } });
-  };
-
-  const handleMissingChange = (e) => {
-    setItem({ ...item, status: { missing: e.target.value } });
-  };
-
   const onSubmit = (e) => {
     e.preventDefault();
     const newItem = item;
 
-    console.log(item);
+    console.log(newItem);
 
+    //TODO uncomment after testing
     //  window.location = "/";
   };
 
