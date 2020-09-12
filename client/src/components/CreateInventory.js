@@ -39,13 +39,26 @@ export default function CreateInventory() {
   };
 
   const onSubmit = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     const newItem = item;
+    // Send to database
 
-    console.log(newItem);
+    console.log({ newItem });
 
-    //TODO uncomment after testing
-    //  window.location = "/";
+    setItem({
+      tool_number: "",
+      description: "",
+      location: {
+        shelf: "",
+        bin: "",
+      },
+      status: {
+        checked_out: false,
+        username: null,
+        date: new Date(),
+        missing: false,
+      },
+    });
   };
 
   console.log(item);
@@ -96,6 +109,7 @@ export default function CreateInventory() {
             />
           </div>
         </div>
+        <button onClick={onSubmit}>Submit</button>
       </form>
     </div>
   );

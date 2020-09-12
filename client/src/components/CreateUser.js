@@ -29,13 +29,14 @@ export default function CreateInventory() {
     user.username.length < 3
       ? alert("Username must be greater than 3 characters")
       : (newUser.username = user.username);
+
     user.password.length < 8
       ? alert("Password must be greater than 8 characters")
       : user.password !== user.retypedPassword
       ? alert("Passwords do not match")
       : (newUser.password = user.password);
 
-    console.log({ newUser });
+    // console.log({ newUser  });
     //TODO send user to database;
   };
 
