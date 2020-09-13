@@ -10,6 +10,7 @@ import Inventory from "./components/Inventory";
 import EditInventory from "./components/EditInventory";
 import CreateInventory from "./components/CreateInventory";
 import CreateUser from "./components/CreateUser";
+import SignIn from "./components/SignIn";
 
 function App() {
   return (
@@ -18,16 +19,13 @@ function App() {
         <Navigation />
         <main>
           <Route exact path="/" component={Inventory} />
+          <Route exact path="/signin" component={SignIn} />
           <Route exact path="/inventory" component={Inventory} />
           <Route exact path="/edit/:id" component={EditInventory} />
           <Route exact path="/inventory/add" component={CreateInventory} />
           <Route exact path="/user/add" component={CreateUser} />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/account" component={Account} />
-
-          {/* <Route path="/dashboard" component={Dashboard} />
-          <Route path="/account" component={Account} />
-          <Route path="/inventory" component={Inventory} /> */}
         </main>
       </Router>
     </div>
