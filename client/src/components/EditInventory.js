@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 //TODO finish edit inventory and send to database
 
 export default function EditInventory() {
+  const [inventory, setInventory] = useState([]);
   const [item, setItem] = useState({
     tool_number: "",
     description: "",
@@ -17,6 +19,19 @@ export default function EditInventory() {
       missing: false,
     },
   });
+
+  useEffect(() => {
+    getInventory();
+  }, []);
+
+  const getInventory = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/inventory");
+      setInventory(res.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleToolChange = (e) => {
     setItem({ ...item, tool_number: e.target.value });
@@ -55,14 +70,8 @@ export default function EditInventory() {
   const onSubmit = (e) => {
     e.preventDefault();
     const newItem = item;
-
-    console.log(item);
-
-    //TODO uncomment after testing
-    //  window.location = "/";
+    console.log(inventory);
   };
-
-  console.log(item);
 
   return (
     <div>
@@ -109,6 +118,15 @@ export default function EditInventory() {
               onChange={handleBinChange}
             />
           </div>
+          <div>
+            {inventory.map((item) => (
+              <ul key={item._id}>
+                <li>Tool Number: {item.tool_number}</li>
+                <li>Description: {item.description}</li>
+              </ul>
+            ))}
+          </div>
+          <button onClick={onSubmit}>Submit</button>
         </div>
       </form>
     </div>

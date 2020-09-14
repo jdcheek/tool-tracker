@@ -26,11 +26,13 @@ const Inventory = mongoose.model("Inventory", inventorySchema);
 
 module.exports = Inventory;
 
-// {
-//   "tool_number": "test-123",
-//   "description": "location test",
-//   "location": {
-//     "shelf": "12",
-//     "bin": "A"
-//   }
-// }
+// {lb}
+// "{"tool_number"}":"{f1}",
+// "{"location"}":{lb}{"shelf"}":"{f2}","{"bin"}":"{f3}{rb}
+// "{"status"}":{lb}
+// "{"checked_out"}":"{"false"}",
+// "{"username"}":"{""}",
+// "{"date"}":"{""}",
+// "{"missing"}":"{"false"}"
+// {rb}
+// {rb}

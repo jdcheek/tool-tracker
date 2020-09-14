@@ -30,6 +30,7 @@ router.post("/update/:id", (req, res) => {
   User.findById(req.params.id)
     .then((user) => {
       user.username = req.body.username;
+      user.password = req.body.password;
 
       user
         .save()
