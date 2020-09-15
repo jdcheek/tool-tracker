@@ -1,49 +1,78 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function CreateInventory() {
-  const [user, setUser] = useState({
+  const [newUser, setNewUser] = useState({
     username: "",
     password: "",
     retypedPassword: "",
   });
 
-  const handleUsernameChange = (e) => {
-    setUser({ ...user, username: e.target.value });
+  const [userList, setUserList] = useState([]);
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
+  const getUsers = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/users");
+      setUserList(res.data);
+      console.log("get users");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const handlePasswordChange = (e) => {
-    setUser({ ...user, password: e.target.value });
+  const addUsers = async (userToAdd) => {
+    // userToAdd.username;
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/users/add",
+        userToAdd
+      );
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const handleRetypedPasswordChange = (e) => {
-    setUser({ ...user, retypedPassword: e.target.value });
-  };
+  // const handleUsernameChange = (e) => {
+  //   setNewUser({ ...newUser, username: e.target.value });
+  // };
+
+  // const handlePasswordChange = (e) => {
+  //   setNewUser({ ...newUser, password: e.target.value });
+  // };
+
+  // const handleRetypedPasswordChange = (e) => {
+  //   setNewUser({ ...newUser, retypedPassword: e.target.value });
+  // };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    let newUser = {
+    let userToAdd = {
       username: "",
       password: "",
     };
 
-    user.username.length < 3
+    newUser.username.length < 3
       ? alert("Username must be greater than 3 characters")
-      : (newUser.username = user.username);
+      : (userToAdd.username = newUser.username);
 
-    user.password.length < 8
+    newUser.password.length < 8
       ? alert("Password must be greater than 8 characters")
-      : user.password !== user.retypedPassword
+      : newUser.password !== newUser.retypedPassword
       ? alert("Passwords do not match")
-      : (newUser.password = user.password);
+      : (userToAdd.password = newUser.password);
 
-    console.log({ newUser });
+    // console.log({ userToSubmit });
     //TODO catch 400 errors
     //TODO allow non unique passwords, something to do with user.model
-    axios
-      .post("http://localhost:5000/users/add", newUser)
-      .then((res) => console.log(res.data))
-      .then((err) => console.log(err));
+
+    addUsers(userToAdd);
+    setNewUser({ username: "", password: "", retypedPassword: "" });
+    setTimeout(getUsers, 5000);
   };
 
   return (
@@ -56,8 +85,10 @@ export default function CreateInventory() {
             type="text"
             required
             className="form-control"
-            value={user.username}
-            onChange={handleUsernameChange}
+            value={newUser.username}
+            onChange={(e) => {
+              setNewUser({ ...newUser, username: e.target.value });
+            }}
           />
         </div>
         <div className="form-group">
@@ -66,8 +97,10 @@ export default function CreateInventory() {
             type="text"
             required
             className="form-control"
-            value={user.password}
-            onChange={handlePasswordChange}
+            value={newUser.password}
+            onChange={(e) => {
+              setNewUser({ ...newUser, password: e.target.value });
+            }}
           />
         </div>
         <div className="form-group">
@@ -76,12 +109,23 @@ export default function CreateInventory() {
             type="text"
             required
             className="form-control"
-            value={user.retypedPassword}
-            onChange={handleRetypedPasswordChange}
+            value={newUser.retypedPassword}
+            onChange={(e) => {
+              setNewUser({ ...newUser, retypedPassword: e.target.value });
+            }}
           />
         </div>
         <button onClick={onSubmit}>Submit</button>
       </form>
+      <hr></hr>
+      <div className="user-list">
+        {userList.map((user) => (
+          <section key={user._id}>
+            <li>{user.username}</li>
+            <button>Edit</button>
+          </section>
+        ))}
+      </div>
     </div>
   );
 }

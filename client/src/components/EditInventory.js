@@ -33,28 +33,6 @@ export default function EditInventory() {
     }
   };
 
-  const handleToolChange = (e) => {
-    setItem({ ...item, tool_number: e.target.value });
-  };
-
-  const handleDescriptionChange = (e) => {
-    setItem({ ...item, description: e.target.value });
-  };
-
-  const handleShelfChange = (e) => {
-    setItem({
-      ...item,
-      location: { ...item.location, shelf: e.target.value },
-    });
-  };
-
-  const handleBinChange = (e) => {
-    setItem({
-      ...item,
-      location: { ...item.location, bin: e.target.value },
-    });
-  };
-
   const handleCheckoutChange = (e) => {
     setItem({ ...item, status: { checked_out: e.target.value } });
   };
@@ -84,7 +62,9 @@ export default function EditInventory() {
             required
             className="form-control"
             value={item.tool_number}
-            onChange={handleToolChange}
+            onChange={(e) => {
+              setItem({ ...item, tool_number: e.target.value });
+            }}
           />
         </div>
         <div className="form-group">
@@ -94,7 +74,9 @@ export default function EditInventory() {
             required
             className="form-control"
             value={item.description}
-            onChange={handleDescriptionChange}
+            onChange={(e) => {
+              setItem({ ...item, description: e.target.value });
+            }}
           />
           <div className="form-group">
             <label htmlFor="location">Shelf Number</label>
@@ -105,7 +87,12 @@ export default function EditInventory() {
               required
               className="form-control"
               value={item.location.shelf}
-              onChange={handleShelfChange}
+              onChange={(e) => {
+                setItem({
+                  ...item,
+                  location: { ...item.location, shelf: e.target.value },
+                });
+              }}
             />
           </div>
           <div className="form-group">
@@ -115,7 +102,12 @@ export default function EditInventory() {
               required
               className="form-control"
               value={item.location.bin}
-              onChange={handleBinChange}
+              onChange={(e) => {
+                setItem({
+                  ...item,
+                  location: { ...item.location, bin: e.target.value },
+                });
+              }}
             />
           </div>
           <div>
@@ -126,7 +118,6 @@ export default function EditInventory() {
               </ul>
             ))}
           </div>
-          <button onClick={onSubmit}>Submit</button>
         </div>
       </form>
     </div>

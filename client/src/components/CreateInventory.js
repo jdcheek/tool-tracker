@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 export default function CreateInventory() {
   const [item, setItem] = useState({
@@ -39,11 +40,12 @@ export default function CreateInventory() {
   };
 
   const onSubmit = (e) => {
-    // e.preventDefault();
-    const newItem = item;
-    // Send to database
+    e.preventDefault();
 
-    console.log({ newItem });
+    axios
+      .post("http://localhost:5000/inventory/add", item)
+      .then((res) => console.log(res.data))
+      .then((err) => console.log(err));
 
     setItem({
       tool_number: "",
@@ -54,14 +56,12 @@ export default function CreateInventory() {
       },
       status: {
         checked_out: false,
-        username: null,
+        username: "",
         date: new Date(),
         missing: false,
       },
     });
   };
-
-  console.log(item);
 
   return (
     <div>
@@ -81,7 +81,6 @@ export default function CreateInventory() {
           <label htmlFor="description">Description</label>
           <input
             type="text"
-            required
             className="form-control"
             value={item.description}
             onChange={handleDescriptionChange}
