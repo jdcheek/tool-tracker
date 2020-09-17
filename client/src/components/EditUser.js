@@ -73,14 +73,14 @@ export default function CreateInventory() {
     setNewUser({ username: "", password: "", retypedPassword: "" });
     setTimeout(getUsers, 5000);
   };
-
+  console.log(userList);
   return (
     <div>
       <h1>Edit Users</h1>
       <label>Username: </label>
-      <select className="form-control" value="test">
+      <select className="form-control">
         {userList.map((user) => (
-          <option key={user._id} value={user.username}>
+          <option key={user._id} value={user._id}>
             {user.username}
           </option>
         ))}
