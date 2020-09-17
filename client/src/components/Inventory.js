@@ -25,21 +25,7 @@ export default function Inventory() {
     <div>
       <label htmlFor="search-bar">Search</label>
       <input type="text" />
-      <div>
-        {inventory.map((item) => (
-          <ul key={item._id}>
-            <li>Tool Number: {item.tool_number}</li>
-            <li>
-              Location: {item.location.shelf}-{item.location.bin}
-            </li>
-            {item.status.checked_out === false ? (
-              <button>Check Out</button>
-            ) : (
-              <p>Checked out by {item.status.username} on Day, Month Date</p>
-            )}
-          </ul>
-        ))}
-      </div>
+      <div>{inventory.length}</div>
     </div>
   );
 }

@@ -76,56 +76,16 @@ export default function CreateInventory() {
 
   return (
     <div>
-      <h2>Add New User</h2>
-      <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            required
-            className="form-control"
-            value={newUser.username}
-            onChange={(e) => {
-              setNewUser({ ...newUser, username: e.target.value });
-            }}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="description">Password</label>
-          <input
-            type="text"
-            required
-            className="form-control"
-            value={newUser.password}
-            onChange={(e) => {
-              setNewUser({ ...newUser, password: e.target.value });
-            }}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="description">Retype Password</label>
-          <input
-            type="text"
-            required
-            className="form-control"
-            value={newUser.retypedPassword}
-            onChange={(e) => {
-              setNewUser({ ...newUser, retypedPassword: e.target.value });
-            }}
-          />
-        </div>
-        <button onClick={onSubmit}>Submit</button>
-      </form>
-      {/* <hr></hr>
+      <h1>Edit Users</h1>
       <label>Username: </label>
-      <select className="form-control" value={userList.username}>
+      <select className="form-control" value="test">
         {userList.map((user) => (
-          <option key={user._id} value={user}>
-            {user}
+          <option key={user._id} value={user.username}>
+            {user.username}
           </option>
         ))}
       </select>
-      <button>Edit</button> */}
+      <button>Edit</button>
     </div>
   );
 }

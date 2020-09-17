@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 export default function Inventory() {
   return (
     <div>
-      <p>Dashboard</p>
-      <Link to="/inventory/add">Add Inventory</Link>
+      <h1>Dashboard</h1>
+      <Link to="/inventory/add">Inventory</Link>
       <br></br>
-      <Link to="/user/add">Add New User</Link>
+      <Link to="/user/add">Users</Link>
     </div>
   );
 }

@@ -28,7 +28,7 @@ module.exports = Inventory;
 
 // {lb}
 // "{"tool_number"}":"{f1}",
-// "{"location"}":{lb}{"shelf"}":"{f2}","{"bin"}":"{f3}{rb}
+// "{"location"}":{lb}"{"shelf"}":"{f2}","{"bin"}":"{f3}"{rb}
 // "{"status"}":{lb}
 // "{"checked_out"}":"{"false"}",
 // "{"username"}":"{""}",

@@ -11,6 +11,8 @@ import EditInventory from "./components/EditInventory";
 import CreateInventory from "./components/CreateInventory";
 import CreateUser from "./components/CreateUser";
 import SignIn from "./components/SignIn";
+import bulkPost from "./components/bulkPost";
+import EditUser from "./components/EditUser";
 
 function App() {
   return (
@@ -24,8 +26,10 @@ function App() {
           <Route exact path="/inventory/edit" component={EditInventory} />
           <Route exact path="/inventory/add" component={CreateInventory} />
           <Route exact path="/user/add" component={CreateUser} />
+          <Route exact path="/user/edit" component={EditUser} />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/account" component={Account} />
+          <Route exact path="/bulkpost" component={bulkPost} />
         </main>
       </Router>
     </div>

@@ -11,6 +11,8 @@ env
 
 # testing
 /coverage
+bulkPost.js
+tools.json
 
 # production
 /build
