@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function CreateInventory() {
-  const [userToEdit, setUserToEdit] = useState({});
+  const [userToEdit, setUsertoEdit] = useState({});
   const [userList, setUserList] = useState([]);
   const [newUser, setNewUser] = useState({
     username: "",
@@ -24,15 +24,23 @@ export default function CreateInventory() {
     }
   };
 
-  const editUser = async () => {
-    try {
-      const res = await axios.get(`http://localhost:5000/users/${userToEdit}`);
-      console.log(res.data);
-    } catch (err) {
-      console.log(`Get user error: ${err}`);
+  const getSelectedUser = async (e) => {
+    if (e.target.value !== "select") {
+      try {
+        const res = await axios.get(
+          `http://localhost:5000/users/${e.target.value}`
+        );
+        setUsertoEdit(res.data);
+        console.log("getSelectedUser", res.data);
+      } catch (err) {
+        console.log(`Get user error: ${err}`);
+      }
+    } else {
+      setUsertoEdit("");
     }
   };
-  const addUsers = async (userToAdd) => {
+
+  const addUser = async (userToAdd) => {
     try {
       const res = await axios.post(
         "http://localhost:5000/users/add",
@@ -44,17 +52,26 @@ export default function CreateInventory() {
     }
   };
 
-  //const deleteUser = () => {};
+  const editUser = () => {};
 
-  const submitEditUser = async () => {
-    try {
-      const res = await axios.post(
-        "http://localhost:5000/user/update/id",
-        userToEdit
-      );
-      console.log(res.data);
-    } catch (err) {
-      console.log(`Edit user error: ${err}`);
+  const deleteUser = async () => {
+    //TODO ternary to show confirmation box or no selection error
+
+    const conf = window.confirm(
+      `Are you sure you want to delete ${userToEdit}`
+    );
+    if (conf) {
+      try {
+        const res = await axios.post(
+          `http://localhost:5000/user/update/${userToEdit._id}`,
+          userToEdit
+        );
+        console.log(`Deleted user ${res.data.username}`);
+      } catch (err) {
+        console.log(`Edit user error: ${err}`);
+      }
+    } else {
+      return;
     }
   };
 
@@ -77,30 +94,31 @@ export default function CreateInventory() {
 
     //TODO catch 400 errors
 
-    addUsers(userToAdd);
+    addUser(userToAdd);
     setNewUser({ username: "", password: "", retypedPassword: "" });
     setTimeout(getUsers, 5000);
   };
 
-  console.log(userToEdit);
+  console.log("actual", userToEdit);
+
   return (
     <div>
       <div>
         <h2>Edit Users</h2>
         <form onSubmit={(e) => e.preventDefault()}>
           <label>Username: </label>
-          <select
-            className="form-control"
-            onChange={(e) => setUserToEdit(e.target.value)}
-          >
-            <option></option>
+          <select className="form-control" onChange={getSelectedUser}>
+            <option value="select" onClick={() => setUsertoEdit({})}>
+              Select User
+            </option>
             {userList.map((user) => (
               <option key={user._id} value={user._id}>
                 {user.username}
               </option>
             ))}
           </select>
-          <button onClick={editUser}>Edit</button>
+          {/* <button onClick={editUser}>Edit</button>
+          <button onClick={deleteUser}>Delete</button> */}
         </form>
       </div>
       <h2>Add New User</h2>
