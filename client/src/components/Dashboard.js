@@ -7,7 +7,7 @@ export default function Inventory() {
       <h1>Dashboard</h1>
       <Link to="/inventory/add">Inventory</Link>
       <br></br>
-      <Link to="/user/add">Users</Link>
+      <Link to="/user/">Users</Link>
     </div>
   );
 }

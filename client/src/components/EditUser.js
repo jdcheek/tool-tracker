@@ -24,59 +24,9 @@ export default function CreateInventory() {
     }
   };
 
-  const addUsers = async (userToAdd) => {
-    try {
-      const res = await axios.post(
-        "http://localhost:5000/users/add",
-        userToAdd
-      );
-      console.log(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  // const handleUsernameChange = (e) => {
-  //   setNewUser({ ...newUser, username: e.target.value });
-  // };
-
-  // const handlePasswordChange = (e) => {
-  //   setNewUser({ ...newUser, password: e.target.value });
-  // };
-
-  // const handleRetypedPasswordChange = (e) => {
-  //   setNewUser({ ...newUser, retypedPassword: e.target.value });
-  // };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    let userToAdd = {
-      username: "",
-      password: "",
-    };
-
-    newUser.username.length < 3
-      ? alert("Username must be greater than 3 characters")
-      : (userToAdd.username = newUser.username);
-
-    newUser.password.length < 8
-      ? alert("Password must be greater than 8 characters")
-      : newUser.password !== newUser.retypedPassword
-      ? alert("Passwords do not match")
-      : (userToAdd.password = newUser.password);
-
-    // console.log({ userToSubmit });
-    //TODO catch 400 errors
-    //TODO allow non unique passwords, something to do with user.model
-
-    addUsers(userToAdd);
-    setNewUser({ username: "", password: "", retypedPassword: "" });
-    setTimeout(getUsers, 5000);
-  };
-  console.log(userList);
   return (
     <div>
-      <h1>Edit Users</h1>
+      <h2>Edit Users</h2>
       <label>Username: </label>
       <select className="form-control">
         {userList.map((user) => (

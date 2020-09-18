@@ -9,6 +9,12 @@ router.get("/", (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+router.get("/:id", (req, res) => {
+  User.findById(req.params.id)
+    .then((users) => res.json(users))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
 router.post("/add", async (req, res) => {
   const username = req.body.username;
   const password = await bcrypt.hash(req.body.password, 10);
@@ -20,7 +26,7 @@ router.post("/add", async (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/delete/:id", (req, res) => {
   User.findByIdAndDelete(req.params.id)
     .then(() => res.json("User deleted."))
     .catch((err) => res.status(400).json("Error " + err));
