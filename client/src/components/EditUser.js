@@ -19,7 +19,6 @@ export default function CreateInventory() {
     try {
       const res = await axios.get("http://localhost:5000/users");
       setUserList(res.data);
-      console.log("get users");
     } catch (err) {
       console.log(`Get users error: ${err}`);
     }
@@ -52,7 +51,7 @@ export default function CreateInventory() {
         `http://localhost:5000/users/update/${selectedUser._id}`,
         editUser
       );
-      console.log(res.data);
+      console.log("Updated User");
     } catch (err) {
       console.log(`Add user error: ${err}`);
     }
@@ -110,8 +109,6 @@ export default function CreateInventory() {
     addEditUser(editUser);
     setTimeout(getUsers, 3000);
   };
-
-  console.log({ userToEdit }, { selectedUser });
 
   return (
     <div>
