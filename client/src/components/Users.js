@@ -52,26 +52,41 @@ export default function CreateInventory() {
     }
   };
 
+  const addEditUser = async (userToEdit) => {
+    try {
+      const res = await axios.post(
+        `http://localhost:5000/users/update/${userToEdit._id}`,
+        userToEdit
+      );
+      console.log(res.data);
+    } catch (err) {
+      console.log(`Add user error: ${err}`);
+    }
+  };
+
   const editUser = () => {};
 
   const deleteUser = async () => {
     //TODO ternary to show confirmation box or no selection error
-
-    const conf = window.confirm(
-      `Are you sure you want to delete ${userToEdit}`
-    );
-    if (conf) {
-      try {
-        const res = await axios.post(
-          `http://localhost:5000/user/update/${userToEdit._id}`,
-          userToEdit
-        );
-        console.log(`Deleted user ${res.data.username}`);
-      } catch (err) {
-        console.log(`Edit user error: ${err}`);
+    if (userToEdit.username) {
+      const conf = window.confirm(
+        `Are you sure you want to delete ${userToEdit.username}`
+      );
+      if (conf) {
+        try {
+          const res = await axios.delete(
+            `http://localhost:5000/users/delete/${userToEdit._id}`,
+            userToEdit
+          );
+          getUsers();
+          //TODO render user deleted message for 3 seconds
+          console.log(`Deleted user ${userToEdit.username}`);
+        } catch (err) {
+          console.log(`Edit user error: ${err}`);
+        }
+      } else {
+        return;
       }
-    } else {
-      return;
     }
   };
 
@@ -98,13 +113,10 @@ export default function CreateInventory() {
     setNewUser({ username: "", password: "", retypedPassword: "" });
     setTimeout(getUsers, 5000);
   };
-
-  console.log("actual", userToEdit);
-
   return (
     <div>
       <div>
-        <h2>Edit Users</h2>
+        <h2>User Management</h2>
         <form onSubmit={(e) => e.preventDefault()}>
           <label>Username: </label>
           <select className="form-control" onChange={getSelectedUser}>
@@ -117,11 +129,10 @@ export default function CreateInventory() {
               </option>
             ))}
           </select>
-          {/* <button onClick={editUser}>Edit</button>
-          <button onClick={deleteUser}>Delete</button> */}
+          <button onClick={editUser}>Edit</button>
+          <button onClick={deleteUser}>Delete</button>
         </form>
       </div>
-      <h2>Add New User</h2>
       <form onSubmit={newUserToSubmit}>
         <div className="form-group">
           <label htmlFor="username">Username</label>
