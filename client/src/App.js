@@ -29,7 +29,6 @@ function App() {
           <Route exact path="/user/edit" component={EditUser} />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/account" component={Account} />
-          <Route exact path="/bulkpost" component={bulkPost} />
         </main>
       </Router>
     </div>

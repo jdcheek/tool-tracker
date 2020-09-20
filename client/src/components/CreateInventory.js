@@ -17,36 +17,19 @@ export default function CreateInventory() {
     },
   });
 
-  const handleToolChange = (e) => {
-    setItem({ ...item, tool_number: e.target.value });
-  };
-
-  const handleDescriptionChange = (e) => {
-    setItem({ ...item, description: e.target.value });
-  };
-
-  const handleShelfChange = (e) => {
-    setItem({
-      ...item,
-      location: { ...item.location, shelf: e.target.value },
-    });
-  };
-
-  const handleBinChange = (e) => {
-    setItem({
-      ...item,
-      location: { ...item.location, bin: e.target.value },
-    });
+  const addNewItem = async () => {
+    try {
+      const res = axios.post("http://localhost:5000/inventory/add", item);
+      console.log(res);
+    } catch (err) {
+      console.log(`Add new item error: ${err}`);
+    }
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    axios
-      .post("http://localhost:5000/inventory/add", item)
-      .then((res) => console.log(res.data))
-      .then((err) => console.log(err));
-
+    addNewItem();
+    alert(`Item ${item.tool_number} created`);
     setItem({
       tool_number: "",
       description: "",
@@ -74,7 +57,9 @@ export default function CreateInventory() {
             required
             className="form-control"
             value={item.tool_number}
-            onChange={handleToolChange}
+            onChange={(e) => {
+              setItem({ ...item, tool_number: e.target.value });
+            }}
           />
         </div>
         <div className="form-group">
@@ -83,7 +68,9 @@ export default function CreateInventory() {
             type="text"
             className="form-control"
             value={item.description}
-            onChange={handleDescriptionChange}
+            onChange={(e) => {
+              setItem({ ...item, description: e.target.value });
+            }}
           />
           <div className="form-group">
             <label htmlFor="location">Shelf Number</label>
@@ -94,7 +81,12 @@ export default function CreateInventory() {
               required
               className="form-control"
               value={item.location.shelf}
-              onChange={handleShelfChange}
+              onChange={(e) => {
+                setItem({
+                  ...item,
+                  location: { ...item.location, shelf: e.target.value },
+                });
+              }}
             />
           </div>
           <div className="form-group">
@@ -104,7 +96,12 @@ export default function CreateInventory() {
               required
               className="form-control"
               value={item.location.bin}
-              onChange={handleBinChange}
+              onChange={(e) => {
+                setItem({
+                  ...item,
+                  location: { ...item.location, bin: e.target.value },
+                });
+              }}
             />
           </div>
         </div>

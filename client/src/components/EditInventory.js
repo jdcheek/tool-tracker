@@ -3,7 +3,7 @@ import axios from "axios";
 
 //TODO finish edit inventory and send to database
 
-export default function EditInventory() {
+export default function AddInventory() {
   const [inventory, setInventory] = useState([]);
   const [item, setItem] = useState({
     tool_number: "",
@@ -53,7 +53,7 @@ export default function EditInventory() {
 
   return (
     <div>
-      <h2>Add New Tool</h2>
+      <h2>Edit Tool</h2>
       <form onSubmit={onSubmit}>
         <div className="form-group">
           <label htmlFor="tool_number">Tool Number</label>
@@ -109,14 +109,6 @@ export default function EditInventory() {
                 });
               }}
             />
-          </div>
-          <div>
-            {inventory.map((item) => (
-              <ul key={item._id}>
-                <li>Tool Number: {item.tool_number}</li>
-                <li>Description: {item.description}</li>
-              </ul>
-            ))}
           </div>
         </div>
       </form>
