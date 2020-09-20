@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function CreateInventory() {
@@ -87,7 +88,7 @@ export default function CreateInventory() {
     }
   };
 
-  const onSubmit = (e) => {
+  const onEditSubmit = (e) => {
     e.preventDefault();
     const editUser = {
       username: "",
@@ -127,7 +128,7 @@ export default function CreateInventory() {
           <button onClick={deleteUser}>Delete User</button>
         </form>
       </div>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onEditSubmit}>
         <div className="form-group">
           <label htmlFor="username">Username</label>
           <input
@@ -167,8 +168,9 @@ export default function CreateInventory() {
             }}
           />
         </div>
-        <button onClick={onSubmit}>Submit Changes</button>
+        <button onClick={onEditSubmit}>Submit Changes</button>
       </form>
+      <Link to="/dashboard">Back to Dashboard</Link>
     </div>
   );
 }

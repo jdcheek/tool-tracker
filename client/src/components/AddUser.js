@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function CreateInventory() {
@@ -8,7 +9,7 @@ export default function CreateInventory() {
     retypedPassword: "",
   });
 
-  const addUser = async (userToAdd) => {
+  const addNewUser = async (userToAdd) => {
     try {
       const res = await axios.post(
         "http://localhost:5000/users/add",
@@ -20,7 +21,7 @@ export default function CreateInventory() {
     }
   };
 
-  const onSubmit = (e) => {
+  const onAddSubmit = (e) => {
     e.preventDefault();
     let userToAdd = {
       username: "",
@@ -39,7 +40,7 @@ export default function CreateInventory() {
 
     //TODO catch 400 errors
 
-    addUser(userToAdd);
+    addNewUser(userToAdd);
     alert(`User ${userToAdd.username} Added`);
     setNewUser({ username: "", password: "", retypedPassword: "" });
   };
@@ -49,7 +50,7 @@ export default function CreateInventory() {
       <div>
         <h2>Create New User</h2>
       </div>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onAddSubmit}>
         <div className="form-group">
           <label htmlFor="username">Username</label>
           <input
@@ -86,8 +87,9 @@ export default function CreateInventory() {
             }}
           />
         </div>
-        <button onClick={onSubmit}>Add New User</button>
+        <button onClick={onAddSubmit}>Add New User</button>
       </form>
+      <Link to="/dashboard">Back to Dashboard</Link>
     </div>
   );
 }
