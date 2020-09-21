@@ -8,7 +8,7 @@ import Dashboard from "./components/Dashboard";
 import Navigation from "./components/Navigation";
 import Inventory from "./components/Inventory";
 import EditInventory from "./components/EditInventory";
-import CreateInventory from "./components/CreateInventory";
+import AddInventory from "./components/AddInventory";
 import SignIn from "./components/SignIn";
 import AddUser from "./components/AddUser";
 import EditUser from "./components/EditUser";
@@ -24,7 +24,7 @@ function App() {
           <Route exact path="/signin" component={SignIn} />
           <Route exact path="/inventory" component={Inventory} />
           <Route exact path="/inventory/edit" component={EditInventory} />
-          <Route exact path="/inventory/add" component={CreateInventory} />
+          <Route exact path="/inventory/add" component={AddInventory} />
           <Route exact path="/user/add" component={AddUser} />
           <Route exact path="/user/edit" component={EditUser} />
           <Route exact path="/dashboard" component={Dashboard} />

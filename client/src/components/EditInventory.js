@@ -4,6 +4,7 @@ import axios from "axios";
 //TODO finish edit inventory and send to database
 
 export default function AddInventory() {
+  const [toggleSubmit, setToggleSubmit] = useState(true);
   const [inventory, setInventory] = useState([]);
   const [item, setItem] = useState({
     tool_number: "",
@@ -33,6 +34,21 @@ export default function AddInventory() {
     }
   };
 
+  const enableSubmitButton = () => {
+    if (item.tool_number.length < 1) {
+      console.log(item.tool_number.length);
+      return;
+    } else if (item.location.shelf.length < 1) {
+      console.log(item.location.shelf.length);
+      return;
+    } else if (item.location.bin.length < 1) {
+      console.log(item.location.bin.length);
+      return;
+    } else {
+      setToggleSubmit(true);
+    }
+  };
+
   const handleCheckoutChange = (e) => {
     setItem({ ...item, status: { checked_out: e.target.value } });
   };
@@ -54,6 +70,10 @@ export default function AddInventory() {
   return (
     <div>
       <h2>Edit Tool</h2>
+      <form onSubmit={(e) => e.preventDefault()}>
+        <label htmlFor="search">Enter Tool Number</label>
+        <input type="text" />
+      </form>
       <form onSubmit={onSubmit}>
         <div className="form-group">
           <label htmlFor="tool_number">Tool Number</label>
@@ -64,6 +84,7 @@ export default function AddInventory() {
             value={item.tool_number}
             onChange={(e) => {
               setItem({ ...item, tool_number: e.target.value });
+              enableSubmitButton();
             }}
           />
         </div>
@@ -76,6 +97,7 @@ export default function AddInventory() {
             value={item.description}
             onChange={(e) => {
               setItem({ ...item, description: e.target.value });
+              enableSubmitButton();
             }}
           />
           <div className="form-group">
@@ -92,6 +114,7 @@ export default function AddInventory() {
                   ...item,
                   location: { ...item.location, shelf: e.target.value },
                 });
+                enableSubmitButton();
               }}
             />
           </div>
@@ -107,10 +130,12 @@ export default function AddInventory() {
                   ...item,
                   location: { ...item.location, bin: e.target.value },
                 });
+                enableSubmitButton();
               }}
             />
           </div>
         </div>
+        <button disabled={toggleSubmit}>Submit Changes</button>
       </form>
     </div>
   );

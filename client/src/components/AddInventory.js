@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function CreateInventory() {
@@ -105,8 +106,11 @@ export default function CreateInventory() {
             />
           </div>
         </div>
-        <button onClick={onSubmit}>Submit</button>
+        <button onClick={onSubmit}>Add New Tool</button>
       </form>
+      <Link to="/dashboard">
+        <button>Back to Dashboard</button>
+      </Link>
     </div>
   );
 }

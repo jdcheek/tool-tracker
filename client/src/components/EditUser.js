@@ -170,7 +170,9 @@ export default function CreateInventory() {
         </div>
         <button onClick={onEditSubmit}>Submit Changes</button>
       </form>
-      <Link to="/dashboard">Back to Dashboard</Link>
+      <Link to="/dashboard">
+        <button>Back to Dashboard</button>
+      </Link>
     </div>
   );
 }

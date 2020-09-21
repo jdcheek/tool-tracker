@@ -89,7 +89,9 @@ export default function CreateInventory() {
         </div>
         <button onClick={onAddSubmit}>Add New User</button>
       </form>
-      <Link to="/dashboard">Back to Dashboard</Link>
+      <Link to="/dashboard">
+        <button>Back to Dashboard</button>
+      </Link>
     </div>
   );
 }

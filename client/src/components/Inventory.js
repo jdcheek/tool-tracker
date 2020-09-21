@@ -5,6 +5,11 @@ import axios from "axios";
 
 export default function Inventory() {
   const [inventory, setInventory] = useState([]);
+  const [search, setSearch] = useState({
+    query: "",
+    loading: true,
+    message: "",
+  });
 
   useEffect(() => {
     getInventory();
@@ -18,13 +23,27 @@ export default function Inventory() {
       console.log(err);
     }
   };
+
+  const searchInventory = (e) => {
+    e.preventDefault();
+    setSearch({ ...search, query: e.target.value });
+
+    const res = inventory.filter((item) =>
+      item.tool_number.includes(search.query)
+    );
+    console.log(res);
+    console.log(search.query);
+  };
+
   //TODO add search bar to filter results
   //TODO allow logged in user to check out item
 
   return (
     <div>
-      <label htmlFor="search-bar">Search</label>
-      <input type="text" />
+      <form onSubmit={(e) => e.preventDefault()}>
+        <label htmlFor="search-bar">Search</label>
+        <input type="text" value={search.query} onChange={searchInventory} />
+      </form>
       <div>{inventory.length}</div>
     </div>
   );
