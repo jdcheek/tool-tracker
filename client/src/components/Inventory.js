@@ -29,7 +29,6 @@ export default function Inventory() {
     setLoading(false);
   };
 
-  console.log(search);
   //TODO add search bar to filter results
   //TODO allow logged in user to check out item
 
