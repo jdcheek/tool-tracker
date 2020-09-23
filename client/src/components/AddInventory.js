@@ -59,7 +59,7 @@ export default function CreateInventory() {
             className="form-control"
             value={item.tool_number}
             onChange={(e) => {
-              setItem({ ...item, tool_number: e.target.value });
+              setItem({ ...item, tool_number: e.target.value.toUpperCase() });
             }}
           />
         </div>
@@ -100,7 +100,10 @@ export default function CreateInventory() {
               onChange={(e) => {
                 setItem({
                   ...item,
-                  location: { ...item.location, bin: e.target.value },
+                  location: {
+                    ...item.location,
+                    bin: e.target.value.toUpperCase(),
+                  },
                 });
               }}
             />

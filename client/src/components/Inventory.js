@@ -5,10 +5,10 @@ import axios from "axios";
 
 export default function Inventory() {
   const [inventory, setInventory] = useState([]);
+  const [results, setResults] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState({
     query: "",
-    loading: true,
-    message: "",
   });
 
   useEffect(() => {
@@ -24,17 +24,19 @@ export default function Inventory() {
     }
   };
 
-  const searchInventory = (e) => {
+  const searchInventory = async (e) => {
     e.preventDefault();
-    setSearch({ ...search, query: e.target.value });
+    setSearch({ ...search, query: e.target.value.toUpperCase() });
 
-    const res = inventory.filter((item) =>
-      item.tool_number.includes(search.query)
+    let res = await inventory.filter(
+      (item) => item.tool_number.indexOf(search.query) !== -1
     );
-    console.log(res);
-    console.log(search.query);
+
+    setResults(res);
+    setLoading(false);
   };
 
+  console.log(search, results);
   //TODO add search bar to filter results
   //TODO allow logged in user to check out item
 
@@ -44,7 +46,11 @@ export default function Inventory() {
         <label htmlFor="search-bar">Search</label>
         <input type="text" value={search.query} onChange={searchInventory} />
       </form>
-      <div>{inventory.length}</div>
+      <div>
+        {search.loading
+          ? console.log(search.loading)
+          : results.map((item) => <p>{item.tool_number}</p>)}
+      </div>
     </div>
   );
 }
