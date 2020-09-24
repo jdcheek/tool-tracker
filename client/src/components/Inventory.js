@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import InventoryItem from "./InventoryItem";
 
-//TODO finish edit inventory and send to database
+//TODO add pagination
+//TODO allow logged in user to check out item
+//TODO add loading spinner
 
 export default function Inventory() {
   const [inventory, setInventory] = useState([]);
@@ -12,6 +15,7 @@ export default function Inventory() {
 
   useEffect(() => {
     getInventory();
+    setLoading(false);
   }, []);
 
   const getInventory = async () => {
@@ -29,22 +33,18 @@ export default function Inventory() {
     setLoading(false);
   };
 
-  //TODO add search bar to filter results
-  //TODO allow logged in user to check out item
-
   return (
     <div>
       <form onSubmit={(e) => e.preventDefault()}>
         <label htmlFor="search-bar">Search</label>
         <input type="text" value={search.query} onChange={searchInventory} />
       </form>
-      <div>
-        {inventory
-          .filter((item) => item.tool_number.includes(search.query))
-          .map((item) => (
-            <p key={item._id}>{item.tool_number}</p>
-          ))}
-      </div>
+      <div></div>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <InventoryItem inventory={inventory} query={search.query} />
+      )}
     </div>
   );
 }
