@@ -1,19 +1,33 @@
 import React from "react";
 
-const Pagination = ({ itemsPerPage, totalItems }) => {
+const Pagination = ({ itemsPerPage, totalItems, paginate, currentPage }) => {
   const pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
     pageNumbers.push(i);
   }
 
-  console.log(pageNumbers);
   return (
     <div>
-      <p>Test</p>
-      {pageNumbers.map((num) => {
-        <p key={num}>{num}</p>;
-      })}
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          paginate(currentPage - 1);
+        }}
+        href="!#"
+      >
+        {"<"}
+      </button>
+      {currentPage} of {totalItems}
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          paginate(currentPage + 1);
+        }}
+        href="!#"
+      >
+        {">"}
+      </button>
     </div>
   );
 };

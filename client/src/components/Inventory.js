@@ -15,6 +15,9 @@ export default function Inventory() {
   const [search, setSearch] = useState({
     query: "",
   });
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = inventory.slice(indexOfFirstItem, indexOfLastItem);
 
   useEffect(() => {
     getInventory();
@@ -36,9 +39,9 @@ export default function Inventory() {
     setLoading(false);
   };
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = inventory.slice(indexOfFirstItem, indexOfLastItem);
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div>
@@ -50,9 +53,15 @@ export default function Inventory() {
         <p>Loading...</p>
       ) : (
         <InventoryItem inventory={currentItems} query={search.query} />
-      <Pagination itemsPerPage={itemsPerPage} totalItems={inventory.length} />
       )}
-
+      <>
+        <Pagination
+          currentPage={currentPage}
+          itemsPerPage={itemsPerPage}
+          totalItems={inventory.length}
+          paginate={paginate}
+        />
+      </>
     </div>
   );
 }

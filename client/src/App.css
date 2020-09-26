@@ -71,3 +71,26 @@
     margin: 0;
     padding: 0;
   } */
+
+.page-list {
+  display: flex;
+  list-style: none;
+}
+
+.page-number {
+  border: 1px blue solid;
+  padding: 3px;
+  margin: 0;
+}
+
+.page-number a:link {
+  color: black;
+}
+
+.page-number a:visited {
+  color: brown;
+}
+
+.page-number a:hover {
+  background-color: rebeccapurple;
+}
