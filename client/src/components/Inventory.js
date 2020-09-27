@@ -9,6 +9,7 @@ import Pagination from "./Pagination";
 
 export default function Inventory() {
   const [inventory, setInventory] = useState([]);
+  const [newQueryLength, setNewQueryLength] = useState(inventory);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -36,11 +37,16 @@ export default function Inventory() {
   const searchInventory = (e) => {
     e.preventDefault();
     setSearch({ ...search, query: e.target.value.toUpperCase() });
+    setCurrentPage(1);
     setLoading(false);
   };
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
+  };
+
+  const setQueryLength = (num) => {
+    setNewQueryLength(num);
   };
 
   return (
@@ -52,16 +58,16 @@ export default function Inventory() {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <InventoryItem inventory={currentItems} query={search.query} />
+        <>
+          <InventoryItem currentItems={currentItems} query={search.query} />
+          <Pagination
+            currentPage={currentPage}
+            itemsPerPage={itemsPerPage}
+            totalItems={inventory.length}
+            paginate={paginate}
+          />
+        </>
       )}
-      <>
-        <Pagination
-          currentPage={currentPage}
-          itemsPerPage={itemsPerPage}
-          totalItems={inventory.length}
-          paginate={paginate}
-        />
-      </>
     </div>
   );
 }

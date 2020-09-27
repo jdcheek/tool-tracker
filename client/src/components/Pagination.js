@@ -1,15 +1,18 @@
 import React from "react";
 
 const Pagination = ({ itemsPerPage, totalItems, paginate, currentPage }) => {
+  const pages = Math.ceil(totalItems / itemsPerPage);
+
   const pageNumbers = [];
 
-  for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
+  for (let i = 1; i <= pages; i++) {
     pageNumbers.push(i);
   }
 
   return (
     <div>
       <button
+        disabled={currentPage <= 1}
         onClick={(e) => {
           e.preventDefault();
           paginate(currentPage - 1);
@@ -18,8 +21,9 @@ const Pagination = ({ itemsPerPage, totalItems, paginate, currentPage }) => {
       >
         {"<"}
       </button>
-      {currentPage} of {totalItems}
+      {currentPage} of {pages}
       <button
+        disabled={currentPage === pages}
         onClick={(e) => {
           e.preventDefault();
           paginate(currentPage + 1);
