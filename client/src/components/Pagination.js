@@ -1,14 +1,12 @@
 import React from "react";
 
-const Pagination = ({ itemsPerPage, totalItems, paginate, currentPage }) => {
-  const pages = Math.ceil(totalItems / itemsPerPage);
-
-  const pageNumbers = [];
-
-  for (let i = 1; i <= pages; i++) {
-    pageNumbers.push(i);
-  }
-
+const Pagination = ({
+  itemsPerPage,
+  totalItems,
+  paginate,
+  currentPage,
+  pages,
+}) => {
   return (
     <div>
       <button

@@ -9,7 +9,7 @@ import Pagination from "./Pagination";
 
 export default function Inventory() {
   const [inventory, setInventory] = useState([]);
-  const [newQueryLength, setNewQueryLength] = useState(inventory);
+  const [currentQuery, setCurrentQuery] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
@@ -18,25 +18,35 @@ export default function Inventory() {
   });
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = inventory.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = currentQuery.slice(indexOfFirstItem, indexOfLastItem);
+  const pages = Math.ceil(currentQuery.length / itemsPerPage);
 
   useEffect(() => {
     getInventory();
     setLoading(false);
   }, []);
 
+  useEffect(() => {
+    setCurrentQuery(
+      inventory.filter((item) => item.tool_number.includes(search.query))
+    );
+  }, [search]);
+
   const getInventory = async () => {
     try {
       const res = await axios.get("http://localhost:5000/inventory");
       setInventory(res.data);
+      setCurrentQuery(res.data);
     } catch (err) {
       console.log(err);
     }
   };
 
   const searchInventory = (e) => {
+    setLoading(true);
     e.preventDefault();
     setSearch({ ...search, query: e.target.value.toUpperCase() });
+
     setCurrentPage(1);
     setLoading(false);
   };
@@ -45,10 +55,7 @@ export default function Inventory() {
     setCurrentPage(pageNumber);
   };
 
-  const setQueryLength = (num) => {
-    setNewQueryLength(num);
-  };
-
+  console.log(currentQuery);
   return (
     <div>
       <form onSubmit={(e) => e.preventDefault()}>
@@ -59,11 +66,15 @@ export default function Inventory() {
         <p>Loading...</p>
       ) : (
         <>
-          <InventoryItem currentItems={currentItems} query={search.query} />
+          <InventoryItem
+            currentItems={currentItems}
+            currentQuery={currentQuery}
+          />
           <Pagination
             currentPage={currentPage}
             itemsPerPage={itemsPerPage}
-            totalItems={inventory.length}
+            totalItems={currentQuery.length}
+            pages={pages}
             paginate={paginate}
           />
         </>
