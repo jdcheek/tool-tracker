@@ -55,7 +55,6 @@ export default function Inventory() {
     setCurrentPage(pageNumber);
   };
 
-  console.log(currentQuery);
   return (
     <div>
       <form onSubmit={(e) => e.preventDefault()}>
