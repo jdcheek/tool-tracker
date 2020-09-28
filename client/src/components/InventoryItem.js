@@ -4,7 +4,7 @@ const InventoryItem = ({ currentItems, query }) => {
   return (
     <div>
       {currentItems.map((item) => (
-        <p key={item._id}>{item.tool_number}</p>
+        <p key={item._id}>Tool Number: {item.tool_number}</p>
       ))}
     </div>
   );

@@ -34,9 +34,9 @@ router.delete("/delete/:id", (req, res) => {
 
 router.post("/update/:id", (req, res) => {
   User.findById(req.params.id)
-    .then((user) => {
+    .then(async (user) => {
       user.username = req.body.username;
-      user.password = req.body.password;
+      user.password = await bcrypt.hash(req.body.password, 10);
 
       user
         .save()
