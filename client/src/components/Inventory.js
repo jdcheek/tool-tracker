@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import InventoryItem from "./InventoryItem";
+import InventoryCard from "./InventoryCard";
 import Pagination from "./Pagination";
 
 //TODO add pagination
@@ -65,7 +65,7 @@ export default function Inventory() {
         <p>Loading...</p>
       ) : (
         <>
-          <InventoryItem
+          <InventoryCard
             currentItems={currentItems}
             currentQuery={currentQuery}
           />

@@ -3,7 +3,7 @@ import axios from "axios";
 
 //TODO finish edit inventory and send to database
 
-export default function AddInventory() {
+export default function EditInventory() {
   const [toggleSubmit, setToggleSubmit] = useState(true);
   const [inventory, setInventory] = useState([]);
   const [item, setItem] = useState({
