@@ -31,6 +31,7 @@ const Pagination = ({
       >
         {">"}
       </button>
+      <label htmlFor="selection">Results Per Page</label>
       <select
         name="items-per-page"
         onChange={(e) => setItemsPerPage(e.target.value)}
@@ -38,8 +39,6 @@ const Pagination = ({
         <option value="5">5</option>
         <option value="10">10</option>
         <option value="20">20</option>
-        <option value="40">40</option>
-        <option value="100">100</option>
       </select>
     </div>
   );
