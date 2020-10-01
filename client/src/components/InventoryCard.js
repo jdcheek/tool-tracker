@@ -127,6 +127,7 @@ const InventoryItem = ({ currentItems }) => {
               </div>
             </div>
             <button>Submit Changes</button>
+            <button onClick={cancelClickHandler}>Close</button>
           </form>
         </div>
       ) : (
@@ -141,10 +142,10 @@ const InventoryItem = ({ currentItems }) => {
           {item.status.checked_out ? (
             <button disabled>Checked Out By {item.status.username}</button>
           ) : (
-            <button>Check Out</button>
+            <button disabled={toggleEdit}>Check Out</button>
           )}
           {toggleEdit ? (
-            <button onClick={cancelClickHandler}>Close</button>
+            <></>
           ) : (
             <button
               onClick={(e) => {

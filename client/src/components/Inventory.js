@@ -26,9 +26,19 @@ export default function Inventory() {
   }, []);
 
   useEffect(() => {
-    setCurrentQuery(
-      inventory.filter((item) => item.tool_number.includes(search.query))
-    );
+    if (
+      inventory.filter(
+        (item) => item.tool_number.includes(search.query).length !== 0
+      )
+    ) {
+      setCurrentQuery(
+        inventory.filter((item) => item.tool_number.includes(search.query))
+      );
+    } else {
+      setCurrentQuery(
+        inventory.filter((item) => item.description.includes(search.query))
+      );
+    }
   }, [search]);
 
   const getInventory = async () => {
