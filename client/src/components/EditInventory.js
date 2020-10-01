@@ -3,7 +3,7 @@ import axios from "axios";
 
 //TODO finish edit inventory and send to database
 
-export default function EditInventory() {
+export default function EditInventory({ id }) {
   const [toggleSubmit, setToggleSubmit] = useState(true);
   const [inventory, setInventory] = useState([]);
   const [item, setItem] = useState({
@@ -20,34 +20,6 @@ export default function EditInventory() {
       missing: false,
     },
   });
-
-  useEffect(() => {
-    getInventory();
-  }, []);
-
-  const getInventory = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/inventory");
-      setInventory(res.data);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const enableSubmitButton = () => {
-    if (item.tool_number.length < 1) {
-      console.log(item.tool_number.length);
-      return;
-    } else if (item.location.shelf.length < 1) {
-      console.log(item.location.shelf.length);
-      return;
-    } else if (item.location.bin.length < 1) {
-      console.log(item.location.bin.length);
-      return;
-    } else {
-      setToggleSubmit(true);
-    }
-  };
 
   const handleCheckoutChange = (e) => {
     setItem({ ...item, status: { checked_out: e.target.value } });
@@ -84,7 +56,6 @@ export default function EditInventory() {
             value={item.tool_number}
             onChange={(e) => {
               setItem({ ...item, tool_number: e.target.value });
-              enableSubmitButton();
             }}
           />
         </div>
@@ -97,7 +68,6 @@ export default function EditInventory() {
             value={item.description}
             onChange={(e) => {
               setItem({ ...item, description: e.target.value });
-              enableSubmitButton();
             }}
           />
           <div className="form-group">
@@ -114,7 +84,6 @@ export default function EditInventory() {
                   ...item,
                   location: { ...item.location, shelf: e.target.value },
                 });
-                enableSubmitButton();
               }}
             />
           </div>
@@ -130,7 +99,6 @@ export default function EditInventory() {
                   ...item,
                   location: { ...item.location, bin: e.target.value },
                 });
-                enableSubmitButton();
               }}
             />
           </div>

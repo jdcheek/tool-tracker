@@ -3,7 +3,6 @@ import axios from "axios";
 import InventoryCard from "./InventoryCard";
 import Pagination from "./Pagination";
 
-//TODO add pagination
 //TODO allow logged in user to check out item
 //TODO add loading spinner
 
