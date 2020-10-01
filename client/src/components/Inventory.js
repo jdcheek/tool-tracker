@@ -11,7 +11,7 @@ export default function Inventory() {
   const [currentQuery, setCurrentQuery] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const [search, setSearch] = useState({
     query: "",
   });
@@ -26,19 +26,9 @@ export default function Inventory() {
   }, []);
 
   useEffect(() => {
-    if (
-      inventory.filter(
-        (item) => item.tool_number.includes(search.query).length !== 0
-      )
-    ) {
-      setCurrentQuery(
-        inventory.filter((item) => item.tool_number.includes(search.query))
-      );
-    } else {
-      setCurrentQuery(
-        inventory.filter((item) => item.description.includes(search.query))
-      );
-    }
+    setCurrentQuery(
+      inventory.filter((item) => item.tool_number.includes(search.query))
+    );
   }, [search]);
 
   const getInventory = async () => {
@@ -55,7 +45,6 @@ export default function Inventory() {
     setLoading(true);
     e.preventDefault();
     setSearch({ ...search, query: e.target.value.toUpperCase() });
-
     setCurrentPage(1);
     setLoading(false);
   };
@@ -83,6 +72,7 @@ export default function Inventory() {
             itemsPerPage={itemsPerPage}
             totalItems={currentQuery.length}
             pages={pages}
+            setItemsPerPage={setItemsPerPage}
             paginate={paginate}
           />
         </>

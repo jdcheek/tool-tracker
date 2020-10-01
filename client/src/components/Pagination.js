@@ -1,6 +1,7 @@
 import React from "react";
 
 const Pagination = ({
+  setItemsPerPage,
   itemsPerPage,
   totalItems,
   paginate,
@@ -30,6 +31,16 @@ const Pagination = ({
       >
         {">"}
       </button>
+      <select
+        name="items-per-page"
+        onChange={(e) => setItemsPerPage(e.target.value)}
+      >
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="40">40</option>
+        <option value="100">100</option>
+      </select>
     </div>
   );
 };
