@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import InventoryCard from "./EditInventoryCard";
+import EditInventoryCard from "./EditInventoryCard";
+import AddInventory from "./AddInventory";
 import Pagination from "./Pagination";
 
 //TODO allow logged in user to check out item
@@ -55,15 +56,20 @@ export default function Inventory() {
 
   return (
     <div>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <label htmlFor="search-bar">Search</label>
-        <input type="text" value={search.query} onChange={searchInventory} />
-      </form>
       {loading ? (
         <p>Loading...</p>
       ) : (
         <>
-          <InventoryCard
+          <AddInventory />
+          <form onSubmit={(e) => e.preventDefault()}>
+            <label htmlFor="search-bar">Search</label>
+            <input
+              type="text"
+              value={search.query}
+              onChange={searchInventory}
+            />
+          </form>
+          <EditInventoryCard
             currentItems={currentItems}
             currentQuery={currentQuery}
           />

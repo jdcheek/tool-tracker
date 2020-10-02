@@ -137,11 +137,6 @@ const InventoryItem = ({ currentItems }) => {
           <p>
             Location: {item.location.shelf} - {item.location.bin}
           </p>
-          {item.status.checked_out ? (
-            <button disabled>Checked Out By {item.status.username}</button>
-          ) : (
-            <button disabled={toggleEdit}>Check Out</button>
-          )}
           {toggleEdit ? (
             <></>
           ) : (
