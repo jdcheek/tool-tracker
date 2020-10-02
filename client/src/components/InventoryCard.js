@@ -2,22 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 
 const InventoryItem = ({ currentItems }) => {
-  const [toggleEdit, setToggleEdit] = useState(false);
-  const [itemID, setItemId] = useState({ id: "" });
-  const [editItem, setEditItem] = useState({
-    tool_number: "",
-    description: "",
-    location: {
-      shelf: "",
-      bin: "",
-    },
-    status: {
-      checked_out: false,
-      username: null,
-      date: new Date(),
-      missing: false,
-    },
-  });
+  const [toggleCheckout, setToggleCheckout] = useState(false);
 
   return (
     <div>
@@ -30,7 +15,7 @@ const InventoryItem = ({ currentItems }) => {
           {item.status.checked_out ? (
             <button disabled>Checked Out By {item.status.username}</button>
           ) : (
-            <button disabled={toggleEdit}>Check Out</button>
+            <button disabled={toggleCheckout}>Check Out</button>
           )}
         </div>
       ))}
