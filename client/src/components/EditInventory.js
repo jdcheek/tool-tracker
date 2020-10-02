@@ -1,110 +1,82 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import InventoryCard from "./EditInventoryCard";
+import Pagination from "./Pagination";
 
-//TODO finish edit inventory and send to database
+//TODO allow logged in user to check out item
+//TODO add loading spinner
 
-export default function EditInventory({ id }) {
-  const [toggleSubmit, setToggleSubmit] = useState(true);
+export default function Inventory() {
   const [inventory, setInventory] = useState([]);
-  const [item, setItem] = useState({
-    tool_number: "",
-    description: "",
-    location: {
-      shelf: "",
-      bin: "",
-    },
-    status: {
-      checked_out: false,
-      username: null,
-      date: new Date(),
-      missing: false,
-    },
+  const [currentQuery, setCurrentQuery] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [search, setSearch] = useState({
+    query: "",
   });
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = currentQuery.slice(indexOfFirstItem, indexOfLastItem);
+  const pages = Math.ceil(currentQuery.length / itemsPerPage);
 
-  const handleCheckoutChange = (e) => {
-    setItem({ ...item, status: { checked_out: e.target.value } });
+  useEffect(() => {
+    getInventory();
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    setCurrentQuery(
+      inventory.filter((item) => item.tool_number.includes(search.query))
+    );
+  }, [search]);
+
+  const getInventory = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/inventory");
+      setInventory(res.data);
+      setCurrentQuery(res.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const handleUsernameChange = (e) => {
-    setItem({ ...item, status: { username: e.target.value } });
-  };
-
-  const handleMissingChange = (e) => {
-    setItem({ ...item, status: { missing: e.target.value } });
-  };
-
-  const onSubmit = (e) => {
+  const searchInventory = (e) => {
+    setLoading(true);
     e.preventDefault();
-    const newItem = item;
-    console.log(inventory);
+    setSearch({ ...search, query: e.target.value.toUpperCase() });
+    setCurrentPage(1);
+    setLoading(false);
+  };
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
   };
 
   return (
     <div>
-      <h2>Edit Tool</h2>
       <form onSubmit={(e) => e.preventDefault()}>
-        <label htmlFor="search">Enter Tool Number</label>
-        <input type="text" />
+        <label htmlFor="search-bar">Search</label>
+        <input type="text" value={search.query} onChange={searchInventory} />
       </form>
-      <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="tool_number">Tool Number</label>
-          <input
-            type="text"
-            required
-            className="form-control"
-            value={item.tool_number}
-            onChange={(e) => {
-              setItem({ ...item, tool_number: e.target.value });
-            }}
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <>
+          <InventoryCard
+            currentItems={currentItems}
+            currentQuery={currentQuery}
           />
-        </div>
-        <div className="form-group">
-          <label htmlFor="description">Description</label>
-          <input
-            type="text"
-            required
-            className="form-control"
-            value={item.description}
-            onChange={(e) => {
-              setItem({ ...item, description: e.target.value });
-            }}
+          <Pagination
+            currentPage={currentPage}
+            itemsPerPage={itemsPerPage}
+            totalItems={currentQuery.length}
+            pages={pages}
+            setItemsPerPage={setItemsPerPage}
+            paginate={paginate}
           />
-          <div className="form-group">
-            <label htmlFor="location">Shelf Number</label>
-            <input
-              type="number"
-              min="1"
-              max="30"
-              required
-              className="form-control"
-              value={item.location.shelf}
-              onChange={(e) => {
-                setItem({
-                  ...item,
-                  location: { ...item.location, shelf: e.target.value },
-                });
-              }}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="location">Bin Letter</label>
-            <input
-              type="text"
-              required
-              className="form-control"
-              value={item.location.bin}
-              onChange={(e) => {
-                setItem({
-                  ...item,
-                  location: { ...item.location, bin: e.target.value },
-                });
-              }}
-            />
-          </div>
-        </div>
-        <button disabled={toggleSubmit}>Submit Changes</button>
-      </form>
+        </>
+      )}
     </div>
   );
 }
