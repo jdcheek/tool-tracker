@@ -36,7 +36,7 @@ router.post("/update/:id", (req, res) => {
   User.findById(req.params.id)
     .then(async (user) => {
       user.username = req.body.username;
-      user.password = await bcrypt.hash(req.body.password, 10);
+      user.password = User.generateHash(req.body.password);
 
       user
         .save()
