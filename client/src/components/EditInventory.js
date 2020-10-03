@@ -56,6 +56,7 @@ export default function Inventory() {
 
   return (
     <div>
+      <h2>Manage Inventory</h2>
       {loading ? (
         <p>Loading...</p>
       ) : (

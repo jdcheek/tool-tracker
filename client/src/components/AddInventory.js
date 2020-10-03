@@ -49,7 +49,6 @@ export default function CreateInventory() {
 
   return (
     <div>
-      <h2>Add New Tool</h2>
       <form onSubmit={onSubmit}>
         <div className="form-group">
           <label htmlFor="tool_number">Tool Number</label>

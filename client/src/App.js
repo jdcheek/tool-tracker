@@ -20,7 +20,7 @@ function App() {
       <Router>
         <Navigation />
         <main>
-          <Route exact path="/" component={Inventory} />
+          <Route exact path="/" component={SignIn} />
           <Route exact path="/signin" component={SignIn} />
           <Route exact path="/inventory" component={Inventory} />
           <Route exact path="/inventory/edit" component={EditInventory} />
