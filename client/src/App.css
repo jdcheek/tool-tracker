@@ -37,8 +37,13 @@
   color: var(--off-white);
 }
 
-.Nav-bar h1 {
+.title {
+  text-decoration: none;
+}
+
+.title h1 {
   margin: 0px 0px 5px 5px;
+  color: var(--off-white);
 }
 
 .crosshair-icon,

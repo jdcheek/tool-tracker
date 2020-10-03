@@ -13,7 +13,9 @@ const Navigation = () => {
         icon={faCrosshairs}
         size="2x"
       />
-      <h1>Tool Tracker</h1>
+      <Link className="title" to="/">
+        <h1>Tool Tracker</h1>
+      </Link>
       <Link className="Nav-link Dash-link" to="/inventory">
         Inventory
       </Link>

@@ -4,7 +4,6 @@ export default function CreateInventory() {
   const [user, setUser] = useState({
     username: "",
     password: "",
-    retypedPassword: "",
   });
 
   const handleUsernameChange = (e) => {
@@ -26,8 +25,6 @@ export default function CreateInventory() {
     // Verify password
     // Log user in
   };
-
-  console.log(user);
 
   return (
     <div>
