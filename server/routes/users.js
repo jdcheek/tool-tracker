@@ -39,6 +39,7 @@ router.post("/update/:id", (req, res) => {
     .then(async (user) => {
       user.username = req.body.username;
       user.password = await bcrypt.hash(req.body.password, 10);
+      user.isAdmin = req.body.isAdmin;
 
       user
         .save()
