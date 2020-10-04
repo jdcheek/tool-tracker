@@ -16,9 +16,13 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/add", async (req, res) => {
-  const username = req.body.username;
-  const password = await bcrypt.hash(req.body.password, 10);
-  const newUser = new User({ username, password });
+  // const username = req.body.username;
+  // const password = await bcrypt.hash(req.body.password, 10);
+  const newUser = new User({
+    username: req.body.username,
+    password: await bcrypt.hash(req.body.password, 10),
+    isAdmin: false,
+  });
 
   newUser
     .save()
@@ -36,7 +40,7 @@ router.post("/update/:id", (req, res) => {
   User.findById(req.params.id)
     .then(async (user) => {
       user.username = req.body.username;
-      user.password = User.generateHash(req.body.password);
+      user.password = await bcrypt.hash(req.body.password, 10);
 
       user
         .save()

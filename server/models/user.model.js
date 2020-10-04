@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const Schema = mongoose.Schema;
 
@@ -15,9 +16,9 @@ const userSchema = new Schema(
       required: true,
       trim: true,
     },
-    role: {
-      user: Boolean,
-      admin: Boolean,
+    isAdmin: {
+      required: true,
+      type: Boolean,
     },
   },
   {
@@ -26,7 +27,7 @@ const userSchema = new Schema(
 );
 
 userSchema.methods.generateHash = function (password) {
-  return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
+  return bcrypt.hash(password, 10);
 };
 
 userSchema.methods.validPassword = function (password) {
