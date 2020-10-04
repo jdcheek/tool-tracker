@@ -16,8 +16,6 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/add", async (req, res) => {
-  // const username = req.body.username;
-  // const password = await bcrypt.hash(req.body.password, 10);
   const newUser = new User({
     username: req.body.username,
     password: await bcrypt.hash(req.body.password, 10),
