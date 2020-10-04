@@ -13,6 +13,8 @@ export default function CreateInventory() {
     retypedPassword: "",
   });
 
+  // TODO disable input fields if user is not selected
+
   useEffect(() => {
     getUsers();
   }, []);
@@ -25,10 +27,10 @@ export default function CreateInventory() {
         list.push({ username: user.username, _id: user._id })
       );
       setUserList(list);
+      setIsLoading(false);
     } catch (err) {
       console.log(`Get users error: ${err}`);
     }
-    setIsLoading(false);
   };
 
   const getSelectedUser = async (e) => {
@@ -74,7 +76,6 @@ export default function CreateInventory() {
             `http://localhost:5000/users/delete/${selectedUser._id}`,
             userToEdit
           );
-          alert(`User ${selectedUser.username} Deleted`);
           setUsertoEdit({});
           setSelectedUser({
             username: "",
@@ -83,7 +84,6 @@ export default function CreateInventory() {
             retypedPassword: "",
           });
           getUsers();
-          //TODO render user deleted message for 3 seconds
         } catch (err) {
           console.log(`Edit user error: ${err}`);
         }
@@ -95,24 +95,10 @@ export default function CreateInventory() {
 
   const onEditSubmit = (e) => {
     e.preventDefault();
-    const editUser = {
-      username: "",
-      password: "",
-    };
-
-    selectedUser.username.length < 3
-      ? alert("Username must be greater than 3 characters")
-      : (editUser.username = selectedUser.username);
-
-    selectedUser.password.length < 8
-      ? alert("Password must be greater than 8 characters")
-      : selectedUser.password !== selectedUser.retypedPassword
-      ? alert("Passwords do not match")
-      : (editUser.password = selectedUser.password);
 
     //TODO catch 400 errors
 
-    addEditUser(editUser);
+    addEditUser(userToEdit);
     setTimeout(getUsers, 3000);
   };
 
@@ -183,7 +169,17 @@ export default function CreateInventory() {
                 }}
               />
             </div>
-            <button onClick={onEditSubmit}>Submit Changes</button>
+            <div>
+              {selectedUser.username.length < 3 ? (
+                <p>Username must be at least 3 characters</p>
+              ) : selectedUser.password.length < 8 ? (
+                <p>Password must be at least 8 characters</p>
+              ) : selectedUser.password !== selectedUser.retypedPassword ? (
+                <p>Passwords do not match</p>
+              ) : (
+                <button onClick={onEditSubmit}>Submit Changes</button>
+              )}
+            </div>
           </form>
           <Link to="/dashboard">
             <button>Back to Dashboard</button>

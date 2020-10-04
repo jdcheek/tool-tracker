@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function CreateInventory() {
-  const [disableSubmit, setDisableSubmit] = useState(true);
   const [newUser, setNewUser] = useState({
     username: "",
     password: "",
