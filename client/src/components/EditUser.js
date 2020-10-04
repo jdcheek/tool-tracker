@@ -4,6 +4,7 @@ import axios from "axios";
 
 export default function CreateInventory() {
   const [isLoading, setIsLoading] = useState(true);
+  const [showDeletePrompt, setShowDeletePrompt] = useState(false);
   const [inputIsDisabled, setInputIsDisabled] = useState(true);
   const [userList, setUserList] = useState([]);
   const [userToEdit, setUsertoEdit] = useState({
@@ -42,7 +43,6 @@ export default function CreateInventory() {
 
   const getSelectedUser = async (e) => {
     if (e.target.value !== "select") {
-      setIsLoading(true);
       // TODO avoid another server request by filtering userList and matching id
       try {
         const res = await axios.get(
@@ -59,7 +59,6 @@ export default function CreateInventory() {
           username: res.data.username,
           isAdmin: res.data.isAdmin,
         });
-        setIsLoading(false);
         setInputIsDisabled(false);
       } catch (err) {
         console.log(`Get user error: ${err}`);
@@ -92,6 +91,8 @@ export default function CreateInventory() {
     }
   };
 
+  const verifyDeleteUser = () => {};
+
   const deleteUser = async () => {
     if (selectedUser.username !== "") {
       const conf = window.confirm(
@@ -103,13 +104,16 @@ export default function CreateInventory() {
             `http://localhost:5000/users/delete/${selectedUser._id}`,
             userToEdit
           );
-          setUsertoEdit({});
+          setUsertoEdit({
+            username: "",
+            password: "",
+            isAdmin: false,
+          });
           setSelectedUser({
             username: "",
             _id: "",
             password: "",
             retypedPassword: "",
-            isAdmin: false,
           });
           getUsers();
         } catch (err) {
@@ -128,8 +132,19 @@ export default function CreateInventory() {
 
     addEditUser(userToEdit);
     setTimeout(getUsers, 3000);
+    setUsertoEdit({
+      username: "",
+      password: "",
+      isAdmin: false,
+    });
+    setSelectedUser({
+      username: "",
+      _id: "",
+      password: "",
+      retypedPassword: "",
+    });
   };
-  console.log({ userToEdit, userList });
+  console.log(userToEdit);
   return (
     <>
       {isLoading ? (
@@ -214,8 +229,8 @@ export default function CreateInventory() {
               <label htmlFor="is-admin">Administrative Rights</label>
               <input
                 type="checkbox"
-                value={userToEdit.isAdmin}
-                onClick={(e) =>
+                checked={userToEdit.isAdmin}
+                onChange={(e) =>
                   setUsertoEdit({
                     ...userToEdit,
                     isAdmin: !userToEdit.isAdmin,
