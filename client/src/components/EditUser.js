@@ -4,6 +4,7 @@ import axios from "axios";
 
 export default function CreateInventory() {
   const [isLoading, setIsLoading] = useState(true);
+  const [inputIsDisabled, setInputIsDisabled] = useState(true);
   const [userToEdit, setUsertoEdit] = useState({});
   const [userList, setUserList] = useState([]);
   const [selectedUser, setSelectedUser] = useState({
@@ -45,11 +46,19 @@ export default function CreateInventory() {
           password: "",
           retypedPassword: "",
         });
+        setInputIsDisabled(false);
       } catch (err) {
         console.log(`Get user error: ${err}`);
       }
     } else {
-      setUsertoEdit("");
+      setUsertoEdit({});
+      setSelectedUser({
+        username: "",
+        _id: "",
+        password: "",
+        retypedPassword: "",
+      });
+      setInputIsDisabled(true);
     }
   };
 
@@ -120,13 +129,16 @@ export default function CreateInventory() {
                   </option>
                 ))}
               </select>
-              <button onClick={deleteUser}>Delete User</button>
+              <button onClick={deleteUser} disabled={inputIsDisabled}>
+                Delete User
+              </button>
             </form>
           </div>
           <form onSubmit={onEditSubmit}>
             <div className="form-group">
               <label htmlFor="username">Username</label>
               <input
+                disabled={inputIsDisabled}
                 type="text"
                 required
                 className="form-control"
@@ -142,6 +154,7 @@ export default function CreateInventory() {
             <div className="form-group">
               <label htmlFor="description">Password</label>
               <input
+                disabled={inputIsDisabled}
                 type="text"
                 required
                 className="form-control"
@@ -157,6 +170,7 @@ export default function CreateInventory() {
             <div className="form-group">
               <label htmlFor="description">Retype Password</label>
               <input
+                disabled={inputIsDisabled}
                 type="text"
                 required
                 className="form-control"
