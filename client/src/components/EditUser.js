@@ -5,16 +5,18 @@ import axios from "axios";
 export default function CreateInventory() {
   const [isLoading, setIsLoading] = useState(true);
   const [inputIsDisabled, setInputIsDisabled] = useState(true);
-  const [userToEdit, setUsertoEdit] = useState({});
   const [userList, setUserList] = useState([]);
+  const [userToEdit, setUsertoEdit] = useState({
+    username: "",
+    password: "",
+    isAdmin: false,
+  });
   const [selectedUser, setSelectedUser] = useState({
     username: "",
     _id: "",
     password: "",
     retypedPassword: "",
   });
-
-  // TODO disable input fields if user is not selected
 
   useEffect(() => {
     getUsers();
@@ -25,7 +27,11 @@ export default function CreateInventory() {
     try {
       const res = await axios.get("http://localhost:5000/users");
       res.data.map((user) =>
-        list.push({ username: user.username, _id: user._id })
+        list.push({
+          username: user.username,
+          _id: user._id,
+          isAdmin: user.isAdmin,
+        })
       );
       setUserList(list);
       setIsLoading(false);
@@ -36,6 +42,8 @@ export default function CreateInventory() {
 
   const getSelectedUser = async (e) => {
     if (e.target.value !== "select") {
+      setIsLoading(true);
+      // TODO avoid another server request by filtering userList and matching id
       try {
         const res = await axios.get(
           `http://localhost:5000/users/${e.target.value}`
@@ -46,12 +54,22 @@ export default function CreateInventory() {
           password: "",
           retypedPassword: "",
         });
+        setUsertoEdit({
+          ...userToEdit,
+          username: res.data.username,
+          isAdmin: res.data.isAdmin,
+        });
+        setIsLoading(false);
         setInputIsDisabled(false);
       } catch (err) {
         console.log(`Get user error: ${err}`);
       }
     } else {
-      setUsertoEdit({});
+      setUsertoEdit({
+        username: "",
+        password: "",
+        isAdmin: false,
+      });
       setSelectedUser({
         username: "",
         _id: "",
@@ -91,6 +109,7 @@ export default function CreateInventory() {
             _id: "",
             password: "",
             retypedPassword: "",
+            isAdmin: false,
           });
           getUsers();
         } catch (err) {
@@ -110,7 +129,7 @@ export default function CreateInventory() {
     addEditUser(userToEdit);
     setTimeout(getUsers, 3000);
   };
-
+  console.log({ userToEdit, userList });
   return (
     <>
       {isLoading ? (
@@ -148,6 +167,10 @@ export default function CreateInventory() {
                     ...selectedUser,
                     username: e.target.value,
                   });
+                  setUsertoEdit({
+                    ...userToEdit,
+                    username: e.target.value,
+                  });
                 }}
               />
             </div>
@@ -162,6 +185,10 @@ export default function CreateInventory() {
                 onChange={(e) => {
                   setSelectedUser({
                     ...selectedUser,
+                    password: e.target.value,
+                  });
+                  setUsertoEdit({
+                    ...userToEdit,
                     password: e.target.value,
                   });
                 }}
@@ -182,6 +209,19 @@ export default function CreateInventory() {
                   });
                 }}
               />
+            </div>
+            <div>
+              <label htmlFor="is-admin">Administrative Rights</label>
+              <input
+                type="checkbox"
+                value={userToEdit.isAdmin}
+                onClick={(e) =>
+                  setUsertoEdit({
+                    ...userToEdit,
+                    isAdmin: !userToEdit.isAdmin,
+                  })
+                }
+              ></input>
             </div>
             <div>
               {selectedUser.username.length < 3 ? (
