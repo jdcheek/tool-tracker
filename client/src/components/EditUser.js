@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function CreateInventory() {
+  const [isLoading, setIsLoading] = useState(true);
   const [userToEdit, setUsertoEdit] = useState({});
   const [userList, setUserList] = useState([]);
   const [selectedUser, setSelectedUser] = useState({
@@ -17,12 +18,17 @@ export default function CreateInventory() {
   }, []);
 
   const getUsers = async () => {
+    let list = [];
     try {
       const res = await axios.get("http://localhost:5000/users");
-      setUserList(res.data);
+      res.data.map((user) =>
+        list.push({ username: user.username, _id: user._id })
+      );
+      setUserList(list);
     } catch (err) {
       console.log(`Get users error: ${err}`);
     }
+    setIsLoading(false);
   };
 
   const getSelectedUser = async (e) => {
@@ -37,7 +43,6 @@ export default function CreateInventory() {
           password: "",
           retypedPassword: "",
         });
-        console.log("getSelectedUser");
       } catch (err) {
         console.log(`Get user error: ${err}`);
       }
@@ -112,67 +117,79 @@ export default function CreateInventory() {
   };
 
   return (
-    <div>
-      <div>
-        <h2>Edit User</h2>
-        <form onSubmit={(e) => e.preventDefault()}>
-          <label>User List: </label>
-          <select className="form-control" onChange={getSelectedUser}>
-            <option value="select">Select User</option>
-            {userList.map((user) => (
-              <option key={user._id} value={user._id}>
-                {user.username}
-              </option>
-            ))}
-          </select>
-          <button onClick={deleteUser}>Delete User</button>
-        </form>
-      </div>
-      <form onSubmit={onEditSubmit}>
-        <div className="form-group">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            required
-            className="form-control"
-            value={selectedUser.username}
-            onChange={(e) => {
-              setSelectedUser({ ...selectedUser, username: e.target.value });
-            }}
-          />
+    <>
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <div>
+          <div>
+            <h2>Edit User</h2>
+            <form onSubmit={(e) => e.preventDefault()}>
+              <label>User List: </label>
+              <select className="form-control" onChange={getSelectedUser}>
+                <option value="select">Select User</option>
+                {userList.map((user) => (
+                  <option key={user._id} value={user._id}>
+                    {user.username}
+                  </option>
+                ))}
+              </select>
+              <button onClick={deleteUser}>Delete User</button>
+            </form>
+          </div>
+          <form onSubmit={onEditSubmit}>
+            <div className="form-group">
+              <label htmlFor="username">Username</label>
+              <input
+                type="text"
+                required
+                className="form-control"
+                value={selectedUser.username}
+                onChange={(e) => {
+                  setSelectedUser({
+                    ...selectedUser,
+                    username: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="description">Password</label>
+              <input
+                type="text"
+                required
+                className="form-control"
+                value={selectedUser.password}
+                onChange={(e) => {
+                  setSelectedUser({
+                    ...selectedUser,
+                    password: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="description">Retype Password</label>
+              <input
+                type="text"
+                required
+                className="form-control"
+                value={selectedUser.retypedPassword}
+                onChange={(e) => {
+                  setSelectedUser({
+                    ...selectedUser,
+                    retypedPassword: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <button onClick={onEditSubmit}>Submit Changes</button>
+          </form>
+          <Link to="/dashboard">
+            <button>Back to Dashboard</button>
+          </Link>
         </div>
-        <div className="form-group">
-          <label htmlFor="description">Password</label>
-          <input
-            type="text"
-            required
-            className="form-control"
-            value={selectedUser.password}
-            onChange={(e) => {
-              setSelectedUser({ ...selectedUser, password: e.target.value });
-            }}
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="description">Retype Password</label>
-          <input
-            type="text"
-            required
-            className="form-control"
-            value={selectedUser.retypedPassword}
-            onChange={(e) => {
-              setSelectedUser({
-                ...selectedUser,
-                retypedPassword: e.target.value,
-              });
-            }}
-          />
-        </div>
-        <button onClick={onEditSubmit}>Submit Changes</button>
-      </form>
-      <Link to="/dashboard">
-        <button>Back to Dashboard</button>
-      </Link>
-    </div>
+      )}
+    </>
   );
 }
