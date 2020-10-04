@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function CreateInventory() {
+  const [disableSubmit, setDisableSubmit] = useState(true);
   const [newUser, setNewUser] = useState({
     username: "",
     password: "",
@@ -23,25 +24,9 @@ export default function CreateInventory() {
 
   const onAddSubmit = (e) => {
     e.preventDefault();
-    let userToAdd = {
-      username: "",
-      password: "",
-    };
-
-    newUser.username.length < 3
-      ? alert("Username must be greater than 3 characters")
-      : (userToAdd.username = newUser.username);
-
-    newUser.password.length < 8
-      ? alert("Password must be greater than 8 characters")
-      : newUser.password !== newUser.retypedPassword
-      ? alert("Passwords do not match")
-      : (userToAdd.password = newUser.password);
-
     //TODO catch 400 errors
 
-    addNewUser(userToAdd);
-    alert(`User ${userToAdd.username} Added`);
+    addNewUser(newUser);
     setNewUser({ username: "", password: "", retypedPassword: "" });
   };
 
@@ -87,7 +72,17 @@ export default function CreateInventory() {
             }}
           />
         </div>
-        <button onClick={onAddSubmit}>Add New User</button>
+        <div>
+          {newUser.username.length < 3 ? (
+            <p>Username must be at least 3 characters</p>
+          ) : newUser.password.length < 8 ? (
+            <p>Password must be at least 8 characters</p>
+          ) : newUser.password !== newUser.retypedPassword ? (
+            <p>Passwords do not match</p>
+          ) : (
+            <button onClick={onAddSubmit}>Add New User</button>
+          )}
+        </div>
       </form>
       <Link to="/dashboard">
         <button>Back to Dashboard</button>
