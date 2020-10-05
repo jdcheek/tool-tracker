@@ -5,18 +5,20 @@ import axios from "axios";
 export default function CreateInventory() {
   const [isLoading, setIsLoading] = useState(true);
   const [showDeletePrompt, setShowDeletePrompt] = useState(false);
+  const [inputIsReset, setInputIsReset] = useState(false);
   const [inputIsDisabled, setInputIsDisabled] = useState(true);
   const [userList, setUserList] = useState([]);
-  const [userToEdit, setUsertoEdit] = useState({
-    username: "",
-    password: "",
-    isAdmin: false,
-  });
+  // const [userToEdit, setUsertoEdit] = useState({
+  //   username: "",
+  //   password: "",
+  //   isAdmin: false,
+  // });
   const [selectedUser, setSelectedUser] = useState({
     username: "",
     _id: "",
     password: "",
     retypedPassword: "",
+    isAdmin: false,
   });
 
   useEffect(() => {
@@ -43,37 +45,26 @@ export default function CreateInventory() {
 
   const getSelectedUser = async (e) => {
     if (e.target.value !== "select") {
-      // TODO avoid another server request by filtering userList and matching id
-      try {
-        const res = await axios.get(
-          `http://localhost:5000/users/${e.target.value}`
-        );
-        setSelectedUser({
-          username: res.data.username,
-          _id: res.data._id,
-          password: "",
-          retypedPassword: "",
-        });
-        setUsertoEdit({
-          ...userToEdit,
-          username: res.data.username,
-          isAdmin: res.data.isAdmin,
-        });
-        setInputIsDisabled(false);
-      } catch (err) {
-        console.log(`Get user error: ${err}`);
-      }
-    } else {
-      setUsertoEdit({
-        username: "",
+      let userID = e.target.value;
+      let filteredUser = userList.filter((user) => user._id === userID);
+
+      console.log(filteredUser[0]);
+
+      setSelectedUser({
+        username: filteredUser[0].username,
+        _id: filteredUser[0]._id,
         password: "",
-        isAdmin: false,
+        retypedPassword: "",
+        isAdmin: filteredUser[0].isAdmin,
       });
+      setInputIsDisabled(false);
+    } else {
       setSelectedUser({
         username: "",
         _id: "",
         password: "",
         retypedPassword: "",
+        isAdmin: false,
       });
       setInputIsDisabled(true);
     }
@@ -83,9 +74,14 @@ export default function CreateInventory() {
     try {
       const res = await axios.post(
         `http://localhost:5000/users/update/${selectedUser._id}`,
-        editUser
+        {
+          username: selectedUser.username,
+          password: selectedUser.password,
+          isAdmin: selectedUser.isAdmin,
+        }
       );
       console.log("Updated User");
+      setInputIsReset(true);
     } catch (err) {
       console.log(`Add user error: ${err}`);
     }
@@ -101,19 +97,15 @@ export default function CreateInventory() {
       if (conf) {
         try {
           const res = await axios.delete(
-            `http://localhost:5000/users/delete/${selectedUser._id}`,
-            userToEdit
+            `http://localhost:5000/users/delete/${selectedUser._id}`
           );
-          setUsertoEdit({
-            username: "",
-            password: "",
-            isAdmin: false,
-          });
+
           setSelectedUser({
             username: "",
             _id: "",
             password: "",
             retypedPassword: "",
+            isAdmin: false,
           });
           getUsers();
         } catch (err) {
@@ -130,21 +122,17 @@ export default function CreateInventory() {
 
     //TODO catch 400 errors
 
-    addEditUser(userToEdit);
+    addEditUser(selectedUser);
     setTimeout(getUsers, 3000);
-    setUsertoEdit({
-      username: "",
-      password: "",
-      isAdmin: false,
-    });
     setSelectedUser({
       username: "",
       _id: "",
       password: "",
       retypedPassword: "",
+      isAdmin: false,
     });
   };
-  console.log(userToEdit);
+  console.log({ selectedUser });
   return (
     <>
       {isLoading ? (
@@ -155,7 +143,11 @@ export default function CreateInventory() {
             <h2>Edit User</h2>
             <form onSubmit={(e) => e.preventDefault()}>
               <label>User List: </label>
-              <select className="form-control" onChange={getSelectedUser}>
+              <select
+                className="form-control"
+                onChange={getSelectedUser}
+                defaultValue="select"
+              >
                 <option value="select">Select User</option>
                 {userList.map((user) => (
                   <option key={user._id} value={user._id}>
@@ -182,15 +174,11 @@ export default function CreateInventory() {
                     ...selectedUser,
                     username: e.target.value,
                   });
-                  setUsertoEdit({
-                    ...userToEdit,
-                    username: e.target.value,
-                  });
                 }}
               />
             </div>
             <div className="form-group">
-              <label htmlFor="description">Password</label>
+              <label htmlFor="password">Password</label>
               <input
                 disabled={inputIsDisabled}
                 type="text"
@@ -202,15 +190,11 @@ export default function CreateInventory() {
                     ...selectedUser,
                     password: e.target.value,
                   });
-                  setUsertoEdit({
-                    ...userToEdit,
-                    password: e.target.value,
-                  });
                 }}
               />
             </div>
             <div className="form-group">
-              <label htmlFor="description">Retype Password</label>
+              <label htmlFor="retyped-password">Retype Password</label>
               <input
                 disabled={inputIsDisabled}
                 type="text"
@@ -229,11 +213,11 @@ export default function CreateInventory() {
               <label htmlFor="is-admin">Administrative Rights</label>
               <input
                 type="checkbox"
-                checked={userToEdit.isAdmin}
+                checked={selectedUser.isAdmin}
                 onChange={(e) =>
-                  setUsertoEdit({
-                    ...userToEdit,
-                    isAdmin: !userToEdit.isAdmin,
+                  setSelectedUser({
+                    ...selectedUser,
+                    isAdmin: !selectedUser.isAdmin,
                   })
                 }
               ></input>
@@ -252,6 +236,9 @@ export default function CreateInventory() {
           </form>
           <Link to="/dashboard">
             <button>Back to Dashboard</button>
+          </Link>
+          <Link to="/user/add">
+            <button>To Add Users</button>
           </Link>
         </div>
       )}
