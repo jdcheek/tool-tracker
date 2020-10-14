@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const InventoryItem = ({ currentItems }) => {
+const EditInventoryCard = ({ currentItems }) => {
   const [toggleEdit, setToggleEdit] = useState(false);
   const [itemID, setItemId] = useState({ id: "" });
   const [editItem, setEditItem] = useState({
@@ -19,7 +19,8 @@ const InventoryItem = ({ currentItems }) => {
     },
   });
 
-  const cancelClickHandler = () => {
+  const cancelClickHandler = (e) => {
+    e.preventDefault();
     setToggleEdit(!toggleEdit);
   };
 
@@ -118,13 +119,24 @@ const InventoryItem = ({ currentItems }) => {
                   onChange={(e) => {
                     setEditItem({
                       ...editItem,
-                      location: { ...editItem.location, bin: e.target.value },
+                      location: {
+                        ...editItem.location,
+                        bin: e.target.value.toUpperCase(),
+                      },
                     });
                   }}
                 />
               </div>
             </div>
-            <button>Submit Changes</button>
+            {editItem.tool_number.length < 1 ? (
+              <p>Enter Tool Number</p>
+            ) : editItem.location.shelf.length < 1 ? (
+              <p>Enter Shelf Number</p>
+            ) : editItem.location.bin.length < 1 ? (
+              <p>Enter Bin Letter</p>
+            ) : (
+              <button>Submit Changes</button>
+            )}
             <button onClick={cancelClickHandler}>Close</button>
           </form>
         </div>
@@ -137,9 +149,7 @@ const InventoryItem = ({ currentItems }) => {
           <p>
             Location: {item.location.shelf} - {item.location.bin}
           </p>
-          {toggleEdit ? (
-            <></>
-          ) : (
+          {toggleEdit ? null : (
             <button
               onClick={(e) => {
                 e.preventDefault();
@@ -155,4 +165,4 @@ const InventoryItem = ({ currentItems }) => {
   );
 };
 
-export default InventoryItem;
+export default EditInventoryCard;

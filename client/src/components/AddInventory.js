@@ -30,7 +30,6 @@ export default function CreateInventory() {
   const onSubmit = (e) => {
     e.preventDefault();
     addNewItem();
-    alert(`Item ${item.tool_number} created`);
     setItem({
       tool_number: "",
       description: "",
@@ -108,11 +107,16 @@ export default function CreateInventory() {
             />
           </div>
         </div>
-        <button onClick={onSubmit}>Add New Tool</button>
+        {item.tool_number.length < 1 ? (
+          <p>Enter Tool Number</p>
+        ) : item.location.shelf.length < 1 ? (
+          <p>Enter Shelf Number</p>
+        ) : item.location.bin.length < 1 ? (
+          <p>Enter Bin Letter</p>
+        ) : (
+          <button onClick={onSubmit}>Add New Tool</button>
+        )}
       </form>
-      <Link to="/dashboard">
-        <button>Back to Dashboard</button>
-      </Link>
     </div>
   );
 }

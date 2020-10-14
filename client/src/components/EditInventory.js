@@ -43,8 +43,8 @@ export default function Inventory() {
   };
 
   const searchInventory = (e) => {
-    setLoading(true);
     e.preventDefault();
+    setLoading(true);
     setSearch({ ...search, query: e.target.value.toUpperCase() });
     setCurrentPage(1);
     setLoading(false);

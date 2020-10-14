@@ -3,6 +3,9 @@
   --primary-blue: rgb(6, 68, 110);
   --off-white: #d1dddc;
 }
+.App {
+  height: 100vh;
+}
 
 /* Navbar */
 

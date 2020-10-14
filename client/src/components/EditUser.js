@@ -8,11 +8,6 @@ export default function CreateInventory() {
   const [inputIsReset, setInputIsReset] = useState(false);
   const [inputIsDisabled, setInputIsDisabled] = useState(true);
   const [userList, setUserList] = useState([]);
-  // const [userToEdit, setUsertoEdit] = useState({
-  //   username: "",
-  //   password: "",
-  //   isAdmin: false,
-  // });
   const [selectedUser, setSelectedUser] = useState({
     username: "",
     _id: "",
@@ -47,8 +42,6 @@ export default function CreateInventory() {
     if (e.target.value !== "select") {
       let userID = e.target.value;
       let filteredUser = userList.filter((user) => user._id === userID);
-
-      console.log(filteredUser[0]);
 
       setSelectedUser({
         username: filteredUser[0].username,
@@ -132,7 +125,7 @@ export default function CreateInventory() {
       isAdmin: false,
     });
   };
-  console.log({ selectedUser });
+
   return (
     <>
       {isLoading ? (
