@@ -25,14 +25,3 @@ const inventorySchema = new Schema(
 const Inventory = mongoose.model("Inventory", inventorySchema);
 
 module.exports = Inventory;
-
-// {lb}
-// "{"tool_number"}":"{f1}",
-// "{"location"}":{lb}"{"shelf"}":"{f2}","{"bin"}":"{f3}"{rb}
-// "{"status"}":{lb}
-// "{"checked_out"}":"{"false"}",
-// "{"username"}":"{""}",
-// "{"date"}":"{""}",
-// "{"missing"}":"{"false"}"
-// {rb}
-// {rb}
