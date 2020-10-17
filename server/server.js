@@ -30,5 +30,3 @@ app.use("/users", usersRouter);
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
 });
-
-// 31:53

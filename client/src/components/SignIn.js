@@ -6,6 +6,11 @@ export default function CreateInventory() {
     password: "",
   });
 
+  const handleInputChange = (e) => {
+       setUser({ ...user, [e.target.name]: e.target.value });
+  };
+
+
   const handleUsernameChange = (e) => {
     setUser({ ...user, username: e.target.value });
   };
@@ -15,12 +20,8 @@ export default function CreateInventory() {
   };
 
   const onSubmit = (e) => {
-    e.preventDefault();
-    let newUser = {
-      username: "",
-      password: "",
-    };
-
+    e.preventDefault()
+   console.log(user);
     // Get username and password
     // Verify password
     // Log user in
@@ -34,20 +35,22 @@ export default function CreateInventory() {
           <label htmlFor="username">Username</label>
           <input
             type="text"
+            name="username"
             required
             className="form-control"
             value={user.username}
-            onChange={handleUsernameChange}
+            onChange={handleInputChange}
           />
         </div>
         <div className="form-group">
           <label htmlFor="description">Password</label>
           <input
             type="text"
+            name="password"
             required
             className="form-control"
             value={user.password}
-            onChange={handlePasswordChange}
+            onChange={handleInputChange}
           />
         </div>
         <button onClick={onSubmit}>Submit</button>
