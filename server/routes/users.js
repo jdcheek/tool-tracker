@@ -28,6 +28,14 @@ router.post("/add", async (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+router.post("/signin", async (req, res) => {
+  const dbUser = await User.findOne({username: req.body.username})
+  const result = await bcrypt.compare(req.body.password, dbUser.password)
+//TODO debug request
+console.log(req.body);
+  res.json(result);
+})
+
 router.delete("/delete/:id", (req, res) => {
   User.findByIdAndDelete(req.params.id)
     .then(() => res.json("User deleted."))
