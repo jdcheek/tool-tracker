@@ -18,11 +18,14 @@ export default function CreateInventory() {
         "http://localhost:5000/users/signin",
         user
       );
-      console.log(res.data, user);
+      console.log(res.data);
     } catch (err) {
-      console.log(`Add user error: ${err}`);
+      console.log(`Authorization ${err}`);
     }
-    // Get username and password
+    setUser({
+      username: "",
+      password: "",
+    })
     // Verify password
     // Log user in
   };
