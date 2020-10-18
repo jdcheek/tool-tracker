@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from 'axios'
 
 export default function CreateInventory() {
   const [user, setUser] = useState({
@@ -10,18 +11,17 @@ export default function CreateInventory() {
        setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-
-  const handleUsernameChange = (e) => {
-    setUser({ ...user, username: e.target.value });
-  };
-
-  const handlePasswordChange = (e) => {
-    setUser({ ...user, password: e.target.value });
-  };
-
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault()
-   console.log(user);
+    try {
+      const res = await axios.post(
+        "http://localhost:5000/users/signin",
+        user
+      );
+      console.log(res.data, user);
+    } catch (err) {
+      console.log(`Add user error: ${err}`);
+    }
     // Get username and password
     // Verify password
     // Log user in
