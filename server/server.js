@@ -1,8 +1,10 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const inventoryRouter = require("./routes/inventory");
-const usersRouter = require("./routes/users");
+const inventoryRouter = require("./routes/inventory.routes");
+const usersRouter = require("./routes/users.routes");
+const authRouter = require("./routes/auth.routes")
+//TODO import Helmet
 
 require("dotenv").config();
 
@@ -19,6 +21,7 @@ mongoose.connect(uri, {
   useCreateIndex: true,
   useUnifiedTopology: true,
 });
+
 const connection = mongoose.connection;
 connection.once("open", () => {
   console.log("MongoDB database connection established successfully");
@@ -26,6 +29,7 @@ connection.once("open", () => {
 
 app.use("/inventory", inventoryRouter);
 app.use("/users", usersRouter);
+app.use("/login", authRouter)
 
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
