@@ -15,10 +15,11 @@ export default function CreateInventory() {
     e.preventDefault()
     try {
       const res = await axios.post(
-        "http://localhost:5000/users/signin",
+        "http://localhost:5000/login",
         user
       );
-      console.log(res.data);
+      sessionStorage.setItem("token", res.data.token);
+         console.log(res.data);
     } catch (err) {
       console.log(`Authorization ${err}`);
     }
