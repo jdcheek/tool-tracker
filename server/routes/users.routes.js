@@ -28,18 +28,6 @@ router.post("/add", async (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
-//TODO implement JWT
-
-router.post("/signin", async (req, res) => {
-  const dbUser = await User.findOne({username: req.body.username})
-  if (dbUser) {
-    const result = await bcrypt.compare(req.body.password, dbUser.password)
-    result ? res.json("token") : res.status(401).json('Unauthorized');
-  } else {
-    res.json('User not found.')
-  }
-})
-
 router.delete("/delete/:id", (req, res) => {
   User.findByIdAndDelete(req.params.id)
     .then(() => res.json("User deleted."))
