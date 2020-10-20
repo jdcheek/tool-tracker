@@ -17,9 +17,8 @@ authCtrl.loginUser = async (req, res) => {
   const { username, password } = req.body;
   try {
     const user = await User.findByCredentials(username, password);
-    console.log(user);
     const token = await user.generateAuthToken();
-    res.status(200).send({token});
+    res.status(200).send({ token });
   } catch (error) {
     res.status(400).send({ error });
   }

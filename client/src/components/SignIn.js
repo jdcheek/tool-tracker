@@ -19,7 +19,6 @@ export default function CreateInventory() {
         user
       );
       sessionStorage.setItem("token", res.data.token);
-         console.log(res.data);
     } catch (err) {
       console.log(`Authorization ${err}`);
     }
