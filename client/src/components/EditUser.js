@@ -206,6 +206,7 @@ export default function CreateInventory() {
               <label htmlFor="is-admin">Administrative Rights</label>
               <input
                 type="checkbox"
+                disabled={inputIsDisabled}
                 checked={selectedUser.isAdmin}
                 onChange={(e) =>
                   setSelectedUser({
@@ -222,9 +223,9 @@ export default function CreateInventory() {
                 <p>Password must be at least 8 characters</p>
               ) : selectedUser.password !== selectedUser.retypedPassword ? (
                 <p>Passwords do not match</p>
-              ) : (
-                <button onClick={onEditSubmit}>Submit Changes</button>
+              ) : ( <></>
               )}
+                <button disabled={inputIsDisabled} onClick={onEditSubmit}>Submit Changes</button>
             </div>
           </form>
           <Link to="/dashboard">
