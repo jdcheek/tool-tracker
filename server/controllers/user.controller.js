@@ -33,11 +33,11 @@ userCtrl.createUser = async (req, res) => {
 };
 
 userCtrl.updateUser = async (req, res) => {
-  const { username, password, isAdmin, tokens } = req.body
+  const { username, password, isAdmin } = req.body
   try {
     await User.findOneAndUpdate(
       {_id: req.params.id },
-      { username, password, isAdmin, tokens }
+      { username, password, isAdmin }
     );
     res.status(200).send({ message: "User updated"})
   } catch (error) {
