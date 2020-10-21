@@ -21,7 +21,7 @@ function App() {
         <Navigation />
         <main>
           <Route exact path="/" component={SignIn} />
-          <Route exact path="/signin" component={SignIn} />
+          <Route exact path="/login" component={SignIn} />
           <Route exact path="/inventory" component={Inventory} />
           <Route exact path="/inventory/edit" component={EditInventory} />
           <Route exact path="/user/add" component={AddUser} />

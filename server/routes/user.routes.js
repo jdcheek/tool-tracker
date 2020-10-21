@@ -1,13 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-let User = require("../models/user.model");
+const User = require("../models/user.model");
+const { getUsers } = require("../controllers/user.controller");
 
-router.get("/", (req, res) => {
-  User.find()
-    .then((users) => res.json(users))
-    .catch((err) => res.status(400).json("Error: " + err));
-});
+router.get("/", getUsers);
 
 router.get("/:id", (req, res) => {
   User.findById(req.params.id)
@@ -20,7 +17,7 @@ router.post("/add", async (req, res) => {
     username: req.body.username,
     password: await bcrypt.hash(req.body.password, 10),
     isAdmin: false,
-  });
+ });
 
   newUser
     .save()

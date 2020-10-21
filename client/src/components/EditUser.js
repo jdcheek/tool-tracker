@@ -23,7 +23,7 @@ export default function CreateInventory() {
   const getUsers = async () => {
     let list = [];
     try {
-      const res = await axios.get("http://localhost:5000/users");
+      const res = await axios.get("http://localhost:5000/user");
       res.data.map((user) =>
         list.push({
           username: user.username,
@@ -66,7 +66,7 @@ export default function CreateInventory() {
   const addEditUser = async (editUser) => {
     try {
       const res = await axios.post(
-        `http://localhost:5000/users/update/${selectedUser._id}`,
+        `http://localhost:5000/user/update/${selectedUser._id}`,
         {
           username: selectedUser.username,
           password: selectedUser.password,
@@ -90,7 +90,7 @@ export default function CreateInventory() {
       if (conf) {
         try {
           const res = await axios.delete(
-            `http://localhost:5000/users/delete/${selectedUser._id}`
+            `http://localhost:5000/user/delete/${selectedUser._id}`
           );
 
           setSelectedUser({

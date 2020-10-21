@@ -22,7 +22,7 @@ const Navigation = () => {
       <Link className="Nav-link" to="/dashboard">
         Dashboard
       </Link>
-      <Link className="Nav-link" to="/account">
+      <Link className="Nav-link" to="/login">
         Account
       </Link>
       <FontAwesomeIcon className="cog-icon" icon={faCog} size="2x" />

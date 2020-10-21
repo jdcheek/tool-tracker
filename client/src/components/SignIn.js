@@ -18,6 +18,8 @@ export default function CreateInventory() {
         "http://localhost:5000/login",
         user
       );
+      //TODO remove log
+      console.log(res.data);
       sessionStorage.setItem("token", res.data.token);
     } catch (err) {
       console.log(`Authorization ${err}`);
@@ -26,8 +28,7 @@ export default function CreateInventory() {
       username: "",
       password: "",
     })
-    // Verify password
-    // Log user in
+    
   };
 
   return (

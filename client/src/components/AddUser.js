@@ -12,7 +12,7 @@ export default function CreateInventory() {
   const addNewUser = async (userToAdd) => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/users/add",
+        "http://localhost:5000/user/add",
         userToAdd
       );
     } catch (err) {

@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const inventoryRouter = require("./routes/inventory.routes");
-const usersRouter = require("./routes/users.routes");
+const usersRouter = require("./routes/user.routes");
 const authRouter = require("./routes/auth.routes")
 //TODO import Helmet
 
@@ -16,7 +16,8 @@ app.options("*", cors());
 app.use(express.json());
 
 const uri = process.env.ATLAS_URI;
-mongoose.connect(uri, {
+mongoose.connect(uri, 
+  {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,
@@ -28,7 +29,7 @@ connection.once("open", () => {
 });
 
 app.use("/inventory", inventoryRouter);
-app.use("/users", usersRouter);
+app.use("/user", usersRouter);
 app.use("/login", authRouter)
 
 app.listen(port, () => {

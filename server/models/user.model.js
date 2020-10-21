@@ -1,7 +1,8 @@
-const {Schema, model} = require("mongoose");
+const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
@@ -67,17 +68,9 @@ userSchema.methods.generateAuthToken = async function () {
   } catch (error) {
     throw new Error(error);
   }
-
   return token;
 };
 
-userSchema.methods.toJSON = function () {
-  const user = this;
-  const userObject = user.toObject();
-
-  return userObject.tokens;
-};
-
-const User = model("User", userSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;

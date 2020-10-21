@@ -1,6 +1,5 @@
 const User = require("../models/user.model");
 const authCtrl = {};
-const bcrypt = require('bcrypt')
 
 authCtrl.registerUser = async (req, res) => {
   const newUser = new User(req.body);
@@ -18,7 +17,7 @@ authCtrl.loginUser = async (req, res) => {
   try {
     const user = await User.findByCredentials(username, password);
     const token = await user.generateAuthToken();
-    res.status(200).send({ token });
+    res.status(200).send({ token })
   } catch (error) {
     res.status(400).send({ error });
   }
