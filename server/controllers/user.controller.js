@@ -17,7 +17,7 @@ userCtrl.userLogout = async (req, res) => {
 userCtrl.getUsers = async (req, res) => {
   try {
     const users = await User.find();
-    res.json(users)
+    res.status(200).send(users)
   } catch (error) {
     res.status(400).send({ error });
   }
@@ -26,7 +26,7 @@ userCtrl.getUsers = async (req, res) => {
 userCtrl.createUser = async (req, res) => {
   try {
     const users = await User.find();
-    res.json(users)
+    res.status(200).send(users)
   } catch (error) {
     res.status(400).send({ error });
   }
@@ -36,10 +36,10 @@ userCtrl.updateUser = async (req, res) => {
   const { username, password, isAdmin } = req.body
   try {
     await User.findOneAndUpdate(
-      {_id: req.params.id },
+      { _id: req.params.id },
       { username, password, isAdmin }
     );
-    res.status(200).send({ message: "User updated"})
+    res.status(200).send({ message: "User updated" })
   } catch (error) {
     res.status(400).send({ error });
   }
@@ -47,7 +47,7 @@ userCtrl.updateUser = async (req, res) => {
 
 userCtrl.deleteUser = async (req, res) => {
   try {
-    await User.findByIdAndDelete({_id: req.params.id});
+    await User.findByIdAndDelete({ _id: req.params.id });
     res.status(200).send({ message: "User deleted" })
   } catch (error) {
     res.status(400).send({ error });
