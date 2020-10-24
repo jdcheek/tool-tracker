@@ -20,13 +20,13 @@ const userSchema = new Schema(
     isAdmin: {
       required: true,
       default: false,
+
       type: Boolean,
     },
     tokens: [
       {
         token: {
           type: String,
-          require: true,
         },
       },
     ],
@@ -55,17 +55,16 @@ userSchema.methods.encryptPassword = async (password) => {
   return await bcrypt.hash(password, 10);
 };
 
-userSchema.methods.generateAuthToken = async function () {
-  const user = this;
+userSchema.methods.generateAuthToken = async function (user) {
 
   const token = jwt.sign(
     { _id: user._id.toString() },
     process.env.AUTHTOKENSTRING
   );
-  user.tokens = user.tokens.concat({ token });
+  user.tokens = await user.tokens.concat({ token });
 
   try {
-    await user.save();
+    await User.findOneAndUpdate({ _id: user._id }, { tokens: user.tokens });
   } catch (error) {
     throw new Error(error);
   }

@@ -23,15 +23,6 @@ userCtrl.getUsers = async (req, res) => {
   }
 };
 
-userCtrl.createUser = async (req, res) => {
-  try {
-    const users = await User.find();
-    res.status(200).send(users)
-  } catch (error) {
-    res.status(400).send({ error });
-  }
-};
-
 userCtrl.updateUser = async (req, res) => {
   const { username, password, isAdmin } = req.body
   try {
