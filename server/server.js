@@ -23,10 +23,14 @@ mongoose.connect(uri, {
   useFindAndModify: false,
 });
 
-const connection = mongoose.connection;
-connection.once("open", () => {
+const db = mongoose.connection;
+db.once("open", () => {
   console.log("MongoDB database connection established successfully");
 });
+
+db.on('error', (error) => {
+  console.log(error);
+})
 
 app.use("/inventory", inventoryRouter);
 app.use("/user", usersRouter);
