@@ -42,7 +42,7 @@ export default function CreateInventory() {
     if (e.target.value !== "select") {
       let userID = e.target.value;
       let filteredUser = userList.filter((user) => user._id === userID);
-
+      //TODO remove log
       setSelectedUser({
         username: filteredUser[0].username,
         _id: filteredUser[0]._id,
