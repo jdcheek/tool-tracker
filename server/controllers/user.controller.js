@@ -24,12 +24,14 @@ userCtrl.getUsers = async (req, res) => {
 };
 
 userCtrl.updateUser = async (req, res) => {
-  const { username, password, isAdmin } = req.body
+  const updateUser = {}
+  updateUser.username = req.body.username
+  updateUser.isAdmin = req.body.isAdmin
+  if (req.body.password !== "") {
+    updateUser.password = await User.encryptPassword(req.body.password)
+  }
   try {
-    await User.findOneAndUpdate(
-      { _id: req.params.id },
-      { username, password, isAdmin }
-    );
+    await User.findOneAndUpdate({ _id: req.params.id }, { $set: updateUser }, { new: true })
     res.status(200).send({ message: "User updated" })
   } catch (error) {
     res.status(400).send({ error });

@@ -38,33 +38,34 @@ const userSchema = new Schema(
 
 userSchema.statics.findByCredentials = async (username, password) => {
   const user = await User.findOne({ username });
-  console.log(user);
   if (user) {
     const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
       return user;
     } else {
+      console.log('Wrong password');
       throw new Error("Invalid Credentials");
     }
   } else {
+    console.log('No user');
     throw new Error({ error: "User not found" });
   }
 };
 
-userSchema.methods.encryptPassword = async (password) => {
+userSchema.statics.encryptPassword = async (password) => {
   return await bcrypt.hash(password, 10);
 };
 
-userSchema.methods.generateAuthToken = async function (user) {
+userSchema.methods.generateAuthToken = async function () {
+  user = this;
 
   const token = jwt.sign(
     { _id: user._id.toString() },
     process.env.AUTHTOKENSTRING
   );
   user.tokens = await user.tokens.concat({ token });
-
   try {
-    await User.findOneAndUpdate({ _id: user._id }, { tokens: user.tokens });
+    await User.findOneAndUpdate({ _id: user._id }, { $set: { tokens: user.tokens } });
   } catch (error) {
     throw new Error(error);
   }
