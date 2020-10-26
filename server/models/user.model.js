@@ -60,15 +60,15 @@ userSchema.methods.generateAuthToken = async function () {
   user = this;
 
   const token = jwt.sign(
-    { _id: user._id.toString() },
-    process.env.AUTHTOKENSTRING
+    { _id: user._id.toString(), username: user.username, isAdmin: user.isAdmin },
+    process.env.AUTHTOKENSTRING, { expiresIn: '86400s' }
   );
-  user.tokens = await user.tokens.concat({ token });
-  try {
-    await User.findOneAndUpdate({ _id: user._id }, { $set: { tokens: user.tokens } });
-  } catch (error) {
-    throw new Error(error);
-  }
+  // user.tokens = await user.tokens.concat({ token });
+  // try {
+  //   await User.findOneAndUpdate({ _id: user._id }, { $set: { tokens: user.tokens } });
+  // } catch (error) {
+  //   throw new Error(error);
+  // }
   return token;
 };
 
