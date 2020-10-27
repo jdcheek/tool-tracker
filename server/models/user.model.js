@@ -23,13 +23,7 @@ const userSchema = new Schema(
 
       type: Boolean,
     },
-    tokens: [
-      {
-        token: {
-          type: String,
-        },
-      },
-    ],
+    toolsCheckedOut: [],
   },
   {
     timestamps: true,
@@ -59,17 +53,16 @@ userSchema.statics.encryptPassword = async (password) => {
 userSchema.methods.generateAuthToken = async function () {
   user = this;
 
-  const token = jwt.sign(
-    { _id: user._id.toString(), username: user.username, isAdmin: user.isAdmin },
-    process.env.AUTHTOKENSTRING, { expiresIn: '86400s' }
-  );
-  // user.tokens = await user.tokens.concat({ token });
-  // try {
-  //   await User.findOneAndUpdate({ _id: user._id }, { $set: { tokens: user.tokens } });
-  // } catch (error) {
-  //   throw new Error(error);
-  // }
-  return token;
+  try {
+    const token = jwt.sign(
+      { _id: user._id.toString(), username: user.username, isAdmin: user.isAdmin },
+      process.env.AUTHTOKENSTRING, { expiresIn: '12h' }
+    );
+    return token;
+  } catch (error) {
+    throw new Error(error)
+  }
+
 };
 
 const User = mongoose.model("User", userSchema);

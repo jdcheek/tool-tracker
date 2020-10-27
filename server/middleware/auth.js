@@ -2,31 +2,18 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
 
 const auth = async (req, res, next) => {
-    // try {
-    const token = req.header("Authorization").replace("Bearer ", "");
-    const decoded = jwt.verify(token, process.env.AUTHTOKENSTRING);
-    console.log(decoded);
-    // verify token with jwt
-
-    if (decoded.isAdmin) {
-        next()
+    try {
+        const token = req.header("Authorization").replace("Bearer ", "");
+        const decoded = jwt.verify(token, process.env.AUTHTOKENSTRING);
+        if (decoded && decoded.isAdmin) {
+            next()
+        } else {
+            console.log(`Access Denied`);
+        }
+    } catch (error) {
+        console.log(error);
     }
 
-
-    //     const user = await User.findOne({
-    //         _id: decoded._id,
-    //         "tokens.token": token,
-    //     });
-    //     if (user) {
-    //         req.token = token;
-    //         req.user = user;
-    //         next();
-    //     } else {
-    //         throw new Error();
-    //     }
-    // } catch (error) {
-    //     res.status(401).send({ error: "Please authenticate." });
-    // }
 };
 
 module.exports = auth;
