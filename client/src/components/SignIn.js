@@ -8,7 +8,7 @@ export default function CreateInventory() {
   });
 
   const handleInputChange = (e) => {
-       setUser({ ...user, [e.target.name]: e.target.value });
+    setUser({ ...user, [e.target.name]: e.target.value });
   };
 
   const onSubmit = async (e) => {
@@ -18,8 +18,6 @@ export default function CreateInventory() {
         "http://localhost:5000/login",
         user
       );
-      //TODO remove log
-      console.log(res.data);
       sessionStorage.setItem("token", res.data.token);
     } catch (err) {
       console.log(`Authorization ${err}`);
@@ -28,7 +26,7 @@ export default function CreateInventory() {
       username: "",
       password: "",
     })
-    
+
   };
 
   return (
@@ -59,6 +57,9 @@ export default function CreateInventory() {
         </div>
         <button onClick={onSubmit}>Submit</button>
       </form>
+      <button onClick={() => {
+        sessionStorage.removeItem('token')
+      }}>Log Out</button>
     </div>
   );
 }

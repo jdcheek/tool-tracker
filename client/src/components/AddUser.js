@@ -13,7 +13,11 @@ export default function CreateInventory() {
     try {
       const res = await axios.post(
         "http://localhost:5000/user/add",
-        userToAdd
+        userToAdd, {
+        headers: {
+          "Authorization": "Bearer " + sessionStorage.getItem("token")
+        }
+      }
       );
     } catch (err) {
       console.log(`Add user error: ${err}`);
@@ -78,8 +82,8 @@ export default function CreateInventory() {
           ) : newUser.password !== newUser.retypedPassword ? (
             <p>Passwords do not match</p>
           ) : (
-            <button onClick={onAddSubmit}>Add New User</button>
-          )}
+                  <button onClick={onAddSubmit}>Add New User</button>
+                )}
         </div>
       </form>
       <Link to="/dashboard">

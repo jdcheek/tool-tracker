@@ -23,7 +23,11 @@ export default function CreateInventory() {
   const getUsers = async () => {
     let list = [];
     try {
-      const res = await axios.get("http://localhost:5000/user");
+      const res = await axios.get("http://localhost:5000/user", {
+        headers: {
+          "Authorization": "Bearer " + sessionStorage.getItem("token")
+        }
+      });
       res.data.map((user) =>
         list.push({
           username: user.username,
@@ -71,8 +75,12 @@ export default function CreateInventory() {
           username: editUser.username,
           password: editUser.password,
           isAdmin: editUser.isAdmin,
-        }
-      );
+        },
+        {
+          headers: {
+            "Authorization": "Bearer " + sessionStorage.getItem("token")
+          }
+        });
       console.log("Updated User");
       setInputIsDisabled(true)
       setInputIsReset(true);
@@ -91,8 +99,11 @@ export default function CreateInventory() {
       if (conf) {
         try {
           const res = await axios.delete(
-            `http://localhost:5000/user/delete/${selectedUser._id}`
-          );
+            `http://localhost:5000/user/delete/${selectedUser._id}`, {
+            headers: {
+              "Authorization": "Bearer " + sessionStorage.getItem("token")
+            }
+          });
 
           setSelectedUser({
             username: "",
