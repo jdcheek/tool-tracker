@@ -2,11 +2,14 @@ const express = require("express");
 const { getInventory, createInventory, getInventoryById, deleteInventory, updateInventory } = require("../controllers/inventory.controller");
 const router = express.Router();
 const Inventory = require("../models/inventory.model");
+const auth = require('../middleware/auth')
+const user = require('../middleware/user')
 
-router.get("/", getInventory);
-router.post("/add", createInventory);
-router.get("/:id", getInventoryById);
-router.delete("/:id", deleteInventory);
-router.post("/update/:id", updateInventory);
+
+router.get("/", user, getInventory);
+router.post("/add", auth, createInventory);
+router.get("/:id", auth, getInventoryById);
+router.delete("/:id", auth, deleteInventory);
+router.post("/update/:id", user, updateInventory);
 
 module.exports = router;

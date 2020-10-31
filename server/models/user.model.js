@@ -9,6 +9,7 @@ const userSchema = new Schema(
     username: {
       type: String,
       required: true,
+      unique: true,
       trim: true,
       minlength: 3,
     },
@@ -23,7 +24,19 @@ const userSchema = new Schema(
 
       type: Boolean,
     },
-    toolsCheckedOut: [],
+    toolsCheckedOut: [
+      {
+        tool_number: {
+          type: String
+        },
+        tool_id: {
+          type: String
+        }
+      }
+    ],
+    token: {
+      type: String
+    }
   },
   {
     timestamps: true,
@@ -37,8 +50,7 @@ userSchema.statics.findByCredentials = async (username, password) => {
     if (isMatch) {
       return user;
     } else {
-      console.log('Wrong password');
-      throw new Error("Invalid Credentials");
+      throw new Error({ error: "Invalid Credentials" });
     }
   } else {
     console.log('No user');
@@ -55,8 +67,8 @@ userSchema.methods.generateAuthToken = async function () {
 
   try {
     const token = jwt.sign(
-      { _id: user._id.toString(), username: user.username, isAdmin: user.isAdmin },
-      process.env.AUTHTOKENSTRING, { expiresIn: '12h' }
+      { _id: user._id.toString() },
+      process.env.AUTHTOKENSTRING, { expiresIn: '1h' }
     );
     return token;
   } catch (error) {
