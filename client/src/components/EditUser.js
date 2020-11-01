@@ -4,8 +4,6 @@ import axios from "axios";
 
 export default function CreateInventory() {
   const [isLoading, setIsLoading] = useState(true);
-  const [showDeletePrompt, setShowDeletePrompt] = useState(false);
-  const [inputIsReset, setInputIsReset] = useState(false);
   const [inputIsDisabled, setInputIsDisabled] = useState(true);
   const [userList, setUserList] = useState([]);
   const [selectedUser, setSelectedUser] = useState({
@@ -23,11 +21,7 @@ export default function CreateInventory() {
   const getUsers = async () => {
     let list = [];
     try {
-      const res = await axios.get("http://localhost:5000/user", {
-        headers: {
-          "Authorization": "Bearer " + sessionStorage.getItem("token")
-        }
-      });
+      const res = await axios.get("http://localhost:5000/user", { withCredentials: true });
       res.data.map((user) =>
         list.push({
           username: user.username,
@@ -42,11 +36,10 @@ export default function CreateInventory() {
     }
   };
 
-  const getSelectedUser = async (e) => {
+  const getSelectedUser = (e) => {
     if (e.target.value !== "select") {
       let userID = e.target.value;
       let filteredUser = userList.filter((user) => user._id === userID);
-      //TODO remove log
       setSelectedUser({
         username: filteredUser[0].username,
         _id: filteredUser[0]._id,
@@ -76,14 +69,11 @@ export default function CreateInventory() {
           password: editUser.password,
           isAdmin: editUser.isAdmin,
         },
-        {
-          headers: {
-            "Authorization": "Bearer " + sessionStorage.getItem("token")
-          }
-        });
+        { withCredentials: true }
+      );
       console.log("Updated User");
+      getUsers()
       setInputIsDisabled(true)
-      setInputIsReset(true);
     } catch (err) {
       console.log(`Add user error: ${err}`);
     }
@@ -99,11 +89,7 @@ export default function CreateInventory() {
       if (conf) {
         try {
           const res = await axios.delete(
-            `http://localhost:5000/user/delete/${selectedUser._id}`, {
-            headers: {
-              "Authorization": "Bearer " + sessionStorage.getItem("token")
-            }
-          });
+            `http://localhost:5000/user/delete/${selectedUser._id}`, { withCredentials: true });
 
           setSelectedUser({
             username: "",
@@ -129,7 +115,6 @@ export default function CreateInventory() {
     //TODO catch 400 errors
 
     addEditUser(selectedUser);
-    setTimeout(getUsers, 3000);
     setSelectedUser({
       username: "",
       _id: "",

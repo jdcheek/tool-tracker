@@ -33,7 +33,7 @@ export default function Inventory() {
 
   const getInventory = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/inventory");
+      const res = await axios.get("http://localhost:5000/inventory", { withCredentials: true });
       setInventory(res.data);
       setCurrentQuery(res.data);
     } catch (err) {
@@ -62,21 +62,21 @@ export default function Inventory() {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <>
-          <InventoryCard
-            currentItems={currentItems}
-            currentQuery={currentQuery}
-          />
-          <Pagination
-            currentPage={currentPage}
-            itemsPerPage={itemsPerPage}
-            totalItems={currentQuery.length}
-            pages={pages}
-            setItemsPerPage={setItemsPerPage}
-            paginate={paginate}
-          />
-        </>
-      )}
+          <>
+            <InventoryCard
+              currentItems={currentItems}
+              currentQuery={currentQuery}
+            />
+            <Pagination
+              currentPage={currentPage}
+              itemsPerPage={itemsPerPage}
+              totalItems={currentQuery.length}
+              pages={pages}
+              setItemsPerPage={setItemsPerPage}
+              paginate={paginate}
+            />
+          </>
+        )}
     </div>
   );
 }

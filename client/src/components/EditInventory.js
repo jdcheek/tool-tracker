@@ -34,7 +34,11 @@ export default function Inventory() {
 
   const getInventory = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/inventory");
+      const res = await axios.get("http://localhost:5000/inventory", {
+        headers: {
+          "Authorization": "Bearer " + sessionStorage.getItem("token")
+        }
+      });
       setInventory(res.data);
       setCurrentQuery(res.data);
     } catch (err) {
@@ -60,30 +64,30 @@ export default function Inventory() {
       {loading ? (
         <p>Loading...</p>
       ) : (
-        <>
-          <AddInventory />
-          <form onSubmit={(e) => e.preventDefault()}>
-            <label htmlFor="search-bar">Search</label>
-            <input
-              type="text"
-              value={search.query}
-              onChange={searchInventory}
+          <>
+            <AddInventory />
+            <form onSubmit={(e) => e.preventDefault()}>
+              <label htmlFor="search-bar">Search</label>
+              <input
+                type="text"
+                value={search.query}
+                onChange={searchInventory}
+              />
+            </form>
+            <EditInventoryCard
+              currentItems={currentItems}
+              currentQuery={currentQuery}
             />
-          </form>
-          <EditInventoryCard
-            currentItems={currentItems}
-            currentQuery={currentQuery}
-          />
-          <Pagination
-            currentPage={currentPage}
-            itemsPerPage={itemsPerPage}
-            totalItems={currentQuery.length}
-            pages={pages}
-            setItemsPerPage={setItemsPerPage}
-            paginate={paginate}
-          />
-        </>
-      )}
+            <Pagination
+              currentPage={currentPage}
+              itemsPerPage={itemsPerPage}
+              totalItems={currentQuery.length}
+              pages={pages}
+              setItemsPerPage={setItemsPerPage}
+              paginate={paginate}
+            />
+          </>
+        )}
     </div>
   );
 }

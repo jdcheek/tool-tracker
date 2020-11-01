@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from 'axios'
 
-export default function CreateInventory() {
+export default function Login() {
   const [user, setUser] = useState({
     username: "",
     password: "",
@@ -16,9 +16,9 @@ export default function CreateInventory() {
     try {
       const res = await axios.post(
         "http://localhost:5000/login",
-        user
+        user, { withCredentials: true }
       );
-      sessionStorage.setItem("token", res.data.token);
+      console.log(res);
     } catch (err) {
       console.log(`Authorization ${err}`);
     }
@@ -28,7 +28,7 @@ export default function CreateInventory() {
     })
 
   };
-
+  // console.log(cookie);
   return (
     <div>
       <h2>Sign In</h2>
@@ -57,9 +57,7 @@ export default function CreateInventory() {
         </div>
         <button onClick={onSubmit}>Submit</button>
       </form>
-      <button onClick={() => {
-        sessionStorage.removeItem('token')
-      }}>Log Out</button>
+
     </div>
   );
 }

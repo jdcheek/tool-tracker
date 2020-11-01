@@ -48,7 +48,7 @@ const EditInventoryCard = ({ currentItems }) => {
     try {
       const res = await axios.post(
         `http://localhost:5000/inventory/update/${itemID.id}`,
-        editItem
+        editItem, { withCredentials: true }
       );
       console.log(res);
     } catch (error) {
@@ -135,14 +135,14 @@ const EditInventoryCard = ({ currentItems }) => {
             ) : editItem.location.bin.length < 1 ? (
               <p>Enter Bin Letter</p>
             ) : (
-              <button>Submit Changes</button>
-            )}
+                    <button>Submit Changes</button>
+                  )}
             <button onClick={cancelClickHandler}>Close</button>
           </form>
         </div>
       ) : (
-        <></>
-      )}
+          <></>
+        )}
       {currentItems.map((item) => (
         <div key={item._id}>
           <p>Tool Number: {item.tool_number}</p>
