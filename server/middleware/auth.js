@@ -2,20 +2,23 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
 
 const auth = async (req, res, next) => {
-
     try {
-        const token = await req.header("Authorization").replace("Bearer ", "");
+        const token = await req.header('cookie').replace('jwt=', '');
         const decoded = jwt.verify(token, process.env.AUTHTOKENSTRING);
+        // TODO refactor db check
         if (decoded) {
-            console.log(decoded, token);
-            next()
+            const dbUser = await User.findById(decoded._id)
+            if (dbUser.isAdmin) {
+                next();
+            } else {
+                return
+            }
         } else {
-            res.status(401).send('Unauthorized')
+            return
         }
     } catch (error) {
         res.status(400).send(error);
     }
-
 };
 
 module.exports = auth;

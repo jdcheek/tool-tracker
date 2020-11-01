@@ -17,7 +17,9 @@ authCtrl.loginUser = async (req, res) => {
   try {
     const user = await User.findByCredentials(username, password);
     const token = await user.generateAuthToken();
-    res.status(200).send({ jwt: token })
+    res.status(200)
+    res.cookie('jwt', token, { maxAge: 60 * 60 * 1000, httpOnly: true, sameSite: true })
+    res.send({ token })
   } catch (error) {
     res.status(400).send({ error });
   }
