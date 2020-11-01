@@ -13,11 +13,7 @@ export default function CreateInventory() {
     try {
       const res = await axios.post(
         "http://localhost:5000/user/add",
-        userToAdd, {
-        headers: {
-          "Authorization": "Bearer " + sessionStorage.getItem("token")
-        }
-      }
+        userToAdd, { withCredentials: true }
       );
     } catch (err) {
       console.log(`Add user error: ${err}`);
