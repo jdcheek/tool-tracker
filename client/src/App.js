@@ -8,7 +8,6 @@ import Dashboard from "./components/Dashboard";
 import Navigation from "./components/Navigation";
 import Inventory from "./components/Inventory";
 import EditInventory from "./components/EditInventory";
-import AddInventory from "./components/AddInventory";
 import SignIn from "./components/SignIn";
 import AddUser from "./components/AddUser";
 import EditUser from "./components/EditUser";
