@@ -28,7 +28,7 @@ export default function Login() {
     })
 
   };
-  // console.log(cookie);
+
   return (
     <div>
       <h2>Sign In</h2>

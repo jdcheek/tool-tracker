@@ -23,7 +23,6 @@ export default function CreateInventory() {
   const onAddSubmit = (e) => {
     e.preventDefault();
     //TODO catch 400 errors
-
     addNewUser(newUser);
     setNewUser({ username: "", password: "", retypedPassword: "" });
   };

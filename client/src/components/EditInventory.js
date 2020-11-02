@@ -34,11 +34,7 @@ export default function Inventory() {
 
   const getInventory = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/inventory", {
-        headers: {
-          "Authorization": "Bearer " + sessionStorage.getItem("token")
-        }
-      });
+      const res = await axios.get("http://localhost:5000/inventory", { withCredentials: true });
       setInventory(res.data);
       setCurrentQuery(res.data);
     } catch (err) {
