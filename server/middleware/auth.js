@@ -11,7 +11,7 @@ const auth = async (req, res, next) => {
             if (dbUser.isAdmin) {
                 next();
             } else {
-                return
+                res.status(401).send({ message: 'Unauthorized Access' })
             }
         } else {
             return
