@@ -5,7 +5,6 @@ const Inventory = require("../models/inventory.model");
 const auth = require('../middleware/auth')
 const user = require('../middleware/user')
 
-
 router.get("/", user, getInventory);
 router.post("/add", auth, createInventory);
 router.get("/:id", auth, getInventoryById);
