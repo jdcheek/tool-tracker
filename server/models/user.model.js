@@ -58,6 +58,24 @@ userSchema.statics.findByCredentials = async (username, password) => {
   }
 };
 
+userSchema.statics.userStatus = async (token) => {
+  try {
+    const decoded = jwt.verify(token, process.env.AUTHTOKENSTRING);
+    if (decoded) {
+      const dbUser = await User.findById(decoded._id)
+      return {
+        isLoggedIn: true,
+        isAdmin: dbUser.isAdmin,
+        username: dbUser.username
+      }
+    } else {
+      return ({ message: 'Unauthorized Access' })
+    }
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
 userSchema.statics.encryptPassword = async (password) => {
   return await bcrypt.hash(password, 10);
 };

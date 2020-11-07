@@ -19,9 +19,39 @@ authCtrl.loginUser = async (req, res) => {
     const token = await user.generateAuthToken();
     res.status(200)
     res.cookie('jwt', token, { maxAge: 60 * 60 * 1000, httpOnly: true, sameSite: true })
-    res.send({ username: user.username })
+    res.send({ username: user.username, isAdmin: user.isAdmin })
   } catch (error) {
     res.status(400).send({ error });
+  }
+};
+
+
+authCtrl.logOutUser = (req, res) => {
+  try {
+    res.clearCookie('jwt')
+    res.send({ message: `Logged out successfully` })
+  } catch (error) {
+    res.status(400).send({ error });
+  }
+};
+
+authCtrl.getUserStatus = async (req, res) => {
+  try {
+    if (req.header('cookie')) {
+      const token = await req.header('cookie').replace('jwt=', '');
+      const status = await User.userStatus(token)
+      if (status.message === "Unauthorized Access") {
+        res.status(401).send(status.message)
+      } else {
+        res.status(200).send(status)
+      }
+    } else {
+      res.status(401).send({ message: "Unauthorized" })
+      return
+    }
+
+  } catch (error) {
+    res.status(400).send(error)
   }
 };
 

@@ -35,7 +35,7 @@ db.on('error', (error) => {
 
 app.use("/inventory", inventoryRouter);
 app.use("/user", usersRouter);
-app.use("/login", authRouter)
+app.use("/auth", authRouter)
 
 app.listen(port, () => {
   console.log(`Server running on port: ${port}`);
