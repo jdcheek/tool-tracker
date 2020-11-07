@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 export default function CreateInventory() {
+  const mountedRef = useRef(true)
   const [isLoading, setIsLoading] = useState(true);
   const [inputIsDisabled, setInputIsDisabled] = useState(true);
   const [userList, setUserList] = useState([]);
@@ -16,6 +17,7 @@ export default function CreateInventory() {
 
   useEffect(() => {
     getUsers();
+    return () => (mountedRef.current = false)
   }, []);
 
   const getUsers = async () => {
@@ -29,8 +31,12 @@ export default function CreateInventory() {
           isAdmin: user.isAdmin,
         })
       );
-      setUserList(list);
-      setIsLoading(false);
+      if (mountedRef.current) {
+        setUserList(list);
+        setIsLoading(false);
+      } else {
+        return
+      }
     } catch (err) {
       console.log(`Get users error: ${err}`);
     }
@@ -226,12 +232,6 @@ export default function CreateInventory() {
                 <button disabled={inputIsDisabled} onClick={onEditSubmit}>Submit Changes</button>
               </div>
             </form>
-            <Link to="/dashboard">
-              <button>Back to Dashboard</button>
-            </Link>
-            <Link to="/user/add">
-              <button>To Add Users</button>
-            </Link>
           </div>
         )}
     </>

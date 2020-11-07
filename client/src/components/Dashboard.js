@@ -1,15 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import AddUser from './AddUser'
+import EditUser from './EditUser'
+import EditInventory from './EditInventory'
+
 
 export default function Inventory() {
   return (
-    <div>
-      <h1>Dashboard</h1>
-      <Link to="/inventory/edit">Manage Inventory</Link>
-      <br></br>
-      <Link to="/user/add">Add Users</Link>
-      <br></br>
-      <Link to="/user/edit">Edit Users</Link>
+    <div className='dashboard-grid-container'>
+      <div className='new-user-grid'><AddUser /></div>
+      <div className='edit-user-grid'><EditUser /></div>
+      <div className='edit-inventory-grid'><EditInventory /></div>
     </div>
   );
 }

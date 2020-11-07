@@ -15,6 +15,7 @@ export default function CreateInventory() {
         "http://localhost:5000/user/add",
         userToAdd, { withCredentials: true }
       );
+      return res
     } catch (err) {
       console.log(`Add user error: ${err}`);
     }

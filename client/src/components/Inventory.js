@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import InventoryCard from "./InventoryCard";
 import Pagination from "./Pagination";
@@ -7,6 +7,7 @@ import Pagination from "./Pagination";
 //TODO add loading spinner
 
 export default function Inventory() {
+  const mountedRef = useRef(true)
   const [inventory, setInventory] = useState([]);
   const [currentQuery, setCurrentQuery] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -22,7 +23,7 @@ export default function Inventory() {
 
   useEffect(() => {
     getInventory();
-    setLoading(false);
+    return () => (mountedRef.current = false)
   }, []);
 
   useEffect(() => {
@@ -34,8 +35,11 @@ export default function Inventory() {
   const getInventory = async () => {
     try {
       const res = await axios.get("http://localhost:5000/inventory", { withCredentials: true });
-      setInventory(res.data);
-      setCurrentQuery(res.data);
+      if (mountedRef.current) {
+        setInventory(res.data);
+        setCurrentQuery(res.data);
+        setLoading(false);
+      }
     } catch (err) {
       console.log(err);
     }

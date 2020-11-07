@@ -1,11 +1,57 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef } from "react";
+import axios from 'axios'
+import "../App.css";
+import { Link, useHistory, useRouteMatch } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
-import "../App.css";
+import { UserContext } from './UserContext'
+import { useContext } from "react";
 
-const Navigation = () => {
+const Navigation = (props) => {
+  const mountedRef = useRef(true)
+  const history = useHistory()
+  const { currentUser, setCurrentUser } = useContext(UserContext)
+
+  const userAuth = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/auth/status",
+        { withCredentials: true }
+      );
+      if (res.data) {
+        setCurrentUser(res.data)
+      } else {
+        if (!mountedRef.current) {
+          setCurrentUser({ isLoggedIn: false, isAdmin: false, username: null })
+          history.push('/login')
+        }
+      }
+    } catch (err) {
+      console.log(`Authorization ${err}`);
+      history.push('/login')
+    }
+  }
+  useEffect(() => {
+    userAuth()
+    return () => (mountedRef.current = false)
+  }, [])
+
+  const logOut = async (e) => {
+    e.preventDefault()
+    try {
+      const res = await axios.get(
+        "http://localhost:5000/auth/logout",
+        { withCredentials: true }
+      );
+      console.log(res.data);
+      setCurrentUser({ isLoggedIn: false, isAdmin: false, username: null })
+      history.push('/login')
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className="Nav-bar">
       <FontAwesomeIcon
@@ -19,12 +65,16 @@ const Navigation = () => {
       <Link className="Nav-link Dash-link" to="/inventory">
         Inventory
       </Link>
-      <Link className="Nav-link" to="/dashboard">
+      {currentUser.isAdmin ? <Link className="Nav-link" to="/dashboard">
         Dashboard
-      </Link>
-      <Link className="Nav-link" to="/login">
+      </Link> : <></>}
+      {currentUser.isLoggedIn ? <Link className="Nav-link" to="/account">
         Account
-      </Link>
+      </Link> : <></>}
+
+      {currentUser.isLoggedIn ? <Link className="Nav-link" to="#" onClick={logOut}>Log Out
+      </Link> : <Link className="Nav-link" to="/login">Log In
+      </Link>}
       <FontAwesomeIcon className="cog-icon" icon={faCog} size="2x" />
     </div>
   );
