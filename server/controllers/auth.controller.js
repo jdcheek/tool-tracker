@@ -41,7 +41,7 @@ authCtrl.getUserStatus = async (req, res) => {
       const token = await req.header('cookie').replace('jwt=', '');
       const user = await User.findByToken(token)
       if (user.message === "Unauthorized Access") {
-        res.status(401).send(status.message)
+        res.status(401).send(user.message)
       } else {
         res.status(200).send({
           isLoggedIn: true,
@@ -57,9 +57,5 @@ authCtrl.getUserStatus = async (req, res) => {
     res.status(400).send(error)
   }
 };
-
-authCtrl.updateItemCheckedOut = async (req, res) => {
-
-}
 
 module.exports = authCtrl;
