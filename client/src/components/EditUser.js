@@ -21,9 +21,6 @@ export default function CreateInventory() {
   }, []);
 
   const getUsers = async () => {
-    if (!mountedRef.current) {
-      return
-    }
     let list = [];
     try {
       const res = await axios.get("http://localhost:5000/user", { withCredentials: true });
@@ -34,8 +31,10 @@ export default function CreateInventory() {
           isAdmin: user.isAdmin,
         })
       );
-      setUserList(list);
-      setIsLoading(false);
+      if (mountedRef.current) {
+        setUserList(list);
+        setIsLoading(false);
+      }
     } catch (err) {
       console.log(`Get users error: ${err}`);
     }

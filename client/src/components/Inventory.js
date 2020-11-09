@@ -22,31 +22,24 @@ export default function Inventory() {
   const pages = Math.ceil(currentQuery.length / itemsPerPage);
 
   useEffect(() => {
-    if (!mountedRef.current) {
-      return
-    }
     getInventory();
     return () => (mountedRef.current = false)
   }, []);
 
   useEffect(() => {
-    if (!mountedRef.current) {
-      return
-    }
     setCurrentQuery(
       inventory.filter((item) => item.tool_number.includes(search.query))
     );
   }, [search]);
 
   const getInventory = async () => {
-    if (!mountedRef.current) {
-      return
-    }
     try {
       const res = await axios.get("http://localhost:5000/inventory", { withCredentials: true });
-      setInventory(res.data);
-      setCurrentQuery(res.data);
-      setLoading(false);
+      if (mountedRef.current) {
+        setInventory(res.data);
+        setCurrentQuery(res.data);
+        setLoading(false);
+      }
     } catch (err) {
       console.log(err);
     }
