@@ -1,9 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import { useHistory } from 'react-router-dom'
 import { UserContext } from './UserContext'
 import axios from 'axios'
 
 export default function LogIn() {
+  const mountedRef = useRef(true)
   const { currentUser, setCurrentUser } = useContext(UserContext)
   const history = useHistory()
   const [user, setUser] = useState({
@@ -11,23 +12,25 @@ export default function LogIn() {
     password: "",
   });
 
+
   const handleInputChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
   const onSubmit = async (e) => {
     e.preventDefault()
+    if (!mountedRef.current) {
+      return
+    }
     try {
       const res = await axios.post(
         "http://localhost:5000/auth/login",
         user, { withCredentials: true }
       );
       if (res.data.message) {
-        console.log(res.data.message);
-        return
+        return res.data.message
       }
       setCurrentUser({ isLoggedIn: true, isAdmin: res.data.isAdmin, username: res.data.username })
-      history.push('/inventory')
     } catch (err) {
       console.log(`Authorization ${err}`);
     }
@@ -35,8 +38,14 @@ export default function LogIn() {
       username: "",
       password: "",
     })
-
   };
+
+  useEffect(() => {
+    if (currentUser.isLoggedIn) {
+      history.push('/inventory')
+    }
+    return () => (mountedRef.current = false)
+  }, [currentUser])
 
   return (
     <div>
@@ -64,7 +73,7 @@ export default function LogIn() {
             onChange={handleInputChange}
           />
         </div>
-        <button onClick={onSubmit}>Submit</button>
+        <button type="submit">Login</button>
       </form>
 
     </div>
