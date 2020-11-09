@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import AddUser from './AddUser'
 import EditUser from './EditUser'
 import EditInventory from './EditInventory'
