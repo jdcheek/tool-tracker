@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import axios from 'axios'
 import "../App.css";
-import { Link, useHistory, useRouteMatch } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
@@ -14,6 +14,9 @@ const Navigation = (props) => {
   const { currentUser, setCurrentUser } = useContext(UserContext)
 
   const userAuth = async () => {
+    if (!mountedRef.current) {
+      return
+    }
     try {
       const res = await axios.get(
         "http://localhost:5000/auth/status",
@@ -22,16 +25,15 @@ const Navigation = (props) => {
       if (res.data) {
         setCurrentUser(res.data)
       } else {
-        if (!mountedRef.current) {
-          setCurrentUser({ isLoggedIn: false, isAdmin: false, username: null })
-          history.push('/login')
-        }
+        setCurrentUser({ isLoggedIn: false, isAdmin: false, username: null })
+        history.push('/login')
       }
     } catch (err) {
       console.log(`Authorization ${err}`);
       history.push('/login')
     }
   }
+
   useEffect(() => {
     userAuth()
     return () => (mountedRef.current = false)
@@ -44,9 +46,9 @@ const Navigation = (props) => {
         "http://localhost:5000/auth/logout",
         { withCredentials: true }
       );
-      console.log(res.data);
       setCurrentUser({ isLoggedIn: false, isAdmin: false, username: null })
       history.push('/login')
+      return res
     } catch (error) {
       console.log(error);
     }
