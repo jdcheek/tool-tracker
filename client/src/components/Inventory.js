@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { UserContext } from './UserContext'
 import axios from "axios";
 import InventoryCard from "./InventoryCard";
 import Pagination from "./Pagination";
@@ -8,6 +9,7 @@ import Pagination from "./Pagination";
 
 export default function Inventory() {
   const mountedRef = useRef(true)
+  const { currentUser, setCurrentUser } = useContext(UserContext)
   const [inventory, setInventory] = useState([]);
   const [currentQuery, setCurrentQuery] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -45,6 +47,23 @@ export default function Inventory() {
     }
   };
 
+  const checkOutItem = async (id) => {
+    try {
+      const inv = await axios.post(`http://localhost:5000/inventory/update/status/${id}`,
+        { status: { checked_out: false, username: currentUser.username, date: new Date() } },
+        { withCredentials: true })
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      const usr = await axios.post(`http://localhost:5000/user/tools`,
+        { id: id, user: currentUser.username },
+        { withCredentials: true })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const searchInventory = (e) => {
     setLoading(true);
     e.preventDefault();
@@ -70,6 +89,7 @@ export default function Inventory() {
             <InventoryCard
               currentItems={currentItems}
               currentQuery={currentQuery}
+              checkOutItem={checkOutItem}
             />
             <Pagination
               currentPage={currentPage}
