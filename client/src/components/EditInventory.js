@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
 import EditInventoryCard from "./EditInventoryCard";
 import AddInventory from "./AddInventory";
 import Pagination from "./Pagination";
@@ -7,12 +6,9 @@ import Pagination from "./Pagination";
 //TODO allow logged in user to check out item
 //TODO add loading spinner
 
-export default function Inventory() {
-  const mountedRef = useRef(true)
+const EditInventory = ({ inventory, isLoading }) => {
   // TODO possibly use useReducer
-  const [inventory, setInventory] = useState([]);
   const [currentQuery, setCurrentQuery] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
   const [search, setSearch] = useState({
@@ -24,38 +20,19 @@ export default function Inventory() {
   const pages = Math.ceil(currentQuery.length / itemsPerPage);
 
   useEffect(() => {
-    getInventory();
-    return () => (mountedRef.current = false)
-  }, []);
+    setCurrentQuery(inventory)
+  }, [])
 
   useEffect(() => {
-    if (!mountedRef.current) {
-      return
-    }
     setCurrentQuery(
       inventory.filter((item) => item.tool_number.includes(search.query))
     );
   }, [search]);
 
-  const getInventory = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/inventory", { withCredentials: true });
-      if (mountedRef.current) {
-        setInventory(res.data);
-        setCurrentQuery(res.data);
-        setLoading(false);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const searchInventory = (e) => {
     e.preventDefault();
-    setLoading(true);
     setSearch({ ...search, query: e.target.value.toUpperCase() });
     setCurrentPage(1);
-    setLoading(false);
   };
 
   const paginate = (pageNumber) => {
@@ -66,7 +43,7 @@ export default function Inventory() {
     <div>
       <h2>Manage Inventory</h2>
       <h4>Add New Item</h4>
-      {loading ? (
+      {isLoading ? (
         <p>Loading...</p>
       ) : (
           <>
@@ -96,3 +73,5 @@ export default function Inventory() {
     </div>
   );
 }
+
+export default EditInventory;

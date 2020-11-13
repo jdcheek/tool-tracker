@@ -1,12 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 
-export default function CreateInventory() {
-  const mountedRef = useRef(true)
-  const [isLoading, setIsLoading] = useState(true);
+const EditUser = ({ userList, getUsers, isLoading }) => {
   const [inputIsDisabled, setInputIsDisabled] = useState(true);
-  const [userList, setUserList] = useState([]);
   const [selectedUser, setSelectedUser] = useState({
     username: "",
     _id: "",
@@ -14,31 +10,6 @@ export default function CreateInventory() {
     retypedPassword: "",
     isAdmin: false,
   });
-
-  useEffect(() => {
-    getUsers();
-    return () => (mountedRef.current = false)
-  }, []);
-
-  const getUsers = async () => {
-    let list = [];
-    try {
-      const res = await axios.get("http://localhost:5000/user", { withCredentials: true });
-      res.data.map((user) =>
-        list.push({
-          username: user.username,
-          _id: user._id,
-          isAdmin: user.isAdmin,
-        })
-      );
-      if (mountedRef.current) {
-        setUserList(list);
-        setIsLoading(false);
-      }
-    } catch (err) {
-      console.log(`Get users error: ${err}`);
-    }
-  };
 
   const getSelectedUser = (e) => {
     if (e.target.value !== "select") {
@@ -75,7 +46,6 @@ export default function CreateInventory() {
         },
         { withCredentials: true }
       );
-      console.log("Updated User");
       getUsers()
       setInputIsDisabled(true)
     } catch (err) {
@@ -235,3 +205,5 @@ export default function CreateInventory() {
     </>
   );
 }
+
+export default EditUser
