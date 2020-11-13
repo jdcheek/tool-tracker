@@ -49,12 +49,24 @@ inventoryCtrl.updateInventory = async (req, res) => {
     const { tool_number, description, location, status } = await req.body
     try {
         await Inventory.findOneAndUpdate({ _id: req.params.id },
-            { tool_number, description, location, status })
+            { $set: { tool_number, description, location, status } })
         res.status(200).send({ itemUpdated: true })
     } catch (error) {
         res.status(400).send(error)
     }
 }
+
+inventoryCtrl.updateStatus = async (req, res) => {
+    const status = await req.body
+    try {
+        await Inventory.findOneAndUpdate({ _id: req.params.id },
+            { $set: status })
+        res.status(200).send({ itemUpdated: true })
+    } catch (error) {
+        res.status(400).send(error)
+    }
+}
+
 
 module.exports = inventoryCtrl;
 

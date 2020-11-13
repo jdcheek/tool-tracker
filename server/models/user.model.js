@@ -24,16 +24,7 @@ const userSchema = new Schema(
 
       type: Boolean,
     },
-    toolsCheckedOut: [
-      {
-        tool_number: {
-          type: String
-        },
-        tool_id: {
-          type: String
-        }
-      }
-    ],
+    toolsCheckedOut: [],
     token: {
       type: String
     }

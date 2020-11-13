@@ -43,6 +43,17 @@ userCtrl.getUserById = async (req, res) => {
   }
 };
 
+userCtrl.updateItemCheckedOut = async (req, res) => {
+  try {
+    // TODO Check if remove or add id to list
+    const { id, user } = await req.body
+    await User.findOneAndUpdate({ username: user }, { $push: { toolsCheckedOut: { tool_id: id } } })
+    res.status(200).send({ message: `${id} added to ${user}` })
+  } catch (error) {
+    res.status(400).send(error)
+  }
+}
+
 
 
 module.exports = userCtrl;
