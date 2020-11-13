@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Inventory() {
+const Account = () => {
   return (
     <div>
       <h2>Account</h2>
@@ -19,3 +19,5 @@ export default function Inventory() {
     </div>
   );
 }
+
+export default Account
