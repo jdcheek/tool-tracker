@@ -1,14 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import axios from "axios";
 
-export default function CreateInventory() {
+const AddUser = ({ getUsers, isLoading }) => {
   const [newUser, setNewUser] = useState({
     username: "",
     password: "",
     retypedPassword: "",
   });
-
   const addNewUser = async (userToAdd) => {
     try {
       const res = await axios.post(
@@ -23,7 +21,6 @@ export default function CreateInventory() {
 
   const onAddSubmit = (e) => {
     e.preventDefault();
-    //TODO catch 400 errors
     addNewUser(newUser);
     setNewUser({ username: "", password: "", retypedPassword: "" });
   };
@@ -82,9 +79,8 @@ export default function CreateInventory() {
                 )}
         </div>
       </form>
-      <Link to="/dashboard">
-        <button>Back to Dashboard</button>
-      </Link>
     </div>
   );
 }
+
+export default AddUser
