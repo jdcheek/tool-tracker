@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useContext } from "react";
 import axios from 'axios'
 import "../App.css";
 import { Link, useHistory } from "react-router-dom";
@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from './UserContext'
-import { useContext } from "react";
 
 const Navigation = (props) => {
   const mountedRef = useRef(true)
@@ -14,19 +13,21 @@ const Navigation = (props) => {
   const { currentUser, setCurrentUser } = useContext(UserContext)
 
   const userAuth = async () => {
-    if (!mountedRef.current) {
-      return
-    }
+
     try {
       const res = await axios.get(
         "http://localhost:5000/auth/status",
         { withCredentials: true }
       );
-      if (res.data) {
-        setCurrentUser(res.data)
+      if (mountedRef.current) {
+        if (res.data) {
+          setCurrentUser(res.data)
+        } else {
+          setCurrentUser({ isLoggedIn: false, isAdmin: false, username: null })
+          history.push('/login')
+        }
       } else {
-        setCurrentUser({ isLoggedIn: false, isAdmin: false, username: null })
-        history.push('/login')
+        return
       }
     } catch (err) {
       console.log(`Authorization ${err}`);
