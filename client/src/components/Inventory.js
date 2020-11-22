@@ -42,7 +42,14 @@ export default function Inventory() {
       });
       if (mountedRef.current) {
         setInventory(res.data);
-        setCurrentQuery(res.data);
+        // Conditional to keep search active while inventory updates
+        if (currentQuery.length >= 1 && currentQuery.length < res.data.length) {
+          setCurrentQuery(
+            res.data.filter((item) => item.tool_number.includes(search.query))
+          );
+        } else {
+          setCurrentQuery(res.data);
+        }
         setLoading(false);
       }
     } catch (err) {
