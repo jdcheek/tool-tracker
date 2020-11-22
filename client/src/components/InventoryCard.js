@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
 
-const InventoryItem = ({ currentItems, checkOutItem }) => {
-  const [toggleCheckout, setToggleCheckout] = useState(false);
-
+const InventoryItem = ({ currentItems, checkOutItem, currentUser }) => {
   return (
     <div>
       {currentItems.map((item) => (
@@ -12,11 +9,22 @@ const InventoryItem = ({ currentItems, checkOutItem }) => {
           <p>
             Location: {item.location.shelf} - {item.location.bin}
           </p>
-          {item.status.checked_out ? (
-            <button disabled>Checked Out By {item.status.username}</button>
+
+          {currentUser.isLoggedIn ? (
+            item.status.checked_out ? (
+              <button disabled>Checked out by {item.status.username}</button>
+            ) : (
+              <button
+                onClick={() => {
+                  checkOutItem(item._id);
+                }}
+              >
+                Check Out
+              </button>
+            )
           ) : (
-              <button disabled={toggleCheckout} onClick={() => checkOutItem(item._id)}>Check Out</button>
-            )}
+            <></>
+          )}
         </div>
       ))}
     </div>
