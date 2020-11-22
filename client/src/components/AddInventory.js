@@ -20,9 +20,7 @@ export default function CreateInventory() {
   const addNewItem = async () => {
     try {
       const res = axios.post("http://localhost:5000/inventory/add", item, {
-        headers: {
-          "Authorization": "Bearer " + sessionStorage.getItem("token")
-        }
+        withCredentials: true,
       });
       console.log(res);
     } catch (err) {
@@ -117,8 +115,8 @@ export default function CreateInventory() {
         ) : item.location.bin.length < 1 ? (
           <p>Enter Bin Letter</p>
         ) : (
-                <button onClick={onSubmit}>Add New Tool</button>
-              )}
+          <button onClick={onSubmit}>Add New Tool</button>
+        )}
       </form>
     </div>
   );
