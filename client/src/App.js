@@ -11,7 +11,6 @@ import Inventory from "./components/Inventory";
 import { UserContext } from './components/UserContext'
 import Navigation from "./components/Navigation";
 import LogIn from "./components/LogIn";
-import bulkPost from "./components/bulkPost";
 
 function App() {
   const [currentUser, setCurrentUser] = useState({
