@@ -16,9 +16,8 @@ const InventoryItem = ({ currentItems, checkOutItem, currentUser }) => {
             ) : (
               <button
                 onClick={() => {
-                  checkOutItem(item._id);
-                }}
-              >
+                  checkOutItem(item);
+                }}>
                 Check Out
               </button>
             )
