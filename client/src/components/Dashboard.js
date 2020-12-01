@@ -1,23 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import AddUser from './AddUser'
-import EditUser from './EditUser'
-import EditInventory from './EditInventory'
-
+import AddUser from "./AddUser";
+import EditUser from "./EditUser";
+import EditInventory from "./EditInventory";
 
 export default function Dashboard() {
-  const mountedRef = useRef(true)
-  const [inventory, setInventory] = useState([])
+  const mountedRef = useRef(true);
+  const [inventory, setInventory] = useState([]);
   const [userList, setUserList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-
   const getInventory = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/inventory", { withCredentials: true });
+      const res = await axios.get("http://localhost:5000/inventory", {
+        withCredentials: true,
+      });
       if (mountedRef.current) {
         setInventory(res.data);
-        setIsLoading(false)
+        setIsLoading(false);
       }
     } catch (err) {
       console.log(err);
@@ -27,7 +27,9 @@ export default function Dashboard() {
   const getUsers = async () => {
     let list = [];
     try {
-      const res = await axios.get("http://localhost:5000/user", { withCredentials: true });
+      const res = await axios.get("http://localhost:5000/user", {
+        withCredentials: true,
+      });
       res.data.map((user) =>
         list.push({
           username: user.username,
@@ -37,7 +39,7 @@ export default function Dashboard() {
       );
       if (mountedRef.current) {
         setUserList(list);
-        setIsLoading(false)
+        setIsLoading(false);
       }
     } catch (err) {
       console.log(`Get users error: ${err}`);
@@ -45,16 +47,26 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    getUsers()
-    getInventory()
-    return () => (mountedRef.current = false)
-  }, [])
+    getUsers();
+    getInventory();
+    return () => (mountedRef.current = false);
+  }, []);
 
   return (
     <div className='dashboard-grid-container'>
-      <div className='new-user-grid'><AddUser isLoading={isLoading} /></div>
-      <div className='edit-user-grid'><EditUser userList={userList} getUsers={getUsers} isLoading={isLoading} /></div>
-      <div className='edit-inventory-grid'><EditInventory inventory={inventory} isLoading={isLoading} /></div>
+      <div className='new-user-grid'>
+        <AddUser isLoading={isLoading} />
+      </div>
+      <div className='edit-user-grid'>
+        <EditUser
+          userList={userList}
+          getUsers={getUsers}
+          isLoading={isLoading}
+        />
+      </div>
+      <div className='edit-inventory-grid'>
+        <EditInventory inventory={inventory} isLoading={isLoading} />
+      </div>
     </div>
   );
 }
