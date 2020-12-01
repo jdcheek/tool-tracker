@@ -57,10 +57,10 @@ export default function Inventory() {
     }
   };
 
-  const checkOutItem = async (id) => {
+  const checkOutItem = async (tool) => {
     try {
       const inv = await axios.post(
-        `http://localhost:5000/inventory/update/status/${id}`,
+        `http://localhost:5000/inventory/update/status/${tool._id}`,
         {
           status: {
             checked_out: true,
@@ -77,7 +77,12 @@ export default function Inventory() {
     try {
       const usr = await axios.post(
         `http://localhost:5000/user/tools`,
-        { id: id, user: currentUser.username },
+        {
+          id: tool._id,
+          tool_number: tool.tool_number,
+          location: tool.location,
+          user: currentUser.username,
+        },
         { withCredentials: true }
       );
     } catch (error) {
@@ -100,8 +105,8 @@ export default function Inventory() {
   return (
     <div>
       <form onSubmit={(e) => e.preventDefault()}>
-        <label htmlFor="search-bar">Search</label>
-        <input type="text" value={search.query} onChange={searchInventory} />
+        <label htmlFor='search-bar'>Search</label>
+        <input type='text' value={search.query} onChange={searchInventory} />
       </form>
       {loading ? (
         <p>Loading...</p>
