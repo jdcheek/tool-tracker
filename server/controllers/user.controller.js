@@ -40,7 +40,6 @@ userCtrl.deleteUser = async (req, res) => {
 
 userCtrl.getUserById = async (req, res) => {
   try {
-    console.log(req.params);
     const user = await User.findOne(req.params.id);
     res.json(user);
   } catch (error) {
@@ -50,13 +49,26 @@ userCtrl.getUserById = async (req, res) => {
 
 userCtrl.updateItemCheckedOut = async (req, res) => {
   try {
-    // TODO Check if remove or add id to list
-    const { id, tool_number, location, user } = await req.body;
-    await User.findOneAndUpdate(
-      { username: user },
-      { $push: { toolsCheckedOut: { id, tool_number, location } } }
-    );
-    res.status(200).send({ message: `${id} added to ${user}` });
+    const { id, tool_number, location, user, checkIn } = await req.body;
+    if (checkIn === true) {
+      const dbUser = await User.findOne({ username: user });
+      const filteredCheckedOutArray = await dbUser.toolsCheckedOut.filter(
+        (tool) => tool.id !== id
+      );
+      await User.findOneAndUpdate(
+        { username: user },
+        { toolsCheckedOut: filteredCheckedOutArray }
+      );
+      res.status(200).send({ message: `${tool_number} checked in by ${user}` });
+    } else {
+      await User.findOneAndUpdate(
+        { username: user },
+        { $push: { toolsCheckedOut: { id, tool_number, location } } }
+      );
+      res
+        .status(200)
+        .send({ message: `${tool_number} checked out by ${user}` });
+    }
   } catch (error) {
     res.status(400).send(error);
   }
