@@ -28,7 +28,41 @@ const Account = () => {
     }
   };
 
-  console.log(account);
+  const checkInItem = async (e, tool) => {
+    e.preventDefault();
+    try {
+      const inv = await axios.post(
+        `http://localhost:5000/inventory/update/status/${tool.id}`,
+        {
+          status: {
+            checked_out: false,
+            username: "",
+            date: new Date(),
+          },
+        },
+        { withCredentials: true }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+    try {
+      const usr = await axios.post(
+        `http://localhost:5000/user/tools`,
+        {
+          id: tool.id,
+          tool_number: tool.tool_number,
+          location: tool.location,
+          user: currentUser.username,
+          checkIn: true,
+        },
+        { withCredentials: true }
+      );
+      getAccountInfo();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getAccountInfo();
     return () => {
@@ -43,12 +77,15 @@ const Account = () => {
       <h2>Account</h2>
       <p>Username: {account.username}</p>
       <p>Change Password</p>
-      <h4>Tools Checked Out</h4>
+      <h4>
+        {account.toolsCheckedOut.length === 0 ? "No " : null}Tools Checked Out
+      </h4>
       <ul>
         {account.toolsCheckedOut.map((tool) => (
           <li key={Math.random()}>
             Tool: {tool.tool_number} Location: {tool.location.bin}-
             {tool.location.shelf}
+            <button onClick={(e) => checkInItem(e, tool)}>Check In</button>
           </li>
         ))}
       </ul>
