@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 const EditUser = ({ userList, getUsers, isLoading }) => {
@@ -46,14 +46,13 @@ const EditUser = ({ userList, getUsers, isLoading }) => {
         },
         { withCredentials: true }
       );
-      getUsers()
-      setInputIsDisabled(true)
+      getUsers();
+      setInputIsDisabled(true);
+      return res;
     } catch (err) {
       console.log(`Add user error: ${err}`);
     }
   };
-
-  const verifyDeleteUser = () => { };
 
   const deleteUser = async () => {
     if (selectedUser.username !== "") {
@@ -62,8 +61,11 @@ const EditUser = ({ userList, getUsers, isLoading }) => {
       );
       if (conf) {
         try {
+          // eslint-disable-next-line
           const res = await axios.delete(
-            `http://localhost:5000/user/delete/${selectedUser._id}`, { withCredentials: true });
+            `http://localhost:5000/user/delete/${selectedUser._id}`,
+            { withCredentials: true }
+          );
 
           setSelectedUser({
             username: "",
@@ -73,7 +75,7 @@ const EditUser = ({ userList, getUsers, isLoading }) => {
             isAdmin: false,
           });
           getUsers();
-          setInputIsDisabled(true)
+          setInputIsDisabled(true);
         } catch (err) {
           console.log(`Edit user error: ${err}`);
         }
@@ -103,107 +105,108 @@ const EditUser = ({ userList, getUsers, isLoading }) => {
       {isLoading ? (
         <p>Loading...</p>
       ) : (
+        <div>
           <div>
-            <div>
-              <h2>Edit User</h2>
-              <form onSubmit={(e) => e.preventDefault()}>
-                <label>User List: </label>
-                <select
-                  className="form-control"
-                  onChange={getSelectedUser}
-                  defaultValue="select"
-                >
-                  <option value="select">Select User</option>
-                  {userList.map((user) => (
-                    <option key={user._id} value={user._id}>
-                      {user.username}
-                    </option>
-                  ))}
-                </select>
-                <button onClick={deleteUser} disabled={inputIsDisabled}>
-                  Delete User
+            <h2>Edit User</h2>
+            <form onSubmit={(e) => e.preventDefault()}>
+              <label>User List: </label>
+              <select
+                className='form-control'
+                onChange={getSelectedUser}
+                defaultValue='select'>
+                <option value='select'>Select User</option>
+                {userList.map((user) => (
+                  <option key={user._id} value={user._id}>
+                    {user.username}
+                  </option>
+                ))}
+              </select>
+              <button onClick={deleteUser} disabled={inputIsDisabled}>
+                Delete User
               </button>
-              </form>
-            </div>
-            <form onSubmit={onEditSubmit}>
-              <div className="form-group">
-                <label htmlFor="username">Username</label>
-                <input
-                  disabled={inputIsDisabled}
-                  type="text"
-                  required
-                  className="form-control"
-                  value={selectedUser.username}
-                  onChange={(e) => {
-                    setSelectedUser({
-                      ...selectedUser,
-                      username: e.target.value,
-                    });
-                  }}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="password">Password</label>
-                <input
-                  disabled={inputIsDisabled}
-                  type="text"
-                  required
-                  className="form-control"
-                  value={selectedUser.password}
-                  onChange={(e) => {
-                    setSelectedUser({
-                      ...selectedUser,
-                      password: e.target.value,
-                    });
-                  }}
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="retyped-password">Retype Password</label>
-                <input
-                  disabled={inputIsDisabled}
-                  type="text"
-                  required
-                  className="form-control"
-                  value={selectedUser.retypedPassword}
-                  onChange={(e) => {
-                    setSelectedUser({
-                      ...selectedUser,
-                      retypedPassword: e.target.value,
-                    });
-                  }}
-                />
-              </div>
-              <div>
-                <label htmlFor="is-admin">Administrative Rights</label>
-                <input
-                  type="checkbox"
-                  disabled={inputIsDisabled}
-                  checked={selectedUser.isAdmin}
-                  onChange={(e) =>
-                    setSelectedUser({
-                      ...selectedUser,
-                      isAdmin: !selectedUser.isAdmin,
-                    })
-                  }
-                ></input>
-              </div>
-              <div>
-                {selectedUser.username.length < 3 ? (
-                  <p>Username must be at least 3 characters</p>
-                ) : selectedUser.password.length < 8 ? (
-                  <p>Password must be at least 8 characters</p>
-                ) : selectedUser.password !== selectedUser.retypedPassword ? (
-                  <p>Passwords do not match</p>
-                ) : (<></>
-                      )}
-                <button disabled={inputIsDisabled} onClick={onEditSubmit}>Submit Changes</button>
-              </div>
             </form>
           </div>
-        )}
+          <form onSubmit={onEditSubmit}>
+            <div className='form-group'>
+              <label htmlFor='username'>Username</label>
+              <input
+                disabled={inputIsDisabled}
+                type='text'
+                required
+                className='form-control'
+                value={selectedUser.username}
+                onChange={(e) => {
+                  setSelectedUser({
+                    ...selectedUser,
+                    username: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div className='form-group'>
+              <label htmlFor='password'>Password</label>
+              <input
+                disabled={inputIsDisabled}
+                type='text'
+                required
+                className='form-control'
+                value={selectedUser.password}
+                onChange={(e) => {
+                  setSelectedUser({
+                    ...selectedUser,
+                    password: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div className='form-group'>
+              <label htmlFor='retyped-password'>Retype Password</label>
+              <input
+                disabled={inputIsDisabled}
+                type='text'
+                required
+                className='form-control'
+                value={selectedUser.retypedPassword}
+                onChange={(e) => {
+                  setSelectedUser({
+                    ...selectedUser,
+                    retypedPassword: e.target.value,
+                  });
+                }}
+              />
+            </div>
+            <div>
+              <label htmlFor='is-admin'>Administrative Rights</label>
+              <input
+                type='checkbox'
+                disabled={inputIsDisabled}
+                checked={selectedUser.isAdmin}
+                onChange={(e) =>
+                  setSelectedUser({
+                    ...selectedUser,
+                    isAdmin: !selectedUser.isAdmin,
+                  })
+                }></input>
+            </div>
+            <div>
+              {selectedUser.username.length < 3 ? (
+                <p>Username must be at least 3 characters</p>
+              ) : selectedUser.password.length < 8 ? (
+                <p>Password must be at least 8 characters</p>
+              ) : selectedUser.password !== selectedUser.retypedPassword ? (
+                <p>Passwords do not match</p>
+              ) : (
+                <></>
+              )}
+              <button disabled={inputIsDisabled} onClick={onEditSubmit}>
+                Submit Changes
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
     </>
   );
-}
+};
 
-export default EditUser
+export default EditUser;

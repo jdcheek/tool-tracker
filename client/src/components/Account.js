@@ -3,7 +3,7 @@ import axios from "axios";
 import { UserContext } from "./UserContext";
 
 const Account = () => {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
   const mountedRef = useRef(true);
   const [isLoading, setIsLoading] = useState(true);
   const [account, setAccount] = useState({
@@ -31,6 +31,7 @@ const Account = () => {
   const checkInItem = async (e, tool) => {
     e.preventDefault();
     try {
+      // eslint-disable-next-line
       const inv = await axios.post(
         `http://localhost:5000/inventory/update/status/${tool.id}`,
         {
@@ -46,6 +47,7 @@ const Account = () => {
       console.log(error);
     }
     try {
+      // eslint-disable-next-line
       const usr = await axios.post(
         `http://localhost:5000/user/tools`,
         {

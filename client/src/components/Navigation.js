@@ -1,84 +1,96 @@
 import React, { useEffect, useRef, useContext } from "react";
-import axios from 'axios'
+import axios from "axios";
 import "../App.css";
 import { Link, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
-import { UserContext } from './UserContext'
+import { UserContext } from "./UserContext";
 
 const Navigation = (props) => {
-  const mountedRef = useRef(true)
-  const history = useHistory()
-  const { currentUser, setCurrentUser } = useContext(UserContext)
+  const mountedRef = useRef(true);
+  const history = useHistory();
+  const { currentUser, setCurrentUser } = useContext(UserContext);
 
   const userAuth = async () => {
-
     try {
-      const res = await axios.get(
-        "http://localhost:5000/auth/status",
-        { withCredentials: true }
-      );
+      const res = await axios.get("http://localhost:5000/auth/status", {
+        withCredentials: true,
+      });
       if (mountedRef.current) {
         if (res.data) {
-          setCurrentUser(res.data)
+          setCurrentUser(res.data);
         } else {
-          setCurrentUser({ isLoggedIn: false, isAdmin: false, username: null })
-          history.push('/login')
+          setCurrentUser({ isLoggedIn: false, isAdmin: false, username: null });
+          history.push("/login");
         }
       } else {
-        return
+        return;
       }
     } catch (err) {
       console.log(`Authorization ${err}`);
-      history.push('/login')
+      history.push("/login");
     }
-  }
+  };
 
   useEffect(() => {
-    userAuth()
-    return () => (mountedRef.current = false)
-  }, [])
+    userAuth();
+    return () => (mountedRef.current = false);
+    // eslint-disable-next-line
+  }, []);
 
   const logOut = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      const res = await axios.get(
-        "http://localhost:5000/auth/logout",
-        { withCredentials: true }
-      );
-      setCurrentUser({ isLoggedIn: false, isAdmin: false, username: null })
-      history.push('/login')
-      return res
+      const res = await axios.get("http://localhost:5000/auth/logout", {
+        withCredentials: true,
+      });
+      setCurrentUser({ isLoggedIn: false, isAdmin: false, username: null });
+      history.push("/login");
+      return res;
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
-    <div className="Nav-bar">
+    <div className='Nav-bar'>
       <FontAwesomeIcon
-        className="crosshair-icon"
+        className='crosshair-icon'
         icon={faCrosshairs}
-        size="2x"
+        size='2x'
       />
-      <Link className="title" to="/">
+      <Link className='title' to='/'>
         <h1>Tool Tracker</h1>
       </Link>
-      <Link className="Nav-link Dash-link" to="/inventory">
+      <Link className='Nav-link Dash-link' to='/inventory'>
         Inventory
       </Link>
-      {currentUser.isAdmin ? <Link className="Nav-link" to="/dashboard">
-        Dashboard
-      </Link> : <></>}
-      {currentUser.isLoggedIn ? <Link className="Nav-link" to="/account">
-        Account
-      </Link> : <></>}
+      {currentUser.isAdmin ? (
+        <Link className='Nav-link' to='/dashboard'>
+          Dashboard
+        </Link>
+      ) : (
+        <></>
+      )}
+      {currentUser.isLoggedIn ? (
+        <Link className='Nav-link' to='/account'>
+          Account
+        </Link>
+      ) : (
+        <></>
+      )}
 
-      {currentUser.isLoggedIn ? <Link className="Nav-link" to="#" onClick={logOut}>Log Out
-      </Link> : <Link className="Nav-link" to="/login">Log In
-      </Link>}
-      <FontAwesomeIcon className="cog-icon" icon={faCog} size="2x" />
+      {currentUser.isLoggedIn ? (
+        <Link className='Nav-link' to='#' onClick={logOut}>
+          Log Out
+        </Link>
+      ) : (
+        <Link className='Nav-link' to='/login'>
+          Log In
+        </Link>
+      )}
+      <FontAwesomeIcon className='cog-icon' icon={faCog} size='2x' />
     </div>
   );
 };

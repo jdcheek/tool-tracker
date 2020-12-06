@@ -4,12 +4,9 @@ import axios from "axios";
 import InventoryCard from "./InventoryCard";
 import Pagination from "./Pagination";
 
-//TODO allow logged in user to check out item
-//TODO add loading spinner
-
 export default function Inventory() {
   const mountedRef = useRef(true);
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
   const [inventory, setInventory] = useState([]);
   const [currentQuery, setCurrentQuery] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -27,13 +24,14 @@ export default function Inventory() {
   useEffect(() => {
     getInventory();
     return () => (mountedRef.current = false);
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     setCurrentQuery(
       inventory.filter((item) => item.tool_number.includes(search.query))
     );
-  }, [search]);
+  }, [search, inventory]);
 
   const getInventory = async () => {
     try {
@@ -59,6 +57,7 @@ export default function Inventory() {
 
   const checkOutItem = async (tool) => {
     try {
+      // eslint-disable-next-line
       const inv = await axios.post(
         `http://localhost:5000/inventory/update/status/${tool._id}`,
         {
@@ -75,6 +74,7 @@ export default function Inventory() {
       console.log(error);
     }
     try {
+      // eslint-disable-next-line
       const usr = await axios.post(
         `http://localhost:5000/user/tools`,
         {
