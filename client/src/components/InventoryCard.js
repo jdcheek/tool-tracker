@@ -1,7 +1,14 @@
 import React from "react";
 
-const InventoryItem = ({ currentItems, checkOutItem, currentUser }) => {
-  return (
+const InventoryItem = ({
+  currentItems,
+  checkOutItem,
+  currentUser,
+  loading,
+}) => {
+  return loading ? (
+    <p>Loading...</p>
+  ) : (
     <div>
       {currentItems.map((item) => (
         <div key={item._id}>

@@ -31,7 +31,8 @@ export default function Inventory() {
     setCurrentQuery(
       inventory.filter((item) => item.tool_number.includes(search.query))
     );
-  }, [search, inventory]);
+    // eslint-disable-next-line
+  }, [search]);
 
   const getInventory = async () => {
     try {
@@ -102,32 +103,32 @@ export default function Inventory() {
     setCurrentPage(pageNumber);
   };
 
-  return (
+  return loading ? (
+    <p>Loading...</p>
+  ) : (
     <div>
       <form onSubmit={(e) => e.preventDefault()}>
         <label htmlFor='search-bar'>Search</label>
         <input type='text' value={search.query} onChange={searchInventory} />
       </form>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <>
-          <InventoryCard
-            currentUser={currentUser}
-            currentItems={currentItems}
-            currentQuery={currentQuery}
-            checkOutItem={checkOutItem}
-          />
-          <Pagination
-            currentPage={currentPage}
-            itemsPerPage={itemsPerPage}
-            totalItems={currentQuery.length}
-            pages={pages}
-            setItemsPerPage={setItemsPerPage}
-            paginate={paginate}
-          />
-        </>
-      )}
+
+      <>
+        <InventoryCard
+          currentUser={currentUser}
+          currentItems={currentItems}
+          currentQuery={currentQuery}
+          checkOutItem={checkOutItem}
+          loading={loading}
+        />
+        <Pagination
+          currentPage={currentPage}
+          itemsPerPage={itemsPerPage}
+          totalItems={currentQuery.length}
+          pages={pages}
+          setItemsPerPage={setItemsPerPage}
+          paginate={paginate}
+        />
+      </>
     </div>
   );
 }
