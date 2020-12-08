@@ -1,7 +1,5 @@
 const express = require("express");
 const app = express();
-const path = require("path");
-const publicPath = path.join(__dirname, "../client", "build");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
@@ -16,11 +14,6 @@ const port = process.env.PORT || 5000;
 app.use(cors({ origin: "*", credentials: false }));
 app.use(express.json());
 app.use(cookieParser());
-
-app.use(express.static(publicPath));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(publicPath, "index.html"));
-});
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {
