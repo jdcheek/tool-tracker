@@ -63,8 +63,8 @@ const Navigation = (props) => {
       <Link className='title' to='/'>
         <h1>Tool Tracker</h1>
       </Link>
-      <Link className='Nav-link Dash-link' to='/inventory'>
-        Inventory
+      <Link className='Nav-link Dash-link' to='/tools'>
+        Tools
       </Link>
       {currentUser.isAdmin ? (
         <Link className='Nav-link' to='/dashboard'>
