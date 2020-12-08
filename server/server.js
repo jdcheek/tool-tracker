@@ -13,7 +13,7 @@ require("dotenv").config();
 const port = process.env.PORT || 5000;
 
 app.use(express.static(path.join(__dirname, "..", "/client", "/build")));
-app.use(cors({ origin: "*", credentials: false }));
+app.use(cors({ origin: `/`, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 
