@@ -1,0 +1,7 @@
+{
+  "name": "tool-tracker-app",
+  "license": "MIT",
+  "engines": {
+    "node": "14.8.0"
+  }
+}
