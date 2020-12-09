@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-const path = require("path");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
@@ -12,7 +11,7 @@ require("dotenv").config();
 
 const port = process.env.PORT || 5000;
 
-app.use(express.static(path.join(__dirname, "..", "/client", "/build")));
+app.use(express.static(path.join(__dirname, "build")));
 app.use(
   cors({
     origin: "*",
@@ -21,10 +20,6 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
-
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname + "/client/build/index.html"));
-});
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {

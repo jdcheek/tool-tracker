@@ -17,6 +17,7 @@ tools.json
 # production
 build
 /build
+Procfile
 
 # misc
 .DS_Store
