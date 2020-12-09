@@ -15,14 +15,14 @@ const port = process.env.PORT || 5000;
 app.use(express.static(path.join(__dirname, "..", "/client", "/build")));
 app.use(
   cors({
-    origin: "https://shielded-mesa-30476.herokuapp.com/",
+    origin: "https://shielded-mesa-30476.herokuapp.com",
     credentials: true,
   })
 );
 app.use(express.json());
 app.use(cookieParser());
 
-app.get("*", (req, res) => {
+app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
 
