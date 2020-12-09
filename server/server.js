@@ -16,7 +16,7 @@ app.use(express.static(path.join(__dirname, "..", "/client", "/build")));
 app.use(
   cors({
     origin: "https://shielded-mesa-30476.herokuapp.com",
-    credentials: true,
+    credentials: false,
   })
 );
 app.use(express.json());
