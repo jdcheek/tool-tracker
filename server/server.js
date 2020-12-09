@@ -15,7 +15,7 @@ const port = process.env.PORT || 5000;
 app.use(express.static(path.join(__dirname, "..", "/client", "/build")));
 app.use(
   cors({
-    origin: "https://shielded-mesa-30476.herokuapp.com",
+    origin: "*",
     credentials: false,
   })
 );
