@@ -11,11 +11,10 @@ require("dotenv").config();
 
 const port = process.env.PORT || 5000;
 
-app.use(express.static(path.join(__dirname, "build")));
 app.use(
   cors({
-    origin: "*",
-    credentials: false,
+    origin: "http://localhost:3000",
+    credentials: true,
   })
 );
 app.use(express.json());
