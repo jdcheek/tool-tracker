@@ -6,38 +6,42 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCrosshairs } from "@fortawesome/free-solid-svg-icons";
 import { faCog } from "@fortawesome/free-solid-svg-icons";
 import { UserContext } from "./UserContext";
+import { NavDropdown, Nav, Navbar } from "react-bootstrap";
 
 const Navigation = (props) => {
   const mountedRef = useRef(true);
   const history = useHistory();
   const { currentUser, setCurrentUser } = useContext(UserContext);
 
-  const userAuth = async () => {
-    try {
-      const res = await axios.get("http://localhost:5000/auth/status", {
-        withCredentials: true,
-      });
-      if (mountedRef.current) {
-        if (res.data) {
-          setCurrentUser(res.data);
-        } else {
-          setCurrentUser({ isLoggedIn: false, isAdmin: false, username: null });
-          history.push("/login");
-        }
-      } else {
-        return;
-      }
-    } catch (err) {
-      console.log(`Authorization ${err}`);
-      history.push("/login");
-    }
-  };
-
   useEffect(() => {
+    const userAuth = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/auth/status", {
+          withCredentials: true,
+        });
+        if (mountedRef.current) {
+          if (res.data) {
+            setCurrentUser(res.data);
+          } else {
+            setCurrentUser({
+              isLoggedIn: false,
+              isAdmin: false,
+              username: null,
+            });
+            history.push("/login");
+          }
+        } else {
+          return;
+        }
+      } catch (err) {
+        console.log(`Authorization ${err}`);
+        history.push("/login");
+      }
+      console.count("auth");
+    };
     userAuth();
     return () => (mountedRef.current = false);
-    // eslint-disable-next-line
-  }, []);
+  }, [history, setCurrentUser]);
 
   const logOut = async (e) => {
     e.preventDefault();
@@ -54,44 +58,28 @@ const Navigation = (props) => {
   };
 
   return (
-    <div className='Nav-bar'>
-      <FontAwesomeIcon
-        className='crosshair-icon'
-        icon={faCrosshairs}
-        size='2x'
-      />
-      <Link className='title' to='/'>
-        <h1>Tool Tracker</h1>
-      </Link>
-      <Link className='Nav-link Dash-link' to='/tools'>
-        Tools
-      </Link>
-      {currentUser.isAdmin ? (
-        <Link className='Nav-link' to='/dashboard'>
-          Dashboard
-        </Link>
-      ) : (
-        <></>
-      )}
-      {currentUser.isLoggedIn ? (
-        <Link className='Nav-link' to='/account'>
-          Account
-        </Link>
-      ) : (
-        <></>
-      )}
-
-      {currentUser.isLoggedIn ? (
-        <Link className='Nav-link' to='#' onClick={logOut}>
-          Log Out
-        </Link>
-      ) : (
-        <Link className='Nav-link' to='/login'>
-          Log In
-        </Link>
-      )}
-      <FontAwesomeIcon className='cog-icon' icon={faCog} size='2x' />
-    </div>
+    <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>
+      <Navbar.Brand className='brand' href='/tools'>
+        Tool Tracker
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls='responsive-navbar-nav' />
+      <Navbar.Collapse id='responsive-navbar-nav'>
+        {currentUser.isLoggedIn ? (
+          <Nav className='ml-auto'>
+            <Nav.Link href='/tools'>Search Tools</Nav.Link>
+            <Nav.Link href='/account'>My Account</Nav.Link>
+            {currentUser.isAdmin ? (
+              <Nav.Link href='/dashboard'>Admin Dashboard</Nav.Link>
+            ) : null}
+            <Nav.Link onClick={logOut}>Log Out</Nav.Link>
+          </Nav>
+        ) : (
+          <Nav className='ml-auto'>
+            <Nav.Link href='/login'>Log In</Nav.Link>
+          </Nav>
+        )}
+      </Navbar.Collapse>
+    </Navbar>
   );
 };
 

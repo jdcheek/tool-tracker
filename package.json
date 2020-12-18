@@ -1,0 +1,21 @@
+{
+  "name": "tool-tracker",
+  "version": "1.0.0",
+  "description": "Inventory tracker for equipment and tools, can be easily changed to track other items.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "(cd server && npm start) & (cd client && npm start)"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jdcheek/tool-tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jdcheek/tool-tracker/issues"
+  },
+  "homepage": "https://github.com/jdcheek/tool-tracker#readme",
+  "dependencies": {}
+}

@@ -44,14 +44,13 @@ export default function LogIn() {
 
   useEffect(() => {
     if (currentUser.isLoggedIn) {
-      history.push("/inventory");
+      history.push("/tools");
     }
     return () => (mountedRef.current = false);
   }, [currentUser, history]);
 
   return (
     <div>
-      <h2>Sign In</h2>
       <form onSubmit={onSubmit}>
         <div className='form-group'>
           <label htmlFor='username'>Username</label>
