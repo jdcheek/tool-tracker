@@ -1,12 +1,9 @@
 import React, { useEffect, useRef, useContext } from "react";
 import axios from "axios";
 import "../App.css";
-import { Link, useHistory } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCrosshairs } from "@fortawesome/free-solid-svg-icons";
-import { faCog } from "@fortawesome/free-solid-svg-icons";
+import { useHistory } from "react-router-dom";
 import { UserContext } from "./UserContext";
-import { NavDropdown, Nav, Navbar } from "react-bootstrap";
+import { Nav, Navbar } from "react-bootstrap";
 
 const Navigation = (props) => {
   const mountedRef = useRef(true);

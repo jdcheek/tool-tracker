@@ -1,4 +1,5 @@
 import React from "react";
+import { Card, Accordion, Button } from "react-bootstrap";
 
 const InventoryItem = ({
   currentItems,
@@ -9,31 +10,35 @@ const InventoryItem = ({
   return loading ? (
     <p>Loading...</p>
   ) : (
-    <div>
+    <Accordion>
       {currentItems.map((item) => (
-        <div key={item._id}>
-          <p>Tool Number: {item.tool_number}</p>
-          <p>
-            Location: {item.location.shelf} - {item.location.bin}
-          </p>
-
-          {currentUser.isLoggedIn ? (
-            item.status.checked_out ? (
-              <button disabled>Checked out by {item.status.username}</button>
-            ) : (
-              <button
+        <Card key={item._id}>
+          <Card.Header>
+            <Accordion.Toggle as={Button} variant='link' eventKey={item._id}>
+              {item.tool_number}
+            </Accordion.Toggle>
+          </Card.Header>
+          <Accordion.Collapse eventKey={item._id}>
+            <div>
+              <Card.Body>{item.description}</Card.Body>
+              <Card.Body>
+                {item.location.bin} - {item.location.shelf}
+              </Card.Body>
+              <Button
+                variant='dark'
                 onClick={() => {
                   checkOutItem(item);
                 }}>
                 Check Out
-              </button>
-            )
-          ) : (
-            <></>
-          )}
-        </div>
+              </Button>
+              <Button variant='danger' href='#'>
+                Report Damage
+              </Button>
+            </div>
+          </Accordion.Collapse>
+        </Card>
       ))}
-    </div>
+    </Accordion>
   );
 };
 
