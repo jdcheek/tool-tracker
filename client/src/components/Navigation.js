@@ -55,7 +55,12 @@ const Navigation = (props) => {
   };
 
   return (
-    <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>
+    <Navbar
+      collapseOnSelect
+      expand='lg'
+      bg='dark'
+      variant='dark'
+      className='nav-bar'>
       <Navbar.Brand className='brand' href='/tools'>
         Tool Tracker
       </Navbar.Brand>

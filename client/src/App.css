@@ -33,16 +33,77 @@ code {
 }
 
 .App {
-  height: 100vh;
   width: 100%;
+  height: 100vh;
 }
 
+/* Containers */
+.app-container {
+  margin: 0 auto;
+  max-width: 900px;
+  min-width: 400px;
+  height: 90vh;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 90vh;
+}
+
+.footer {
+  margin: 0 auto;
+}
+
+/* .search {
+  margin: auto;
+} */
+
 /* Navbar */
+.nav-bar {
+  background-color: var(--primary-blue) !important;
+}
 .brand {
   font-family: "Racing Sans One";
+  font-size: 2rem;
 }
 /* End Navbar */
 
+.page-container form {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.page-container form input {
+  width: 100%;
+  text-align: center;
+}
+
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.more-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card-btn {
+  margin: 0.2rem;
+}
+
+.load-spinner {
+  text-align: center !important;
+  height: 90vh;
+}
+
+.spinner-spin {
+  margin-top: 40% !important;
+}
 /* media queries */
 
 /* for mobile - remove h1, nav buttons moved to cog for dropdown */
