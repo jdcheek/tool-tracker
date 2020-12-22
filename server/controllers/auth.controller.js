@@ -21,7 +21,8 @@ authCtrl.loginUser = async (req, res) => {
     res.cookie("jwt", token, {
       maxAge: 60 * 60 * 1000,
       httpOnly: true,
-      sameSite: true,
+      sameSite: "None",
+      secure: true,
     });
     res.send({ username: user.username, isAdmin: user.isAdmin });
   } catch (error) {
@@ -31,7 +32,12 @@ authCtrl.loginUser = async (req, res) => {
 
 authCtrl.logOutUser = (req, res) => {
   try {
-    res.clearCookie("jwt");
+    res.clearCookie("jwt", {
+      maxAge: 60 * 60 * 1000,
+      httpOnly: true,
+      sameSite: "None",
+      secure: true,
+    });
     res.send({ message: `Logged out successfully` });
   } catch (error) {
     res.status(400).send({ error });
