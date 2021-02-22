@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, Accordion, Button, Spinner } from "react-bootstrap";
 import { ReactComponent as ExpandDown } from "../img/expand-down.svg";
 
@@ -8,11 +8,8 @@ const InventoryItem = ({
   currentUser,
   loading,
 }) => {
-  return loading ? (
-    <Spinner animation='border' role='status' className='load-spinner'>
-      <span className='sr-only'>Loading...</span>
-    </Spinner>
-  ) : (
+  const [disabled, setDisabled] = useState(false);
+  return (
     <Accordion className='result-accordion'>
       {currentItems.map((item) => (
         <Card key={item._id}>
@@ -31,15 +28,26 @@ const InventoryItem = ({
                 Location: {item.location.bin} - {item.location.shelf}
               </Card.Body>
               <Button
+                disabled={disabled}
                 className='card-btn'
                 variant='outline-primary'
                 onClick={() => {
+                  setDisabled(true);
                   checkOutItem(item);
                 }}>
                 Check Out
               </Button>
               <Button variant='outline-danger' className='card-btn'>
                 Report Damage
+              </Button>
+              <Button
+                className='card-btn'
+                variant='outline-secondary'
+                onClick={() => {
+                  setDisabled(true);
+                  checkOutItem(item);
+                }}>
+                Edit
               </Button>
             </div>
           </Accordion.Collapse>
