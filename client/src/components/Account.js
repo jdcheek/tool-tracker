@@ -1,32 +1,12 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import axios from "axios";
+import LoadingSpinner from "./LoadingSpinner";
 import { UserContext } from "./UserContext";
 
-const Account = () => {
-  const { currentUser } = useContext(UserContext);
+const Account = ({ getAccountInfo }) => {
+  const { currentUser, setCurrentUser } = useContext(UserContext);
   const mountedRef = useRef(true);
   const [isLoading, setIsLoading] = useState(true);
-  const [account, setAccount] = useState({
-    username: "",
-    toolsCheckedOut: [],
-  });
-
-  const getAccountInfo = async () => {
-    try {
-      const res = await axios.get(`http://localhost:5000/auth/status/`, {
-        withCredentials: true,
-      });
-      if (mountedRef.current) {
-        setAccount({
-          username: res.data.username,
-          toolsCheckedOut: res.data.toolsCheckedOut,
-        });
-        setIsLoading(false);
-      }
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   const checkInItem = async (e, tool) => {
     e.preventDefault();
@@ -59,40 +39,37 @@ const Account = () => {
         },
         { withCredentials: true }
       );
-      getAccountInfo();
     } catch (error) {
       console.log(error);
     }
+    getAccountInfo();
   };
 
   useEffect(() => {
     getAccountInfo();
+    setIsLoading(false);
     return () => {
       mountedRef.current = false;
     };
   }, []);
 
   return isLoading ? (
-    <p>Loading...</p>
+    <LoadingSpinner />
   ) : (
     <div>
-      <h2>Account</h2>
-      <p>Username: {account.username}</p>
-      <p>Change Password</p>
-      <h4>
-        {account.toolsCheckedOut.length === 0 ? "No " : null}Tools Checked Out
-      </h4>
+      <h2>{currentUser.username}</h2>
+      <h5>Tools Checked Out</h5>
       <ul>
-        {account.toolsCheckedOut.map((tool) => (
+        {currentUser.toolsCheckedOut.map((tool) => (
           <li key={Math.random()}>
-            Tool: {tool.tool_number} Location: {tool.location.bin}-
+            {tool.tool_number} Location: {tool.location.bin}-
             {tool.location.shelf}
             <button onClick={(e) => checkInItem(e, tool)}>Check In</button>
           </li>
         ))}
       </ul>
       <p>Coming Soon...</p>
-      <p>Report Damaged Tool</p>
+      <p>Change Password</p>
     </div>
   );
 };
