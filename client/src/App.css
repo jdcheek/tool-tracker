@@ -34,26 +34,37 @@ code {
 }
 
 .App {
-  width: 100%;
   height: 100vh;
+  width: 100%;
+  overflow: hidden;
 }
 
 /* Containers */
+.wrapper {
+  margin: auto;
+  max-width: 1920px;
+}
+
 .app-container {
   display: flex;
-  flex-direction: column;
   align-content: center;
   margin: 0 auto;
-  max-width: 900px;
-  min-width: 400px;
-  height: 90vh;
+  padding: 10px;
 }
 
 .page-container {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  width: 100%;
   height: 90vh;
+}
+
+.side-bar {
+  width: 300px;
+}
+
+.side-bar h2 {
+  text-align: center;
 }
 
 .footer {
@@ -75,16 +86,6 @@ code {
 }
 /* End Navbar */
 
-.page-container form {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.page-container form input {
-  width: 100%;
-  text-align: center;
-}
-
 /* Login */
 
 .login-form {
@@ -95,7 +96,8 @@ code {
 .login-container {
   display: flex;
   flex-direction: column;
-  margin-top: 20%;
+  margin: 10% auto;
+  width: 400px;
 }
 
 .login-container Button {
@@ -121,10 +123,8 @@ code {
 }
 
 .load-spinner {
-  text-align: center !important;
-  height: 90vh;
-}
-
-.spinner-spin {
-  margin-top: 40% !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
