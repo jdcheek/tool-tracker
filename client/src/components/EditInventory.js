@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import EditInventoryCard from "./EditInventoryCard";
 import Pagination from "./Pagination";
+import LoadingSpinner from "./LoadingSpinner";
 
 const EditInventory = ({ inventory, isLoading }) => {
   const [currentQuery, setCurrentQuery] = useState([]);
@@ -38,7 +39,7 @@ const EditInventory = ({ inventory, isLoading }) => {
   return (
     <div>
       {isLoading ? (
-        <p>Loading...</p>
+        <LoadingSpinner />
       ) : (
         <>
           <form onSubmit={(e) => e.preventDefault()}>
