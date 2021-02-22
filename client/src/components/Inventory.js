@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { UserContext } from "./UserContext";
-import { Spinner } from "react-bootstrap";
+import LoadingSpinner from "./LoadingSpinner";
 import axios from "axios";
 import InventoryCard from "./InventoryCard";
 import Pagination from "./Pagination";
 
-export default function Inventory() {
+export default function Inventory({ getAccountInfo }) {
   const mountedRef = useRef(true);
-  const { currentUser } = useContext(UserContext);
+  const { currentUser, setCurrentUser } = useContext(UserContext);
   const [inventory, setInventory] = useState([]);
   const [currentQuery, setCurrentQuery] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -71,7 +71,7 @@ export default function Inventory() {
         },
         { withCredentials: true }
       );
-      getInventory();
+      // TODO mark item as checked out in tool list
     } catch (error) {
       console.log(error);
     }
@@ -90,6 +90,7 @@ export default function Inventory() {
     } catch (error) {
       console.log(error);
     }
+    getAccountInfo();
   };
 
   const searchInventory = (e) => {
@@ -105,13 +106,9 @@ export default function Inventory() {
   };
 
   return loading ? (
-    <div className='load-spinner'>
-      <Spinner animation='border' role='status' className='spinner-spin'>
-        <span className='sr-only'>Loading...</span>
-      </Spinner>
-    </div>
+    <LoadingSpinner />
   ) : (
-    <div className='page-container'>
+    <div>
       <form onSubmit={(e) => e.preventDefault()}>
         <input
           type='text'
