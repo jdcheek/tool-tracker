@@ -9,6 +9,11 @@ const Navigation = (props) => {
   const mountedRef = useRef(true);
   const history = useHistory();
   const { currentUser, setCurrentUser } = useContext(UserContext);
+  const userReset = {
+    isLoggedIn: false,
+    isAdmin: false,
+    username: null,
+  };
 
   useEffect(() => {
     const userAuth = async () => {
@@ -20,11 +25,7 @@ const Navigation = (props) => {
           if (res.data) {
             setCurrentUser(res.data);
           } else {
-            setCurrentUser({
-              isLoggedIn: false,
-              isAdmin: false,
-              username: null,
-            });
+            setCurrentUser(userReset);
             history.push("/login");
           }
         } else {
@@ -34,7 +35,6 @@ const Navigation = (props) => {
         console.log(`Authorization ${err}`);
         history.push("/login");
       }
-      console.count("auth");
     };
     userAuth();
     return () => (mountedRef.current = false);
@@ -46,7 +46,7 @@ const Navigation = (props) => {
       const res = await axios.get("http://localhost:5000/auth/logout", {
         withCredentials: true,
       });
-      setCurrentUser({ isLoggedIn: false, isAdmin: false, username: null });
+      setCurrentUser(userReset);
       history.push("/login");
       return res;
     } catch (error) {
@@ -69,7 +69,7 @@ const Navigation = (props) => {
         {currentUser.isLoggedIn ? (
           <Nav className='ml-auto'>
             <Nav.Link href='/tools'>Search Tools</Nav.Link>
-            <Nav.Link href='/account'>My Account</Nav.Link>
+            {/* <Nav.Link href='/account'>My Account</Nav.Link> */}
             {currentUser.isAdmin ? (
               <Nav.Link href='/dashboard'>Admin Dashboard</Nav.Link>
             ) : null}
