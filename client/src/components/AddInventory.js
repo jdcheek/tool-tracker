@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 
 export default function AddInventory() {
-  const [item, setItem] = useState({
+  const resetItem = {
     tool_number: "",
     description: "",
     location: {
@@ -11,11 +11,14 @@ export default function AddInventory() {
     },
     status: {
       checked_out: false,
-      username: null,
+      username: "",
       date: new Date(),
       missing: false,
+      damaged: false,
     },
-  });
+  };
+
+  const [item, setItem] = useState(resetItem);
 
   const addNewItem = async () => {
     try {
@@ -31,20 +34,7 @@ export default function AddInventory() {
   const onSubmit = (e) => {
     e.preventDefault();
     addNewItem();
-    setItem({
-      tool_number: "",
-      description: "",
-      location: {
-        shelf: "",
-        bin: "",
-      },
-      status: {
-        checked_out: false,
-        username: "",
-        date: new Date(),
-        missing: false,
-      },
-    });
+    setItem(resetItem);
   };
 
   return (
