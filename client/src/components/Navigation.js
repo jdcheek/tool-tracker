@@ -38,7 +38,7 @@ const Navigation = (props) => {
     };
     userAuth();
     return () => (mountedRef.current = false);
-  }, [history, setCurrentUser]);
+  }, [history, setCurrentUser, userReset]);
 
   const logOut = async (e) => {
     e.preventDefault();
