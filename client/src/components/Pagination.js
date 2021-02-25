@@ -1,43 +1,86 @@
 import React from "react";
-import { Button } from "react-bootstrap";
+import { Pagination } from "react-bootstrap";
 
-const Pagination = ({ setItemsPerPage, paginate, currentPage, pages }) => {
+const PaginationComponent = ({
+  setItemsPerPage,
+  paginate,
+  currentPage,
+  pages,
+}) => {
+  const setPaginateToInnerText = (e) => {
+    paginate(parseInt(e.target.innerText));
+  };
+
   return (
     <div className='footer'>
-      <Button
-        variant='outline-dark'
-        disabled={currentPage <= 1}
-        onClick={(e) => {
-          e.preventDefault();
-          paginate(currentPage - 1);
-        }}
-        href='!#'>
-        {"<"}
-      </Button>
-      <span>
-        {currentPage} of {pages}
-      </span>
-      <Button
-        variant='outline-dark'
-        disabled={currentPage === pages}
-        onClick={(e) => {
-          e.preventDefault();
-          paginate(currentPage + 1);
-        }}
-        href='!#'>
-        {">"}
-      </Button>
-      <label htmlFor='selection'>Results Per Page</label>
-      <select
-        defaultValue='10'
-        name='items-per-page'
-        onChange={(e) => setItemsPerPage(e.target.value)}>
-        <option value='5'>5</option>
-        <option value='10'>10</option>
-        <option value='20'>20</option>
-      </select>
+      <Pagination>
+        <Pagination.First
+          onClick={(e) => {
+            e.preventDefault();
+            paginate(1);
+          }}
+        />
+        <Pagination.Prev
+          disabled={currentPage <= 1}
+          onClick={(e) => {
+            e.preventDefault();
+            paginate(currentPage - 1);
+          }}
+        />
+
+        {currentPage > 1 && (
+          <>
+            <Pagination.Item onClick={(e) => setPaginateToInnerText(e)}>
+              {1}
+            </Pagination.Item>
+            <Pagination.Ellipsis />
+          </>
+        )}
+
+        {currentPage > 3 && (
+          <Pagination.Item onClick={(e) => setPaginateToInnerText(e)}>
+            {currentPage - 2}
+          </Pagination.Item>
+        )}
+        {currentPage > 2 && (
+          <Pagination.Item onClick={(e) => setPaginateToInnerText(e)}>
+            {currentPage - 1}
+          </Pagination.Item>
+        )}
+        <Pagination.Item active>{currentPage}</Pagination.Item>
+        {currentPage <= pages - 1 && (
+          <Pagination.Item onClick={(e) => setPaginateToInnerText(e)}>
+            {currentPage + 1}
+          </Pagination.Item>
+        )}
+        {currentPage <= pages - 2 && (
+          <Pagination.Item onClick={(e) => setPaginateToInnerText(e)}>
+            {currentPage + 2}
+          </Pagination.Item>
+        )}
+        {currentPage <= pages - 20 && (
+          <>
+            <Pagination.Ellipsis />
+            <Pagination.Item onClick={(e) => setPaginateToInnerText(e)}>
+              {currentPage === 1 ? 20 : currentPage + 20}
+            </Pagination.Item>
+          </>
+        )}
+        <Pagination.Next
+          disabled={currentPage === pages}
+          onClick={() => {
+            paginate(currentPage + 1);
+          }}
+        />
+        <Pagination.Last
+          disabled={currentPage === pages}
+          onClick={() => {
+            paginate(pages);
+          }}
+        />
+      </Pagination>
     </div>
   );
 };
 
-export default Pagination;
+export default PaginationComponent;
