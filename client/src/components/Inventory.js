@@ -7,7 +7,7 @@ import Pagination from "./Pagination";
 
 export default function Inventory({ getAccountInfo }) {
   const mountedRef = useRef(true);
-  const { currentUser, setCurrentUser } = useContext(UserContext);
+  const { currentUser } = useContext(UserContext);
   const [inventory, setInventory] = useState([]);
   const [currentQuery, setCurrentQuery] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -57,6 +57,9 @@ export default function Inventory({ getAccountInfo }) {
     }
   };
 
+  // TODO create report function
+  const reportItem = async (tool) => {};
+
   const checkOutItem = async (tool) => {
     try {
       // eslint-disable-next-line
@@ -71,7 +74,6 @@ export default function Inventory({ getAccountInfo }) {
         },
         { withCredentials: true }
       );
-      // TODO mark item as checked out in tool list
     } catch (error) {
       console.log(error);
     }
@@ -117,7 +119,6 @@ export default function Inventory({ getAccountInfo }) {
           onChange={searchInventory}
         />
       </form>
-
       <>
         <InventoryCard
           currentUser={currentUser}
