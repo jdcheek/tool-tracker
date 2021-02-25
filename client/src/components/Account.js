@@ -1,14 +1,15 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
+import { Button } from "react-bootstrap";
 import LoadingSpinner from "./LoadingSpinner";
 import { UserContext } from "./UserContext";
 
 const Account = ({ getAccountInfo }) => {
-  const { currentUser, setCurrentUser } = useContext(UserContext);
-  const mountedRef = useRef(true);
-  const [isLoading, setIsLoading] = useState(true);
+  const { currentUser } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   const checkInItem = async (e, tool) => {
+    setIsLoading(true);
     e.preventDefault();
     try {
       // eslint-disable-next-line
@@ -43,22 +44,19 @@ const Account = ({ getAccountInfo }) => {
       console.log(error);
     }
     getAccountInfo();
-  };
-
-  useEffect(() => {
-    getAccountInfo();
     setIsLoading(false);
-    return () => {
-      mountedRef.current = false;
-    };
-  }, []);
+  };
 
   return isLoading ? (
     <LoadingSpinner />
   ) : (
     <div>
       <h2>{currentUser.username}</h2>
-      <h5>Tools Checked Out</h5>
+      {currentUser.toolsCheckedOut.length > 0 ? (
+        <h5>Tools Checked Out</h5>
+      ) : (
+        <h5>No Tools Out</h5>
+      )}
       <ul>
         {currentUser.toolsCheckedOut.map((tool) => (
           <li key={Math.random()}>
@@ -69,7 +67,8 @@ const Account = ({ getAccountInfo }) => {
         ))}
       </ul>
       <p>Coming Soon...</p>
-      <p>Change Password</p>
+      <Button variant='outline-dark'>Change Password</Button>
+      <Button variant='outline-dark'>Report Damaged Tool</Button>
     </div>
   );
 };
