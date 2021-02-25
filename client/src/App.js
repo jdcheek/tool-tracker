@@ -14,6 +14,7 @@ import LogIn from "./components/LogIn";
 
 function App() {
   const mountedRef = useRef(true);
+
   const [currentUser, setCurrentUser] = useState({
     isLoggedIn: false,
     isAdmin: false,
