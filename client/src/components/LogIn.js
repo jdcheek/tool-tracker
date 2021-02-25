@@ -29,11 +29,7 @@ export default function LogIn() {
       if (res.data.message) {
         return res.data.message;
       }
-      setCurrentUser({
-        isLoggedIn: true,
-        isAdmin: res.data.isAdmin,
-        username: res.data.username,
-      });
+      setCurrentUser(res.data);
     } catch (err) {
       console.log(`Authorization ${err}`);
     }
