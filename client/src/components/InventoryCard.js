@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Card, Accordion, Button, Spinner } from "react-bootstrap";
+import React from "react";
+
+import { Card, Accordion, Button } from "react-bootstrap";
 import { ReactComponent as ExpandDown } from "../img/expand-down.svg";
 
 const InventoryItem = ({
@@ -8,7 +9,6 @@ const InventoryItem = ({
   currentUser,
   loading,
 }) => {
-  const [disabled, setDisabled] = useState(false);
   return (
     <Accordion className='result-accordion'>
       {currentItems.map((item) => (
@@ -26,29 +26,36 @@ const InventoryItem = ({
               ) : null}
               <Card.Body>
                 Location: {item.location.bin} - {item.location.shelf}
+                {item.status.checked_out &&
+                  `Checked out to ${item.status.username}`}
               </Card.Body>
               <Button
-                disabled={disabled}
+                disabled={item.status.checked_out}
                 className='card-btn'
                 variant='outline-primary'
                 onClick={() => {
-                  setDisabled(true);
                   checkOutItem(item);
                 }}>
                 Check Out
               </Button>
-              <Button variant='outline-danger' className='card-btn'>
-                Report Damage
-              </Button>
               <Button
+                variant='outline-danger'
                 className='card-btn'
-                variant='outline-secondary'
                 onClick={() => {
-                  setDisabled(true);
-                  checkOutItem(item);
+                  console.log(`report missing tool ${item.tool_number}`);
                 }}>
-                Edit
+                Report Missing
               </Button>
+              {currentUser.isAdmin && (
+                <Button
+                  className='card-btn'
+                  variant='outline-secondary'
+                  onClick={() => {
+                    console.log(`edit tool ${item.tool_number}`);
+                  }}>
+                  Edit
+                </Button>
+              )}
             </div>
           </Accordion.Collapse>
         </Card>
