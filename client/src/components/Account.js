@@ -50,25 +50,33 @@ const Account = ({ getAccountInfo }) => {
   return isLoading ? (
     <LoadingSpinner />
   ) : (
-    <div>
-      <h2>{currentUser.username}</h2>
+    <div className='side-bar'>
+      <h3>{currentUser.username}</h3>
       {currentUser.toolsCheckedOut.length > 0 ? (
         <h5>Tools Checked Out</h5>
       ) : (
         <h5>No Tools Out</h5>
       )}
-      <ul>
-        {currentUser.toolsCheckedOut.map((tool) => (
-          <li key={Math.random()}>
-            {tool.tool_number} Location: {tool.location.bin}-
-            {tool.location.shelf}
-            <button onClick={(e) => checkInItem(e, tool)}>Check In</button>
-          </li>
-        ))}
-      </ul>
-      <p>Coming Soon...</p>
-      <Button variant='outline-dark'>Change Password</Button>
-      <Button variant='outline-dark'>Report Damaged Tool</Button>
+      <div className='tool-list'>
+        <ul>
+          {currentUser.toolsCheckedOut.map((tool) => (
+            <li className='tool-list-item' key={Math.random()}>
+              {tool.tool_number}: {tool.location.bin}-{tool.location.shelf}
+              <Button
+                className='check-in-btn'
+                variant='outline-primary'
+                onClick={(e) => checkInItem(e, tool)}>
+                Check In
+              </Button>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className='manage-section'>
+        <h5>Manage Account</h5>
+        <Button variant='outline-dark'>Change Password</Button>
+        <Button variant='outline-dark'>Request Administrator Access</Button>
+      </div>
     </div>
   );
 };
