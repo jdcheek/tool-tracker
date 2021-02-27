@@ -69,7 +69,9 @@ const Navigation = (props) => {
         {currentUser.isLoggedIn ? (
           <Nav className='ml-auto'>
             <Nav.Link href='/tools'>Search Tools</Nav.Link>
-            {/* <Nav.Link href='/account'>My Account</Nav.Link> */}
+            <Nav.Link className='account-link' href='/account'>
+              Account
+            </Nav.Link>
             {currentUser.isAdmin ? (
               <Nav.Link href='/dashboard'>Admin Dashboard</Nav.Link>
             ) : null}
@@ -86,5 +88,3 @@ const Navigation = (props) => {
 };
 
 export default Navigation;
-
-//TODO fix router
