@@ -57,15 +57,10 @@ code {
   flex-direction: column;
   width: 100%;
   height: 90vh;
+}
+
+.inventory-wrapper {
   overflow: auto;
-}
-
-.side-bar {
-  width: 300px;
-}
-
-.side-bar h2 {
-  text-align: center;
 }
 
 .footer {
@@ -88,6 +83,7 @@ code {
   font-family: "Racing Sans One";
   font-size: 2rem;
 }
+
 /* End Navbar */
 
 /* Login */
@@ -110,6 +106,48 @@ code {
 
 /* End Login */
 
+/* Account Sidebar */
+.side-bar {
+  min-width: 250px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 10px;
+}
+
+.side-bar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tool-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
+}
+
+.manage-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: auto 0 10px 0;
+}
+
+.manage-section button {
+  margin: 5px 0;
+}
+
+.tool-list {
+  max-height: 600px;
+  overflow: auto;
+}
+
+/* End Account Sidebar  */
+
+/* Inventory Card  */
+
 .result-header {
   display: flex;
   justify-content: space-between;
@@ -120,15 +158,41 @@ code {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .card-btn {
   margin: 0.2rem;
 }
 
+.checked-out-msg {
+  font-weight: bold;
+}
+
+.inventory-card-body {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* End Inventory Card  */
+
 .load-spinner {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+}
+
+/* Media Queries  */
+
+@media only screen and (max-width: 600px) {
+  .hide {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  .account-link {
+    display: none;
+  }
 }
