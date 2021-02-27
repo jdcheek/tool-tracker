@@ -24,38 +24,42 @@ const InventoryItem = ({
               {item.description ? (
                 <Card.Body>{item.description}</Card.Body>
               ) : null}
-              <Card.Body>
-                Location: {item.location.bin} - {item.location.shelf}
-                {item.status.checked_out &&
-                  `Checked out to ${item.status.username}`}
+              <Card.Body className='inventory-card-body'>
+                Location: {item.location.shelf} - {item.location.bin}
+                <span className='checked-out-msg'>
+                  {item.status.checked_out &&
+                    `Checked out to ${item.status.username} on ${item.status.date}`}
+                </span>
               </Card.Body>
-              <Button
-                disabled={item.status.checked_out}
-                className='card-btn'
-                variant='outline-primary'
-                onClick={() => {
-                  checkOutItem(item);
-                }}>
-                Check Out
-              </Button>
-              <Button
-                variant='outline-danger'
-                className='card-btn'
-                onClick={() => {
-                  console.log(`report missing tool ${item.tool_number}`);
-                }}>
-                Report Missing
-              </Button>
-              {currentUser.isAdmin && (
+              <div>
                 <Button
+                  disabled={item.status.checked_out}
                   className='card-btn'
-                  variant='outline-secondary'
+                  variant='outline-primary'
                   onClick={() => {
-                    console.log(`edit tool ${item.tool_number}`);
+                    checkOutItem(item);
                   }}>
-                  Edit
+                  Check Out
                 </Button>
-              )}
+                <Button
+                  variant='outline-danger'
+                  className='card-btn'
+                  onClick={() => {
+                    console.log(`report missing tool ${item.tool_number}`);
+                  }}>
+                  Report
+                </Button>
+                {currentUser.isAdmin && (
+                  <Button
+                    className='card-btn'
+                    variant='outline-secondary'
+                    onClick={() => {
+                      console.log(`edit tool ${item.tool_number}`);
+                    }}>
+                    Edit
+                  </Button>
+                )}
+              </div>
             </div>
           </Accordion.Collapse>
         </Card>
