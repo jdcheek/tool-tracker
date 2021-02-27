@@ -44,9 +44,9 @@ function App() {
             <Navigation />
             <div className='app-container'>
               {currentUser.isLoggedIn && (
-                <section className='side-bar'>
+                <div className='hide'>
                   <Account getAccountInfo={getAccountInfo} />
-                </section>
+                </div>
               )}
               <main className='page-container'>
                 <Route
@@ -56,6 +56,7 @@ function App() {
                     <Inventory getAccountInfo={getAccountInfo} />
                   )}
                 />
+                <Route exact path='/account' component={Account} />
                 <Route exact path='/login' component={LogIn} />
                 <Route exact path='/tools/edit' component={EditInventory} />
                 <Route exact path='/user/add' component={AddUser} />
