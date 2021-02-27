@@ -110,12 +110,12 @@ export default function Inventory({ getAccountInfo }) {
   return loading ? (
     <LoadingSpinner />
   ) : (
-    <div>
+    <div className='inventory-wrapper'>
       <form onSubmit={(e) => e.preventDefault()}>
         <input
           type='text'
           value={search.query}
-          placeholder='Enter Tool Number'
+          placeholder='Search by tool number...'
           onChange={searchInventory}
         />
       </form>
