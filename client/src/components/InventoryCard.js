@@ -1,16 +1,34 @@
-import React from "react";
-
+import React, { useState } from "react";
 import { Card, Accordion, Button } from "react-bootstrap";
 import { ReactComponent as ExpandDown } from "../img/expand-down.svg";
+import EditInventoryModal from "./EditInventoryModal";
 
-const InventoryItem = ({
-  currentItems,
-  checkOutItem,
-  currentUser,
-  loading,
-}) => {
+const InventoryItem = ({ currentItems, checkOutItem, currentUser }) => {
+  const [InventoryModalShow, setInventoryModalShow] = useState(false);
+  const [selected, setSelected] = useState({
+    tool_number: "",
+    description: "",
+    location: {
+      shelf: "",
+      bin: "",
+    },
+    status: {
+      checked_out: false,
+      username: null,
+      date: new Date(),
+      missing: false,
+      damaged: false,
+    },
+  });
+
+  console.log(selected);
   return (
     <Accordion className='result-accordion'>
+      <EditInventoryModal
+        selected={selected}
+        show={InventoryModalShow}
+        onHide={() => setInventoryModalShow(false)}
+      />
       {currentItems.map((item) => (
         <Card key={item._id}>
           <Card.Header className='result-header'>
@@ -52,9 +70,10 @@ const InventoryItem = ({
                 {currentUser.isAdmin && (
                   <Button
                     className='card-btn'
-                    variant='outline-secondary'
+                    variant='outline-info'
                     onClick={() => {
-                      console.log(`edit tool ${item.tool_number}`);
+                      setSelected(item);
+                      setInventoryModalShow(true);
                     }}>
                     Edit
                   </Button>
