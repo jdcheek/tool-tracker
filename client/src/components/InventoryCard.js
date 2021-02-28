@@ -21,7 +21,6 @@ const InventoryItem = ({ currentItems, checkOutItem, currentUser }) => {
     },
   });
 
-  console.log(selected);
   return (
     <Accordion className='result-accordion'>
       <EditInventoryModal
