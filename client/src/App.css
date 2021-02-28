@@ -63,6 +63,10 @@ code {
   overflow: auto;
 }
 
+.accordion {
+  margin-top: 5px !important;
+}
+
 .footer {
   width: 100%;
   display: flex;
