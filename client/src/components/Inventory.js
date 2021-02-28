@@ -125,7 +125,6 @@ export default function Inventory({ getAccountInfo }) {
           currentItems={currentItems}
           currentQuery={currentQuery}
           checkOutItem={checkOutItem}
-          loading={loading}
         />
         <Pagination
           currentPage={currentPage}
