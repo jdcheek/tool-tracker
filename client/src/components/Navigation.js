@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { UserContext } from "./UserContext";
 import { Nav, Navbar } from "react-bootstrap";
 
-const Navigation = (props) => {
+const Navigation = () => {
   const mountedRef = useRef(true);
   const history = useHistory();
   const { currentUser, setCurrentUser } = useContext(UserContext);
