@@ -4,6 +4,10 @@ import { Modal, Button, InputGroup, FormControl } from "react-bootstrap";
 export default function EditInventoryModal(props) {
   const [tool, setTool] = useState(props.selected);
 
+  const handleCancel = () => {
+    setTool(props.selected);
+  };
+
   useEffect(() => {
     setTool(props.selected);
   }, [props.selected]);
@@ -135,10 +139,20 @@ export default function EditInventoryModal(props) {
         <Button variant='outline-primary' type='submit'>
           Submit
         </Button>
-        <Button variant='outline-danger' onClick={props.onHide}>
+        <Button
+          variant='outline-danger'
+          onClick={() => {
+            props.onHide();
+            handleCancel();
+          }}>
           Delete
         </Button>
-        <Button variant='outline-dark' onClick={props.onHide}>
+        <Button
+          variant='outline-dark'
+          onClick={() => {
+            props.onHide();
+            handleCancel();
+          }}>
           Cancel
         </Button>
       </Modal.Footer>
