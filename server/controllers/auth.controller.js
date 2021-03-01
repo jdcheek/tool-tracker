@@ -37,8 +37,7 @@ authCtrl.loginUser = async (req, res) => {
     res.cookie("jwt", token, {
       maxAge: 60 * 60 * 1000,
       httpOnly: true,
-      sameSite: "None",
-      secure: true,
+      sameSite: true,
     });
     res.send({
       isLoggedIn: true,
@@ -47,7 +46,7 @@ authCtrl.loginUser = async (req, res) => {
       toolsCheckedOut: user.toolsCheckedOut,
     });
   } catch (error) {
-    res.status(400).send({ error });
+    res.status(400).send("{ error, token }");
   }
 };
 
@@ -56,8 +55,7 @@ authCtrl.logOutUser = (req, res) => {
     res.clearCookie("jwt", {
       maxAge: 60 * 60 * 1000,
       httpOnly: true,
-      sameSite: "None",
-      secure: true,
+      sameSite: true,
     });
     res.send({ message: `Logged out successfully` });
   } catch (error) {
