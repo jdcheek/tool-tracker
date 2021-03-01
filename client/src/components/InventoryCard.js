@@ -4,8 +4,7 @@ import { ReactComponent as ExpandDown } from "../img/expand-down.svg";
 import EditInventoryModal from "./EditInventoryModal";
 
 const InventoryItem = ({ currentItems, checkOutItem, currentUser }) => {
-  const [InventoryModalShow, setInventoryModalShow] = useState(false);
-  const [selected, setSelected] = useState({
+  const defaultItem = {
     tool_number: "",
     description: "",
     location: {
@@ -19,7 +18,9 @@ const InventoryItem = ({ currentItems, checkOutItem, currentUser }) => {
       missing: false,
       damaged: false,
     },
-  });
+  };
+  const [InventoryModalShow, setInventoryModalShow] = useState(false);
+  const [selected, setSelected] = useState(defaultItem);
 
   return (
     <Accordion className='result-accordion'>
