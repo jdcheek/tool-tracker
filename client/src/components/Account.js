@@ -47,9 +47,7 @@ const Account = ({ getAccountInfo }) => {
     setIsLoading(false);
   };
 
-  return isLoading ? (
-    <LoadingSpinner />
-  ) : (
+  return (
     <div className='side-bar'>
       <h3>{currentUser.username}</h3>
       {currentUser.toolsCheckedOut.length > 0 ? (
@@ -58,19 +56,23 @@ const Account = ({ getAccountInfo }) => {
         <h5>No Tools Out</h5>
       )}
       <div className='tool-list'>
-        <ul>
-          {currentUser.toolsCheckedOut.map((tool) => (
-            <li className='tool-list-item' key={Math.random()}>
-              {tool.tool_number}: {tool.location.bin}-{tool.location.shelf}
-              <Button
-                className='check-in-btn'
-                variant='outline-primary'
-                onClick={(e) => checkInItem(e, tool)}>
-                Check In
-              </Button>
-            </li>
-          ))}
-        </ul>
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : (
+          <ul>
+            {currentUser.toolsCheckedOut.map((tool) => (
+              <li className='tool-list-item' key={Math.random()}>
+                {tool.tool_number}: {tool.location.bin}-{tool.location.shelf}
+                <Button
+                  className='check-in-btn'
+                  variant='outline-primary'
+                  onClick={(e) => checkInItem(e, tool)}>
+                  Check In
+                </Button>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
       <div className='manage-section'>
         <h5>Manage Account</h5>
