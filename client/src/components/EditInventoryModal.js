@@ -1,20 +1,49 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { Modal, Button, InputGroup, FormControl } from "react-bootstrap";
 
 export default function EditInventoryModal(props) {
-  const [tool, setTool] = useState(props.selected);
+  let { getInventory, selected, ...rest } = props;
+  const [tool, setTool] = useState(selected);
 
   const handleCancel = () => {
-    setTool(props.selected);
+    setTool(selected);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const res = await axios.post(
+        `http://localhost:5000/inventory/update/${tool._id}`,
+        tool,
+        { withCredentials: true }
+      );
+      getInventory();
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:5000/inventory/delete/${tool._id}`,
+        { withCredentials: true }
+      );
+      getInventory();
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
-    setTool(props.selected);
-  }, [props.selected]);
+    setTool(selected);
+  }, [selected]);
 
   return (
     <Modal
-      {...props}
+      {...rest}
       size='lg'
       aria-labelledby='contained-modal-title-vcenter'
       centered>
@@ -73,7 +102,7 @@ export default function EditInventoryModal(props) {
           </InputGroup.Prepend>
           <FormControl
             as='textarea'
-            value={tool.description}
+            value={tool.description || ""}
             onChange={(e) => setTool({ ...tool, description: e.target.value })}
           />
         </InputGroup>
@@ -136,14 +165,19 @@ export default function EditInventoryModal(props) {
         </InputGroup>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant='outline-primary' type='submit'>
+        <Button
+          variant='outline-primary'
+          onClick={() => {
+            props.onHide();
+            handleSubmit();
+          }}>
           Submit
         </Button>
         <Button
           variant='outline-danger'
           onClick={() => {
             props.onHide();
-            handleCancel();
+            handleDelete();
           }}>
           Delete
         </Button>
