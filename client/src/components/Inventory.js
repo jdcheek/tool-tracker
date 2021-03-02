@@ -19,7 +19,7 @@ export default function Inventory({ getAccountInfo }) {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = currentQuery.slice(indexOfFirstItem, indexOfLastItem);
+  let currentItems = currentQuery.slice(indexOfFirstItem, indexOfLastItem);
   const pages = Math.ceil(currentQuery.length / itemsPerPage);
 
   useEffect(() => {
@@ -62,7 +62,6 @@ export default function Inventory({ getAccountInfo }) {
 
   const checkOutItem = async (tool) => {
     try {
-      // eslint-disable-next-line
       const inv = await axios.post(
         `http://localhost:5000/inventory/update/status/${tool._id}`,
         {
@@ -74,6 +73,7 @@ export default function Inventory({ getAccountInfo }) {
         },
         { withCredentials: true }
       );
+      return inv;
     } catch (error) {
       console.log(error);
     }
@@ -121,6 +121,7 @@ export default function Inventory({ getAccountInfo }) {
       </form>
       <>
         <InventoryCard
+          getInventory={getInventory}
           currentUser={currentUser}
           currentItems={currentItems}
           currentQuery={currentQuery}
