@@ -2,8 +2,14 @@ import React, { useState } from "react";
 import { Card, Accordion, Button } from "react-bootstrap";
 import { ReactComponent as ExpandDown } from "../img/expand-down.svg";
 import EditInventoryModal from "./EditInventoryModal";
+import ReportModal from "./ReportModal";
 
-const InventoryItem = ({ currentItems, checkOutItem, currentUser }) => {
+const InventoryCard = ({
+  currentItems,
+  checkOutItem,
+  currentUser,
+  getInventory,
+}) => {
   const defaultItem = {
     tool_number: "",
     description: "",
@@ -19,15 +25,23 @@ const InventoryItem = ({ currentItems, checkOutItem, currentUser }) => {
       damaged: false,
     },
   };
-  const [InventoryModalShow, setInventoryModalShow] = useState(false);
+  const [inventoryModalShow, setInventoryModalShow] = useState(false);
+  const [reportModalShow, setReportModalShow] = useState(false);
   const [selected, setSelected] = useState(defaultItem);
 
   return (
     <Accordion className='result-accordion'>
       <EditInventoryModal
+        getInventory={getInventory}
         selected={selected}
-        show={InventoryModalShow}
+        show={inventoryModalShow}
         onHide={() => setInventoryModalShow(false)}
+      />
+      <ReportModal
+        getInventory={getInventory}
+        selected={selected}
+        show={reportModalShow}
+        onHide={() => setReportModalShow(false)}
       />
       {currentItems.map((item) => (
         <Card key={item._id}>
@@ -39,11 +53,9 @@ const InventoryItem = ({ currentItems, checkOutItem, currentUser }) => {
           </Card.Header>
           <Accordion.Collapse eventKey={item._id}>
             <div className='more-info'>
-              {item.description ? (
-                <Card.Body>{item.description}</Card.Body>
-              ) : null}
               <Card.Body className='inventory-card-body'>
                 Location: {item.location.shelf} - {item.location.bin}
+                {item.description && <span>{item.description}</span>}
                 <span className='checked-out-msg'>
                   {item.status.checked_out &&
                     `Checked out to ${item.status.username} on ${item.status.date}`}
@@ -63,7 +75,8 @@ const InventoryItem = ({ currentItems, checkOutItem, currentUser }) => {
                   variant='outline-danger'
                   className='card-btn'
                   onClick={() => {
-                    console.log(`report missing tool ${item.tool_number}`);
+                    setSelected(item);
+                    setReportModalShow(true);
                   }}>
                   Report
                 </Button>
@@ -87,4 +100,4 @@ const InventoryItem = ({ currentItems, checkOutItem, currentUser }) => {
   );
 };
 
-export default InventoryItem;
+export default InventoryCard;
