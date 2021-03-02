@@ -7,7 +7,7 @@ const inventorySchema = new Schema(
     tool_number: { type: String, required: true },
     description: { type: String, required: false },
     location: {
-      shelf: { type: Number, required: true },
+      shelf: { type: String, required: true },
       bin: { type: String, required: true },
     },
     status: {
@@ -15,6 +15,7 @@ const inventorySchema = new Schema(
       username: { type: String, required: false },
       date: { type: Date, required: false },
       missing: { type: Boolean, required: true },
+      damaged: { type: Boolean, required: true },
     },
   },
   {
