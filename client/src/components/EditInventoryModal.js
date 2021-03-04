@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Modal, Button, InputGroup, FormControl } from "react-bootstrap";
+import { Modal, Button, InputGroup, FormControl, Form } from "react-bootstrap";
 
 export default function EditInventoryModal(props) {
   let { getInventory, selected, ...rest } = props;
@@ -44,7 +44,7 @@ export default function EditInventoryModal(props) {
   return (
     <Modal
       {...rest}
-      size='lg'
+      size='md'
       aria-labelledby='contained-modal-title-vcenter'
       centered>
       <Modal.Header closeButton>
@@ -60,13 +60,18 @@ export default function EditInventoryModal(props) {
           <FormControl
             type='text'
             value={tool.tool_number}
-            onChange={(e) => setTool({ ...tool, tool_number: e.target.value })}
+            onChange={(e) =>
+              setTool({ ...tool, tool_number: e.target.value.toUpperCase() })
+            }
           />
         </InputGroup>
 
         <InputGroup className='mb-3'>
           <InputGroup.Prepend>
-            <InputGroup.Text>Location</InputGroup.Text>
+            <InputGroup.Text>Location:</InputGroup.Text>
+          </InputGroup.Prepend>
+          <InputGroup.Prepend>
+            <InputGroup.Text>Shelf</InputGroup.Text>
           </InputGroup.Prepend>
           <FormControl
             type='text'
@@ -76,11 +81,14 @@ export default function EditInventoryModal(props) {
                 ...tool,
                 location: {
                   ...tool.location,
-                  shelf: e.target.value,
+                  shelf: e.target.value.toUpperCase(),
                 },
               })
             }
           />
+          <InputGroup.Prepend>
+            <InputGroup.Text>Bin</InputGroup.Text>
+          </InputGroup.Prepend>
           <FormControl
             type='text'
             value={tool.location.bin}
@@ -89,7 +97,7 @@ export default function EditInventoryModal(props) {
                 ...tool,
                 location: {
                   ...tool.location,
-                  bin: e.target.value,
+                  bin: e.target.value.toUpperCase(),
                 },
               })
             }
@@ -107,10 +115,11 @@ export default function EditInventoryModal(props) {
           />
         </InputGroup>
 
-        <InputGroup className='mb-3'>
-          <InputGroup.Prepend>
-            <InputGroup.Checkbox
-              value={tool.status.checked_out}
+        <Form>
+          <Form.Group>
+            <Form.Check
+              type='checkbox'
+              label='Checked out'
               checked={tool.status.checked_out}
               onChange={(e) =>
                 setTool({
@@ -122,15 +131,11 @@ export default function EditInventoryModal(props) {
                 })
               }
             />
-          </InputGroup.Prepend>
-          <FormControl
-            aria-label='Text input with checkbox'
-            value='Checked Out'
-            readOnly={true}
-          />
-
-          <InputGroup.Prepend>
-            <InputGroup.Checkbox
+          </Form.Group>
+          <Form.Group>
+            <Form.Check
+              type='checkbox'
+              label='Missing'
               checked={tool.status.missing || false}
               onChange={(e) =>
                 setTool({
@@ -139,15 +144,11 @@ export default function EditInventoryModal(props) {
                 })
               }
             />
-          </InputGroup.Prepend>
-          <FormControl
-            aria-label='Text input with checkbox'
-            value='Missing'
-            readOnly={true}
-          />
-
-          <InputGroup.Prepend>
-            <InputGroup.Checkbox
+          </Form.Group>
+          <Form.Group>
+            <Form.Check
+              type='checkbox'
+              label='Damaged'
               checked={tool.status.damaged || false}
               onChange={(e) =>
                 setTool({
@@ -156,13 +157,8 @@ export default function EditInventoryModal(props) {
                 })
               }
             />
-          </InputGroup.Prepend>
-          <FormControl
-            aria-label='Text input with checkbox'
-            value='Damaged'
-            readOnly={true}
-          />
-        </InputGroup>
+          </Form.Group>
+        </Form>
       </Modal.Body>
       <Modal.Footer>
         <Button
