@@ -61,7 +61,7 @@ const InventoryCard = ({
                     `Checked out to ${item.status.username} on ${item.status.date}`}
                 </span>
               </Card.Body>
-              <div>
+              <div className='card-action-container'>
                 <Button
                   disabled={item.status.checked_out}
                   className='card-btn'
