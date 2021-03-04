@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
+import { InputGroup, FormControl, Button } from "react-bootstrap";
 import { UserContext } from "./UserContext";
 import LoadingSpinner from "./LoadingSpinner";
 import axios from "axios";
@@ -73,7 +74,6 @@ export default function Inventory({ getAccountInfo }) {
         },
         { withCredentials: true }
       );
-      return inv;
     } catch (error) {
       console.log(error);
     }
@@ -111,14 +111,14 @@ export default function Inventory({ getAccountInfo }) {
     <LoadingSpinner />
   ) : (
     <div className='inventory-wrapper'>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <input
+      <InputGroup className='mb-3'>
+        <FormControl
           type='text'
           value={search.query}
           placeholder='Search by tool number...'
           onChange={searchInventory}
         />
-      </form>
+      </InputGroup>
       <>
         <InventoryCard
           getInventory={getInventory}
