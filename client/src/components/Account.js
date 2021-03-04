@@ -3,10 +3,14 @@ import axios from "axios";
 import { Button } from "react-bootstrap";
 import LoadingSpinner from "./LoadingSpinner";
 import { UserContext } from "./UserContext";
+import AddInventoryModal from "./AddInventoryModal";
 
 const Account = ({ getAccountInfo }) => {
   const { currentUser } = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(false);
+  const [addToolModalShow, setAddToolModalShow] = useState(false);
+  const [newUserModalShow, setNewUserModalShow] = useState(false);
+  const [manageUserModalShow, setManageUserModalShow] = useState(false);
 
   const checkInItem = async (e, tool) => {
     setIsLoading(true);
@@ -49,6 +53,10 @@ const Account = ({ getAccountInfo }) => {
 
   return (
     <div className='side-bar'>
+      <AddInventoryModal
+        show={addToolModalShow}
+        onHide={() => setAddToolModalShow(false)}
+      />
       <h3>{currentUser.username}</h3>
       {currentUser.toolsCheckedOut.length > 0 ? (
         <h5>Tools Checked Out</h5>
@@ -75,6 +83,18 @@ const Account = ({ getAccountInfo }) => {
         )}
       </div>
       <div className='manage-section'>
+        {currentUser.isAdmin && (
+          <>
+            <h5>Admin Actions</h5>
+            <Button
+              variant='outline-dark'
+              onClick={() => setAddToolModalShow(true)}>
+              New Tool
+            </Button>
+            <Button variant='outline-dark'>New User</Button>
+            <Button variant='outline-dark'>Manage Users</Button>
+          </>
+        )}
         <h5>Manage Account</h5>
         <Button variant='outline-dark'>Change Password</Button>
         <Button variant='outline-dark'>Request Administrator Access</Button>
