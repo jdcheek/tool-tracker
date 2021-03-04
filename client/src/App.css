@@ -26,6 +26,10 @@ code {
     monospace;
 }
 
+button {
+  max-width: 300px;
+}
+
 /* global variables */
 :root {
   --primary-blue: rgb(6, 68, 110);
@@ -57,6 +61,7 @@ code {
   flex-direction: column;
   width: 100%;
   height: 90vh;
+  justify-content: space-between;
 }
 
 .inventory-wrapper {
@@ -71,7 +76,7 @@ code {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin: 0 auto;
+  margin-top: 30px;
 }
 
 .result-accordion {
@@ -178,6 +183,12 @@ code {
   justify-content: space-between;
 }
 
+.modal-body form {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
 /* End Inventory Card  */
 
 .load-spinner {
@@ -192,6 +203,14 @@ code {
 @media only screen and (max-width: 600px) {
   .hide {
     display: none;
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  .card-action-container {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
   }
 }
 
