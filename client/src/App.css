@@ -106,7 +106,7 @@ button {
   display: flex;
   flex-direction: column;
   margin: 10% auto;
-  width: 400px;
+  width: 450px;
 }
 
 .login-container Button {
@@ -203,6 +203,9 @@ button {
 @media only screen and (max-width: 600px) {
   .hide {
     display: none;
+  }
+  .login-container {
+    width: 350px;
   }
 }
 
