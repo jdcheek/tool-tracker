@@ -2,15 +2,16 @@ import React, { useState, useRef } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import axios from "axios";
-import Account from "./components/Account";
+import Account from "./components/pages/Account";
 import AddUser from "./components/AddUser";
-import Dashboard from "./components/Dashboard";
+import Dashboard from "./components/pages/Dashboard";
 import EditInventory from "./components/EditInventory";
 import EditUser from "./components/EditUser";
-import Inventory from "./components/Inventory";
-import { UserContext } from "./components/UserContext";
-import Navigation from "./components/Navigation";
-import LogIn from "./components/LogIn";
+import Inventory from "./components/pages/inventory/Inventory";
+import Landing from "./components/pages/Landing";
+import LogIn from "./components/pages/LogIn";
+import Navigation from "./components/pages/navigation/Navigation";
+import { UserContext } from "./components/context/UserContext";
 
 function App() {
   const mountedRef = useRef(true);
@@ -49,6 +50,13 @@ function App() {
                 </div>
               )}
               <main className='page-container'>
+                <Route
+                  exact
+                  path='/'
+                  component={() =>
+                    currentUser.isLoggedIn ? <Inventory /> : <Landing />
+                  }
+                />
                 <Route
                   exact
                   path='/tools'
