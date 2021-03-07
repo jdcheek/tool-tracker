@@ -5,8 +5,6 @@ import axios from "axios";
 import Account from "./components/pages/Account";
 import AddUser from "./components/AddUser";
 import Dashboard from "./components/pages/Dashboard";
-import EditInventory from "./components/EditInventory";
-import EditUser from "./components/EditUser";
 import Inventory from "./components/pages/inventory/Inventory";
 import Landing from "./components/pages/Landing";
 import LogIn from "./components/pages/LogIn";
@@ -66,9 +64,6 @@ function App() {
                 />
                 <Route exact path='/account' component={Account} />
                 <Route exact path='/login' component={LogIn} />
-                <Route exact path='/tools/edit' component={EditInventory} />
-                <Route exact path='/user/add' component={AddUser} />
-                <Route exact path='/user/edit' component={EditUser} />
                 <Route exact path='/dashboard' component={Dashboard} />
               </main>
             </div>
