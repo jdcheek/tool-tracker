@@ -121,6 +121,7 @@ export default function AddInventoryModal(props) {
             <Form.Check
               type='checkbox'
               label='Checked out'
+              disabled
               checked={tool.status.checked_out}
               onChange={(e) =>
                 setTool({
@@ -137,6 +138,7 @@ export default function AddInventoryModal(props) {
             <Form.Check
               type='checkbox'
               label='Missing'
+              disabled
               checked={tool.status.missing || false}
               onChange={(e) =>
                 setTool({
@@ -150,6 +152,7 @@ export default function AddInventoryModal(props) {
             <Form.Check
               type='checkbox'
               label='Damaged'
+              disabled
               checked={tool.status.damaged || false}
               onChange={(e) =>
                 setTool({
