@@ -3,7 +3,6 @@ import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import axios from "axios";
 import Account from "./components/pages/Account";
-import AddUser from "./components/AddUser";
 import Dashboard from "./components/pages/Dashboard";
 import Inventory from "./components/pages/inventory/Inventory";
 import Landing from "./components/pages/Landing";
@@ -62,9 +61,8 @@ function App() {
                     <Inventory getAccountInfo={getAccountInfo} />
                   )}
                 />
-                <Route exact path='/account' component={Account} />
+                <Route exact path='/dashboard' component={Account} />
                 <Route exact path='/login' component={LogIn} />
-                <Route exact path='/dashboard' component={Dashboard} />
               </main>
             </div>
           </UserContext.Provider>
