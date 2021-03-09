@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Modal, Button, InputGroup, FormControl, Form } from "react-bootstrap";
+import {
+  Modal,
+  Button,
+  InputGroup,
+  FormControl,
+  Form,
+  Alert,
+} from "react-bootstrap";
 
 export default function AddInventoryModal(props) {
   const { ...rest } = props;
@@ -20,6 +27,7 @@ export default function AddInventoryModal(props) {
     },
   };
   const [tool, setTool] = useState(initialToolObj);
+  const [error, setError] = useState("");
 
   const handleCancel = () => {
     setTool(initialToolObj);
@@ -33,8 +41,12 @@ export default function AddInventoryModal(props) {
         { withCredentials: true }
       );
       return res;
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      if (err.response.data) {
+        setError({ message: err.response.data });
+        setTimeout(() => setError(""), 3000);
+      }
+      console.log(err.response.data);
     }
   };
 
@@ -53,10 +65,15 @@ export default function AddInventoryModal(props) {
           Add New Tool
         </Modal.Title>
       </Modal.Header>
+      {error.message && (
+        <Alert key={error} variant='danger'>
+          {error.message}
+        </Alert>
+      )}
       <Modal.Body>
         <InputGroup className='mb-3'>
           <InputGroup.Prepend>
-            <InputGroup.Text>Tool</InputGroup.Text>
+            <InputGroup.Text style={{ width: "125px" }}>Tool</InputGroup.Text>
           </InputGroup.Prepend>
           <FormControl
             type='text'
@@ -69,7 +86,9 @@ export default function AddInventoryModal(props) {
 
         <InputGroup className='mb-3'>
           <InputGroup.Prepend>
-            <InputGroup.Text>Location:</InputGroup.Text>
+            <InputGroup.Text style={{ width: "125px" }}>
+              Location
+            </InputGroup.Text>
           </InputGroup.Prepend>
           <InputGroup.Prepend>
             <InputGroup.Text>Shelf</InputGroup.Text>
@@ -107,7 +126,9 @@ export default function AddInventoryModal(props) {
 
         <InputGroup className='mb-3'>
           <InputGroup.Prepend>
-            <InputGroup.Text>Description</InputGroup.Text>
+            <InputGroup.Text style={{ width: "125px" }}>
+              Description
+            </InputGroup.Text>
           </InputGroup.Prepend>
           <FormControl
             as='textarea'
@@ -166,20 +187,19 @@ export default function AddInventoryModal(props) {
       </Modal.Body>
       <Modal.Footer>
         <Button
+          variant='outline-primary'
+          onClick={() => {
+            handleSubmit();
+          }}>
+          Submit
+        </Button>
+        <Button
           variant='outline-dark'
           onClick={() => {
             props.onHide();
             handleCancel();
           }}>
           Cancel
-        </Button>
-        <Button
-          variant='outline-primary'
-          onClick={() => {
-            props.onHide();
-            handleSubmit();
-          }}>
-          Submit
         </Button>
       </Modal.Footer>
     </Modal>
