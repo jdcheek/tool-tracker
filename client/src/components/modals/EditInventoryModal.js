@@ -3,7 +3,7 @@ import axios from "axios";
 import { Modal, Button, InputGroup, FormControl, Form } from "react-bootstrap";
 
 export default function EditInventoryModal(props) {
-  let { getInventory, selected, ...rest } = props;
+  const { getInventory, selected, ...rest } = props;
   const [tool, setTool] = useState(selected);
 
   const handleCancel = () => {
@@ -59,7 +59,7 @@ export default function EditInventoryModal(props) {
       <Modal.Body>
         <InputGroup className='mb-3'>
           <InputGroup.Prepend>
-            <InputGroup.Text>Tool</InputGroup.Text>
+            <InputGroup.Text style={{ width: "125px" }}>Tool</InputGroup.Text>
           </InputGroup.Prepend>
           <FormControl
             type='text'
@@ -72,7 +72,9 @@ export default function EditInventoryModal(props) {
 
         <InputGroup className='mb-3'>
           <InputGroup.Prepend>
-            <InputGroup.Text>Location:</InputGroup.Text>
+            <InputGroup.Text style={{ width: "125px" }}>
+              Location
+            </InputGroup.Text>
           </InputGroup.Prepend>
           <InputGroup.Prepend>
             <InputGroup.Text>Shelf</InputGroup.Text>
@@ -110,7 +112,9 @@ export default function EditInventoryModal(props) {
 
         <InputGroup className='mb-3'>
           <InputGroup.Prepend>
-            <InputGroup.Text>Description</InputGroup.Text>
+            <InputGroup.Text style={{ width: "125px" }}>
+              Description
+            </InputGroup.Text>
           </InputGroup.Prepend>
           <FormControl
             as='textarea'
