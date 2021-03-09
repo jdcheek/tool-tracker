@@ -17,6 +17,14 @@ inventoryCtrl.getInventory = async (req, res) => {
 
 inventoryCtrl.createInventory = async (req, res) => {
   try {
+    if (
+      !req.body.tool_number ||
+      !req.body.location.bin ||
+      !req.body.location.shelf
+    ) {
+      res.status(400).send("Invalid inventory data");
+      return;
+    }
     const { tool_number, description, location, status } = await req.body;
     const item = new Inventory({
       tool_number,
@@ -27,7 +35,7 @@ inventoryCtrl.createInventory = async (req, res) => {
     item.save();
     res.status(200).send({ itemCreated: true });
   } catch (error) {
-    res.status(400).send(error);
+    res.status(400).send("There was an error with your request");
   }
 };
 
@@ -45,7 +53,7 @@ inventoryCtrl.deleteInventory = async (req, res) => {
     await Inventory.findByIdAndDelete(req.params.id);
     res.status(200).send({ itemDeleted: true });
   } catch (error) {
-    res.status(400).send(error, "Failed to remove from database");
+    res.status(400).send("Failed to remove from database");
   }
 };
 
