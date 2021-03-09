@@ -33,7 +33,6 @@ const Navigation = () => {
         }
       } catch (err) {
         console.log(`Authorization ${err}`);
-        // history.push("/login");
       }
     };
     userAuth();
@@ -69,12 +68,9 @@ const Navigation = () => {
         {currentUser.isLoggedIn ? (
           <Nav className='ml-auto'>
             <Nav.Link href='/tools'>Search Tools</Nav.Link>
-            <Nav.Link className='account-link' href='/account'>
-              Account
+            <Nav.Link className='account-link' href='/dashboard'>
+              Dashboard
             </Nav.Link>
-            {currentUser.isAdmin ? (
-              <Nav.Link href='/dashboard'>Admin Dashboard</Nav.Link>
-            ) : null}
             <Nav.Link onClick={logOut}>Log Out</Nav.Link>
           </Nav>
         ) : (
