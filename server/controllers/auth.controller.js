@@ -4,27 +4,30 @@ const authCtrl = {};
 authCtrl.registerUser = async (req, res) => {
   const newUser = new User(req.body);
   const retypedPassword = req.body.retypedPassword;
-  console.log(newUser);
+  if (!req.body.username || !req.body.password) {
+    res.status(400).send("Invalid Username or password");
+    return;
+  }
   if (newUser.username.length < 3) {
-    res.status(400).send({ message: "Please enter a valid username" });
+    res.status(400).send("Username must be greater than 3 characters");
     return;
   }
   if (newUser.password.length < 8) {
-    res.status(400).send({ message: "Please enter a valid password" });
+    res.status(400).send("Password must be greater than 8 characters");
     return;
   }
   if (newUser.password !== retypedPassword) {
     console.log(newUser.password, newUser.retypedPassword);
-    res.status(400).send({ message: "Passwords do not match" });
+    res.status(400).send("Passwords do not match");
     return;
   }
 
   try {
     newUser.password = await User.encryptPassword(newUser.password);
     await newUser.save();
-    res.status(201).send({ created: true });
+    res.status(201).send("User successfully created");
   } catch (error) {
-    res.status(400).send({ error });
+    res.status(400).send("There was an issue with your request");
   }
 };
 
@@ -46,7 +49,7 @@ authCtrl.loginUser = async (req, res) => {
       toolsCheckedOut: user.toolsCheckedOut,
     });
   } catch (error) {
-    res.status(400).send("{ error, token }");
+    res.status(400).send("There was an issue with your request");
   }
 };
 
@@ -57,7 +60,7 @@ authCtrl.logOutUser = (req, res) => {
       httpOnly: true,
       sameSite: true,
     });
-    res.send({ message: `Logged out successfully` });
+    res.send(`Logged out successfully`);
   } catch (error) {
     res.status(400).send({ error });
   }
@@ -80,7 +83,7 @@ authCtrl.getUserStatus = async (req, res) => {
         });
       }
     } else {
-      res.status(401).send({ message: "Unauthorized" });
+      res.status(401).send("Unauthorized");
       return;
     }
   } catch (error) {
