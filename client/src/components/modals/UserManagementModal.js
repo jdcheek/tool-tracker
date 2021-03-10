@@ -1,5 +1,13 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Button, Modal, InputGroup, Form, Alert } from "react-bootstrap";
+import {
+  Button,
+  Modal,
+  InputGroup,
+  Form,
+  Alert,
+  OverlayTrigger,
+  Tooltip,
+} from "react-bootstrap";
 import axios from "axios";
 
 const AddUserModal = (props) => {
@@ -67,6 +75,7 @@ const AddUserModal = (props) => {
         { withCredentials: true }
       );
       setUserList(() => userList.filter((user) => user._id !== userID));
+      setUserID("");
     } catch (err) {
       if (err.response.data) {
         setError({ message: err.response.data });
@@ -101,7 +110,9 @@ const AddUserModal = (props) => {
       <Modal.Body>
         <Form>
           <Form.Group style={{ width: "100%" }}>
-            <Form.Label>Select User</Form.Label>
+            <Form.Label>
+              <h5 className='mb-3'>Edit User</h5>
+            </Form.Label>
             <Form.Control as='select' htmlSize={3} custom>
               {userList.map((user) => (
                 <option
@@ -112,20 +123,36 @@ const AddUserModal = (props) => {
                 </option>
               ))}
             </Form.Control>
-            {userID && (
-              <Button
-                variant='outline-danger'
-                onClick={() => {
-                  handleDelete();
-                }}>
-                Delete
-              </Button>
-            )}
           </Form.Group>
         </Form>
-        <Modal.Title id='contained-modal-title-vcenter'>
-          Create User
-        </Modal.Title>
+      </Modal.Body>
+
+      <Modal.Footer>
+        <OverlayTrigger
+          overlay={<Tooltip id='tooltip-disabled'>Select a user</Tooltip>}>
+          <Button
+            disabled={!userID}
+            variant='outline-info'
+            onClick={() => {
+              // handleGrantAdmin
+            }}>
+            Admin
+          </Button>
+        </OverlayTrigger>
+        <OverlayTrigger
+          overlay={<Tooltip id='tooltip-disabled'>Select a user</Tooltip>}>
+          <Button
+            variant='outline-danger'
+            disabled={!userID}
+            onClick={() => {
+              userID && handleDelete();
+            }}>
+            Delete
+          </Button>
+        </OverlayTrigger>
+      </Modal.Footer>
+      <Modal.Body>
+        <h5 className='mb-3'>Create User</h5>
         {error.message && (
           <Alert key={error} variant='danger'>
             {error.message}
@@ -207,7 +234,7 @@ const AddUserModal = (props) => {
           onClick={() => {
             handleSubmit();
           }}>
-          Submit
+          Add User
         </Button>
 
         <Button
