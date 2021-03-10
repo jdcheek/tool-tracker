@@ -61,7 +61,11 @@ function App() {
                     <Inventory getAccountInfo={getAccountInfo} />
                   )}
                 />
-                <Route exact path='/dashboard' component={Account} />
+                <Route
+                  exact
+                  path='/dashboard'
+                  component={() => <Account getAccountInfo={getAccountInfo} />}
+                />
                 <Route exact path='/login' component={LogIn} />
               </main>
             </div>
