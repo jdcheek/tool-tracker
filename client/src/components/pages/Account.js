@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import LoadingSpinner from "../lib/LoadingSpinner";
 import { UserContext } from "../context/UserContext";
 import AddInventoryModal from "../modals/AddInventoryModal";
-import AddUserModal from "../modals/AddUserModal";
+import UserManagementModal from "../modals/UserManagementModal";
 
 const Account = ({ getAccountInfo }) => {
   const { currentUser } = useContext(UserContext);
@@ -58,7 +58,7 @@ const Account = ({ getAccountInfo }) => {
         show={addToolModalShow}
         onHide={() => setAddToolModalShow(false)}
       />
-      <AddUserModal
+      <UserManagementModal
         show={newUserModalShow}
         onHide={() => setNewUserModalShow(false)}
       />
